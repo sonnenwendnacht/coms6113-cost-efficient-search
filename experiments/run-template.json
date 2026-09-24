@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "run_id": "REPLACE",
+  "status": "planned",
+  "git_commit": null,
+  "dirty_worktree": false,
+  "config_path": null,
+  "dataset_version": null,
+  "search_split_sha256": null,
+  "audit_split_sha256": null,
+  "model_snapshots": [],
+  "prompt_and_checker_versions": [],
+  "pricing_snapshot": null,
+  "seeds": [],
+  "authorized_search_budget_usd": null,
+  "actual_search_spend_usd": null,
+  "reference_and_audit_spend_usd": null,
+  "cache_initial_state": "empty",
+  "recommendations_at_budget": [],
+  "artifact_location": null,
+  "limitations": [],
+  "human_and_assistant_contributions": []
+}

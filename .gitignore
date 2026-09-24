@@ -1,0 +1,34 @@
+# Credentials and local settings
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.cache/
+.DS_Store
+.idea/
+.vscode/
+
+# Original meeting images stay on this computer (personal browser details).
+/Screenshot_*.png
+/微信图片_*.jpg
+/local/
+
+# Downloaded third-party papers are reproducible from papers/manifest.json.
+/papers/pdf/*
+!/papers/pdf/.gitkeep
+/papers/text/
+/papers/manifest-*.json
+
+# Raw tasks, model responses, caches, and generated runs are not source code.
+/data/raw/
+/data/cache/
+/results/runs/
+/experiments/local/
+*.log

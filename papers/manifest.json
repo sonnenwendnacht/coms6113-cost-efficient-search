@@ -1,0 +1,256 @@
+{
+  "schema_version": 1,
+  "retrieved_on": "2026-09-23",
+  "notes": "Pinned primary-source PDFs stored locally. SHA256 protects reproducibility; redistribution rights remain with original sources.",
+  "papers": [
+    {
+      "id": "gittinseval",
+      "title": "Efficient Cost-Aware LLM Evaluation via Bayesian Bandit Gittins Indices",
+      "authors": [
+        "Qian Xie",
+        "Yueli He",
+        "Nairen Cao"
+      ],
+      "version": "arXiv:2609.25645v1 (2026-09-22)",
+      "source_url": "https://arxiv.org/abs/2609.25645v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.25645v1",
+      "filename": "xie-2026-gittinseval-2609.25645v1.pdf",
+      "sha256": "3b5735e38a558c9868fd1f9b834bced0177f439f9b48bfcab158f7a912351bfd",
+      "role": "required"
+    },
+    {
+      "id": "agentopt",
+      "title": "AgentOpt v0.1 Technical Report: Client-Side Optimization for LLM-Based Agent",
+      "authors": [
+        "Hua, Wenyue",
+        "Karne, Sripad",
+        "Xie, Qian",
+        "Agrawal, Armaan",
+        "Pagonas, Nikos",
+        "Kaffes, Kostis",
+        "Peng, Tianyi"
+      ],
+      "version": "2604.06296v2",
+      "source_url": "https://arxiv.org/abs/2604.06296v2",
+      "pdf_url": "https://arxiv.org/pdf/2604.06296v2",
+      "filename": "agentopt-v0.1-2604.06296v2.pdf",
+      "sha256": "b8a9ee521737eebf3dd841005b7cce6e3fd1d1056f0f6edf735668964e62d127",
+      "role": "required"
+    },
+    {
+      "id": "vinelm",
+      "title": "VineLM: Trie-Based Fine-Grained Control for Agentic Workflows",
+      "authors": [
+        "Pagonas, Nikos",
+        "Lou, Matthew",
+        "Peng, Tianyi",
+        "Rubenstein, Dan",
+        "Kaffes, Kostis"
+      ],
+      "version": "2605.23914v1",
+      "source_url": "https://arxiv.org/abs/2605.23914v1",
+      "pdf_url": "https://arxiv.org/pdf/2605.23914v1",
+      "filename": "vinelm-2605.23914v1.pdf",
+      "sha256": "116a3e7c2b10e6a62042eb31f7293306b4eef14b0d208b1526c3d1ead316ed70",
+      "role": "required"
+    },
+    {
+      "id": "sysrs",
+      "title": "Cutting LLM Evaluation Costs with SySRs: A Bandit Algorithm that Provably Exploits Model Similarity",
+      "authors": [
+        "Lyu, Zifan",
+        "Nejma, Chahine",
+        "Wegel, Tobias",
+        "Yang, Fanny",
+        "Dorner, Florian E."
+      ],
+      "version": "2606.07726v1",
+      "source_url": "https://arxiv.org/abs/2606.07726v1",
+      "pdf_url": "https://arxiv.org/pdf/2606.07726v1",
+      "filename": "sysrs-2606.07726v1.pdf",
+      "sha256": "520a5ecd37a795b07e4e507886b5c14af31d86295a714ceb97dc38bf13de6ee7",
+      "role": "background"
+    },
+    {
+      "id": "banditeval",
+      "title": "On Speeding Up Language Model Evaluation",
+      "authors": [
+        "Zhou, Jin Peng",
+        "Belardi, Christian K.",
+        "Wu, Ruihan",
+        "Zhang, Travis",
+        "Gomes, Carla P.",
+        "Sun, Wen",
+        "Weinberger, Kilian Q."
+      ],
+      "version": "2407.06172v3",
+      "source_url": "https://arxiv.org/abs/2407.06172v3",
+      "pdf_url": "https://arxiv.org/pdf/2407.06172v3",
+      "filename": "banditeval-2407.06172v3.pdf",
+      "sha256": "b5801b06fd9783e9763db250b80a60cd06842ef04fa4fee2b5486866a6bcd8ba",
+      "role": "background"
+    },
+    {
+      "id": "prompteval",
+      "title": "Efficient multi-prompt evaluation of LLMs",
+      "authors": [
+        "Polo, Felipe Maia",
+        "Xu, Ronald",
+        "Weber, Lucas",
+        "Silva, Mírian",
+        "Bhardwaj, Onkar",
+        "Choshen, Leshem",
+        "de Oliveira, Allysson Flavio Melo",
+        "Sun, Yuekai",
+        "Yurochkin, Mikhail"
+      ],
+      "version": "2405.17202v3",
+      "source_url": "https://arxiv.org/abs/2405.17202v3",
+      "pdf_url": "https://arxiv.org/pdf/2405.17202v3",
+      "filename": "prompteval-2405.17202v3.pdf",
+      "sha256": "2b8e08e36363f70e6aab2ed73ecd9077188b9f38bef5e8f57e3272bc1b55b046",
+      "role": "background"
+    },
+    {
+      "id": "hyperband",
+      "title": "Hyperband: A Novel Bandit-Based Approach to Hyperparameter Optimization",
+      "authors": [
+        "Li, Lisha",
+        "Jamieson, Kevin",
+        "DeSalvo, Giulia",
+        "Rostamizadeh, Afshin",
+        "Talwalkar, Ameet"
+      ],
+      "version": "JMLR 18(185), 2018",
+      "source_url": "https://www.jmlr.org/papers/v18/16-558.html",
+      "pdf_url": "https://www.jmlr.org/papers/volume18/16-558/16-558.pdf",
+      "filename": "hyperband-jmlr-2018.pdf",
+      "sha256": "09c14cb28ec214e63378c8c0e952cecc7edf12796dda0dbadc698d2a3587307b",
+      "role": "background"
+    },
+    {
+      "id": "random-search",
+      "title": "Random Search for Hyper-Parameter Optimization",
+      "authors": [
+        "Bergstra, James",
+        "Bengio, Yoshua"
+      ],
+      "version": "JMLR 13(10), 2012",
+      "source_url": "https://www.jmlr.org/papers/v13/bergstra12a.html",
+      "pdf_url": "https://www.jmlr.org/papers/volume13/bergstra12a/bergstra12a.pdf",
+      "filename": "random-search-jmlr-2012.pdf",
+      "sha256": "01e88a175a36afa399e05dc97dce9c5de980130445269cc0e5100d0471887029",
+      "role": "background"
+    },
+    {
+      "id": "bohb",
+      "title": "BOHB: Robust and Efficient Hyperparameter Optimization at Scale",
+      "authors": [
+        "Falkner, Stefan",
+        "Klein, Aaron",
+        "Hutter, Frank"
+      ],
+      "version": "PMLR 80, 2018",
+      "source_url": "https://proceedings.mlr.press/v80/falkner18a.html",
+      "pdf_url": "https://proceedings.mlr.press/v80/falkner18a/falkner18a.pdf",
+      "filename": "bohb-icml-2018.pdf",
+      "sha256": "774cc0ce958873154145bbd87e8b1d99ee282adb4599a8fdf30df314a63c5fa2",
+      "role": "background"
+    },
+    {
+      "id": "scope",
+      "title": "SCOPE: Selective Conformal Optimized Pairwise LLM Judging",
+      "authors": [
+        "Badshah, Sher",
+        "Emami, Ali",
+        "Sajjad, Hassan"
+      ],
+      "version": "2602.13110v4",
+      "source_url": "https://arxiv.org/abs/2602.13110v4",
+      "pdf_url": "https://arxiv.org/pdf/2602.13110v4",
+      "filename": "scope-2602.13110v4.pdf",
+      "sha256": "cffb88735d13b89ed0a471b6b2e81a7143d2bf88ab9c4695a2b56df5a9abf515",
+      "role": "context",
+      "reading_status": "downloaded; not reviewed in depth"
+    },
+    {
+      "id": "beyond-prompts",
+      "title": "Beyond Prompts: Measuring and Optimizing LLM Tool-Agent Harnesses",
+      "authors": [
+        "Zhao, Cen Mia",
+        "Ruan, Haibo",
+        "Chen, Wenjie",
+        "Tu, Pei-fen",
+        "Abbasi, Usman",
+        "Hesch, Joel"
+      ],
+      "version": "2609.05736v2",
+      "source_url": "https://arxiv.org/abs/2609.05736v2",
+      "pdf_url": "https://arxiv.org/pdf/2609.05736v2",
+      "filename": "beyond-prompts-2609.05736v2.pdf",
+      "sha256": "37cb537a53b2e76133bd5f8cc930c9147cd668fe601f28cacf8d87adb2038d4a",
+      "role": "context",
+      "reading_status": "downloaded; not reviewed in depth"
+    },
+    {
+      "id": "harness-design",
+      "title": "An Empirical Study of Harness Design for Coding Agents",
+      "authors": [
+        "Fan, Run-Ze",
+        "Zhang, Zihao",
+        "Ma, Simin",
+        "Hu, Yebowen",
+        "Wang, Shouju",
+        "Song, Kaiqiang",
+        "Liu, Fei",
+        "Zamani, Hamed",
+        "Wang, Xiaoyang"
+      ],
+      "version": "2609.20804v1",
+      "source_url": "https://arxiv.org/abs/2609.20804v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.20804v1",
+      "filename": "harness-design-2609.20804v1.pdf",
+      "sha256": "a39a9e03aaaa877b294a4b702ff07ae09110dcb1a2b0c0196a72ea46e0ec390e",
+      "role": "context",
+      "reading_status": "downloaded; not reviewed in depth"
+    },
+    {
+      "id": "harness-engineering",
+      "title": "Harness Engineering: Anatomy, Architecture, and Evolution of Coding Agents -- A Source-Code Study of Eleven Systems",
+      "authors": [
+        "Barbaste, Paul",
+        "Darrigol, Tristan",
+        "Vu, Germain",
+        "Wiltberger, Tom"
+      ],
+      "version": "2609.00006v1",
+      "source_url": "https://arxiv.org/abs/2609.00006v1",
+      "pdf_url": "https://arxiv.org/pdf/2609.00006v1",
+      "filename": "harness-engineering-2609.00006v1.pdf",
+      "sha256": "e81b5a4855adda8cc5e46db0a05cd69e0d0d542bd49cec6b157c17e6001395d7",
+      "role": "context",
+      "reading_status": "downloaded; not reviewed in depth"
+    },
+    {
+      "id": "routerbench",
+      "title": "RouterBench: A Benchmark for Multi-LLM Routing System",
+      "authors": [
+        "Hu, Qitian Jason",
+        "Bieker, Jacob",
+        "Li, Xiuyu",
+        "Jiang, Nan",
+        "Keigwin, Benjamin",
+        "Ranganath, Gaurav",
+        "Keutzer, Kurt",
+        "Upadhyay, Shriyash Kaustubh"
+      ],
+      "version": "2403.12031v2",
+      "source_url": "https://arxiv.org/abs/2403.12031v2",
+      "pdf_url": "https://arxiv.org/pdf/2403.12031v2",
+      "filename": "routerbench-2403.12031v2.pdf",
+      "sha256": "1df05ba3e75ad24c3f8e00039a4a35704eb0f8df44088616f8244936e0a9aa01",
+      "role": "context",
+      "reading_status": "downloaded; not reviewed in depth"
+    }
+  ]
+}

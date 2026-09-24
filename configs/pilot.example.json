@@ -1,0 +1,17 @@
+{
+  "status": "proposal_not_executable",
+  "workflow": "choose one workflow with a deployment-usable retry checker",
+  "models": ["TBD-model-A-snapshot", "TBD-model-B-snapshot", "TBD-model-C-snapshot"],
+  "maximum_attempts_per_stage": 2,
+  "retry_limit_per_stage": 1,
+  "stages": 2,
+  "primary_objective": "maximize held-out success subject to deployment cost and latency caps",
+  "search_budget_usd": null,
+  "audit_budget_usd": null,
+  "deployment_cost_cap_usd": null,
+  "latency_cap_seconds": null,
+  "seed_count": 10,
+  "search_split": null,
+  "audit_split": null,
+  "note": "Placeholder protocol settings. Do not launch live runs from this file."
+}
