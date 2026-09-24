@@ -9,8 +9,8 @@ Repository: <https://github.com/sonnenwendnacht/coms6113-cost-efficient-search> 
 ## Start here
 
 1. Read [the meeting record](docs/meetings/2026-09-23.md): what the supplied screenshots and mentor's whiteboard actually show.
-2. Read [the research plan](docs/research/research-plan.md): the proposed contribution, fair comparisons, and reasons it might fail.
-3. Read [Xie's paper notes](docs/research/gittinseval-reading.md) and [related work](docs/research/related-work.md).
+2. Read [the detailed research assessment](docs/research/deep-review/README.md): source/code audits, checked derivations, precise novelty limits, and a falsifiable pilot.
+3. Follow its links to the mentor-paper audit, workflow prior art, mathematical formulation, and experimental protocol. The [initial research plan](docs/research/research-plan.md) records the first proposal.
 4. Follow [CONTRIBUTING.md](CONTRIBUTING.md) before changing code or running experiments.
 5. Pick an unclaimed task in [the work plan](docs/TASKS.md).
 
@@ -21,10 +21,11 @@ git clone git@github.com:sonnenwendnacht/coms6113-cost-efficient-search.git
 cd coms6113-cost-efficient-search
 python3 -m unittest discover -s tests -v
 python3 scripts/smoke_demo.py
+python3 scripts/research_diagnostics.py
 python3 scripts/download_papers.py
 ```
 
-Python 3.11+ is the initial target. The starter code and checks use only the standard library. The demo uses invented data and makes no API calls. It checks cost accounting and retry behavior; it is not research evidence.
+Python 3.11+ is the initial target. The starter code and checks use only the standard library. The demo and nine exact research diagnostics use invented data and make no API calls. They check assumptions, cost accounting and retry behavior; they are not empirical method-performance evidence.
 
 ## Where things go
 
@@ -49,7 +50,7 @@ PDFs are downloaded into `papers/pdf/` but kept out of Git. Everyone gets the sa
 - Shared execution history can sometimes be reused exactly. Similar-looking configurations only suggest similar outcomes; they do not prove them.
 - Later retries see the cases that reached them, usually earlier failures. Their observed accuracy is not unconditional accuracy.
 - Give comparison methods equal dollar budgets and equal access to reusable history.
-- Keep final evaluation questions hidden from the search. Without an exhaustive reference, report comparisons with measured competitors, not a claimed gap to an unknown optimum.
+- Keep final evaluation questions hidden from the search. Without an exhaustive reference, distinguish comparisons with measured competitors from a conservative whole-space certificate; neither is measured exact regret.
 - A retry decision must use information available in actual deployment, not hidden benchmark answers.
 
 See [project status](docs/STATUS.md) for what is implemented, verified, and still pending. No paid model evaluations have been run.

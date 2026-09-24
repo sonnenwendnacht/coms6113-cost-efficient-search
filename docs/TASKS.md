@@ -12,5 +12,6 @@ No teammate has been assigned work without their agreement. Claim a task in an i
 | T6 | Implement a structure-aware candidate method | Explicit uncertainty model, exploration floor, and no gold leakage | After T4 |
 | T7 | Run small exhaustive reference | Search cannot access hidden cells; reference construction spending reported | After T3/T5 |
 | T8 | Run sparse live comparison and audit | Preregistered budgets, multiple seeds, fresh paired held-out evaluation | After pilot and budget choice |
+| R1 | Deep source/code audit and formal research assessment | [Assessment](research/deep-review/README.md), pinned code evidence, independently checked derivations, nine exact diagnostics, and pilot protocol | Codex; `research/structure-aware-search`; completed for team review; not an empirical result |
 
 Repository setup, primary reading downloads, a research proposal, and accounting smoke checks are handled in the initial setup. These tasks are research work to do next, not claimed completed experiments.
