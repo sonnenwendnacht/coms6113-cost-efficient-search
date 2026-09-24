@@ -2,6 +2,8 @@
 
 Prepared 2026-09-23. **Status: research proposal, not experimental findings.** The repository's synthetic accounting checks are software checks; they do not establish that a search method works. Benchmark, models, spending budget, and research roles remain group decisions.
 
+Follow-up: use the [detailed assessment](deep-review/README.md) and [formal inference note](deep-review/03-formulation-and-inference.md) for the current proposal. They refine the prior-art boundary, give valid partial-execution bounds, and distinguish unknown exact regret from a conservative whole-space certificate. This initial plan remains as context, not an approved experiment specification.
+
 ## 1. The question in plain language
 
 The project is configuration search: choose which model runs at each step and retry, learn which combinations are useful, and spend as little as possible learning that. The analogy to hyperparameter search is accurate. The workflow setting adds structure: configurations can share work, later attempts are reached only for some questions, and the price of the next measurement depends on work already done.

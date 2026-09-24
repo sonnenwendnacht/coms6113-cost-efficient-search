@@ -262,6 +262,144 @@
       "role": "context",
       "reading_status": "downloaded; not reviewed in depth",
       "document_title": "Routerbench: A benchmark for multi-llm routing system"
+    },
+    {
+      "id": "linked-bandits",
+      "source_url": "https://arxiv.org/abs/1811.07476v2",
+      "pdf_url": "https://arxiv.org/pdf/1811.07476v2",
+      "version": "1811.07476v2",
+      "title": "Best Arm Identification in Linked Bandits",
+      "authors": [
+        "Gupta, Anant"
+      ],
+      "filename": "Best Arm Identification in Linked Bandits.pdf",
+      "sha256": "c54fda69fe66a77c005ffcfb493342d4396c6e4ee464d572e4a7e48a4b032c38",
+      "role": "theory",
+      "reading_status": "Partial review: model/formulation and selected introductory or algorithm discussion; proofs not audited. See docs/research/deep-review/04-related-theory.md",
+      "retrieved_on": "2026-09-23"
+    },
+    {
+      "id": "structured-bai",
+      "source_url": "https://proceedings.mlr.press/v76/huang17a.html",
+      "pdf_url": "https://proceedings.mlr.press/v76/huang17a/huang17a.pdf",
+      "version": "PMLR 76, 2017",
+      "title": "Structured Best Arm Identification with Fixed Confidence",
+      "authors": [
+        "Ruitong Huang",
+        "Mohammad M. Ajallooeian",
+        "Csaba Szepesvári",
+        "Martin Müller"
+      ],
+      "filename": "Structured Best Arm Identification with Fixed Confidence.pdf",
+      "sha256": "e697ca8a037b69d0478ddc5ecbdccf80b19bf6a4f19e6a72ea3bfc4b167a2a69",
+      "role": "theory",
+      "reading_status": "Partial review: model/formulation and selected introductory or algorithm discussion; proofs not audited. See docs/research/deep-review/04-related-theory.md",
+      "retrieved_on": "2026-09-23"
+    },
+    {
+      "id": "resource-bai",
+      "source_url": "https://proceedings.mlr.press/v238/li24c.html",
+      "pdf_url": "https://proceedings.mlr.press/v238/li24c/li24c.pdf",
+      "version": "PMLR 238, 2024",
+      "title": "Best Arm Identification with Resource Constraints",
+      "authors": [
+        "Zitian Li",
+        "Wang Chi Cheung"
+      ],
+      "filename": "Best Arm Identification with Resource Constraints.pdf",
+      "sha256": "eadbedf953ffdeb4a889c96b66d1650f423aaa14e6f4bdc9400f7316c0d7e7f5",
+      "role": "theory",
+      "reading_status": "Partial review: model/formulation and selected introductory or algorithm discussion; proofs not audited. See docs/research/deep-review/04-related-theory.md",
+      "retrieved_on": "2026-09-23"
+    },
+    {
+      "id": "multifidelity-bai",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/71c31ebf577ffdad5f4a74156daad518-Abstract-Conference.html",
+      "pdf_url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/71c31ebf577ffdad5f4a74156daad518-Paper-Conference.pdf",
+      "version": "NeurIPS 2022",
+      "title": "Multi-Fidelity Best-Arm Identification",
+      "authors": [
+        "Riccardo Poiani",
+        "Alberto Maria Metelli",
+        "Marcello Restelli"
+      ],
+      "filename": "Multi-Fidelity Best-Arm Identification.pdf",
+      "sha256": "ca24741293c77fe8934ababf6cd0c325c473601401bf13d0f655661d181d97cd",
+      "role": "theory",
+      "reading_status": "Partial review: model/formulation and selected introductory or algorithm discussion; proofs not audited. See docs/research/deep-review/04-related-theory.md",
+      "retrieved_on": "2026-09-23"
+    },
+    {
+      "id": "transductive-bai",
+      "source_url": "https://proceedings.neurips.cc/paper/2019/hash/8ba6c657b03fc7c8dd4dff8e45defcd2-Abstract.html",
+      "pdf_url": "https://proceedings.neurips.cc/paper/2019/file/8ba6c657b03fc7c8dd4dff8e45defcd2-Paper.pdf",
+      "version": "NeurIPS 2019",
+      "title": "Sequential Experimental Design for Transductive Linear Bandits",
+      "authors": [
+        "Tanner Fiez",
+        "Lalit Jain",
+        "Kevin G. Jamieson",
+        "Lillian Ratliff"
+      ],
+      "filename": "Sequential Experimental Design for Transductive Linear Bandits.pdf",
+      "sha256": "1086419b475741521c82b57972d30c17647c7dc5cb2cc56bea748984a19341d0",
+      "role": "theory",
+      "reading_status": "Partial review: model/formulation and selected introductory or algorithm discussion; proofs not audited. See docs/research/deep-review/04-related-theory.md",
+      "retrieved_on": "2026-09-23"
+    },
+    {
+      "id": "leapsandbounds",
+      "source_url": "https://proceedings.mlr.press/v80/weisz18a.html",
+      "pdf_url": "https://proceedings.mlr.press/v80/weisz18a/weisz18a.pdf",
+      "version": "PMLR 80, 2018",
+      "title": "LeapsAndBounds: A Method for Approximately Optimal Algorithm Configuration",
+      "authors": [
+        "Gellert Weisz",
+        "Andras Gyorgy",
+        "Csaba Szepesvari"
+      ],
+      "filename": "LeapsAndBounds - A Method for Approximately Optimal Algorithm Configuration.pdf",
+      "sha256": "5f425b4d291decf105bac1bdd4af94d4fdb86afdbcf26ff1dc0e9ad09213b337",
+      "role": "theory",
+      "reading_status": "Partial review: model/formulation and selected introductory or algorithm discussion; proofs not audited. See docs/research/deep-review/04-related-theory.md",
+      "retrieved_on": "2026-09-23"
+    },
+    {
+      "id": "structured-procrastination",
+      "source_url": "https://arxiv.org/abs/1902.05454v3",
+      "pdf_url": "https://arxiv.org/pdf/1902.05454v3",
+      "version": "1902.05454v3",
+      "title": "Procrastinating with Confidence: Near-Optimal, Anytime, Adaptive Algorithm Configuration",
+      "authors": [
+        "Kleinberg, Robert",
+        "Leyton-Brown, Kevin",
+        "Lucier, Brendan",
+        "Graham, Devon"
+      ],
+      "filename": "Procrastinating with Confidence - Near-Optimal, Anytime, Adaptive Algorithm Configuration.pdf",
+      "sha256": "34113e0fed86dadaf89f669fd1081cbc7e00ed7144220c666e2c086ad0d51b3c",
+      "role": "theory",
+      "reading_status": "Partial review: model/formulation and selected introductory or algorithm discussion; proofs not audited. See docs/research/deep-review/04-related-theory.md",
+      "retrieved_on": "2026-09-23"
+    },
+    {
+      "id": "flowcompile",
+      "title": "FlowCompile: An Optimizing Compiler for Structured LLM Workflows",
+      "authors": [
+        "Li, Junyan",
+        "Hong, Zhang-Wei",
+        "Shen, Maohao",
+        "Zhang, Yang",
+        "Gan, Chuang"
+      ],
+      "version": "2605.13647v1",
+      "source_url": "https://arxiv.org/abs/2605.13647v1",
+      "pdf_url": "https://arxiv.org/pdf/2605.13647v1",
+      "filename": "FlowCompile - An Optimizing Compiler for Structured LLM Workflows.pdf",
+      "sha256": "d5dc2c19299b4a6012a62af02de3f1698a05ef547a0c93ece242c743a089a261",
+      "role": "background",
+      "reading_status": "Partial review: abstract, Section 3, selected Section 4, Appendices A/B/L; no code audit or reproduction. See docs/research/deep-review/02-workflow-prior-art.md",
+      "retrieved_on": "2026-09-23"
     }
   ]
 }
