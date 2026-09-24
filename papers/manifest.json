@@ -14,9 +14,10 @@
       "version": "arXiv:2609.25645v1 (2026-09-22)",
       "source_url": "https://arxiv.org/abs/2609.25645v1",
       "pdf_url": "https://arxiv.org/pdf/2609.25645v1",
-      "filename": "xie-2026-gittinseval-2609.25645v1.pdf",
+      "filename": "Efficient Cost-Aware LLM Evaluation via Bayesian Bandit Gittins Indices.pdf",
       "sha256": "3b5735e38a558c9868fd1f9b834bced0177f439f9b48bfcab158f7a912351bfd",
-      "role": "required"
+      "role": "required",
+      "document_title": "Efficient Cost-Aware LLM Evaluation via Bayesian Bandit Gittins Indices"
     },
     {
       "id": "agentopt",
@@ -33,9 +34,10 @@
       "version": "2604.06296v2",
       "source_url": "https://arxiv.org/abs/2604.06296v2",
       "pdf_url": "https://arxiv.org/pdf/2604.06296v2",
-      "filename": "agentopt-v0.1-2604.06296v2.pdf",
+      "filename": "AgentOpt v0.1 Technical Report - Client-Side Optimization for LLM-Based Agent.pdf",
       "sha256": "b8a9ee521737eebf3dd841005b7cce6e3fd1d1056f0f6edf735668964e62d127",
-      "role": "required"
+      "role": "required",
+      "document_title": "AgentOpt v0.1 Technical Report: Client-Side Optimization for LLM-Based Agent"
     },
     {
       "id": "vinelm",
@@ -50,9 +52,10 @@
       "version": "2605.23914v1",
       "source_url": "https://arxiv.org/abs/2605.23914v1",
       "pdf_url": "https://arxiv.org/pdf/2605.23914v1",
-      "filename": "vinelm-2605.23914v1.pdf",
+      "filename": "VineLM - Trie-Based Fine-Grained Control for Agentic Workflows.pdf",
       "sha256": "116a3e7c2b10e6a62042eb31f7293306b4eef14b0d208b1526c3d1ead316ed70",
-      "role": "required"
+      "role": "required",
+      "document_title": "VineLM: Trie-Based Fine-Grained Control for Agentic Workflows"
     },
     {
       "id": "sysrs",
@@ -67,9 +70,10 @@
       "version": "2606.07726v1",
       "source_url": "https://arxiv.org/abs/2606.07726v1",
       "pdf_url": "https://arxiv.org/pdf/2606.07726v1",
-      "filename": "sysrs-2606.07726v1.pdf",
+      "filename": "Cutting LLM Evaluation Costs with SySRs - A Bandit Algorithm that Provably Exploits Model Similarity.pdf",
       "sha256": "520a5ecd37a795b07e4e507886b5c14af31d86295a714ceb97dc38bf13de6ee7",
-      "role": "background"
+      "role": "background",
+      "document_title": "Cutting LLM Evaluation Costs with SySRs: A Bandit Algorithm that Provably Exploits Model Similarity"
     },
     {
       "id": "banditeval",
@@ -86,9 +90,10 @@
       "version": "2407.06172v3",
       "source_url": "https://arxiv.org/abs/2407.06172v3",
       "pdf_url": "https://arxiv.org/pdf/2407.06172v3",
-      "filename": "banditeval-2407.06172v3.pdf",
+      "filename": "Bandit Eval - On Speeding Up Language Model Evaluation.pdf",
       "sha256": "b5801b06fd9783e9763db250b80a60cd06842ef04fa4fee2b5486866a6bcd8ba",
-      "role": "background"
+      "role": "background",
+      "document_title": "Bandit Eval - On Speeding Up Language Model Evaluation"
     },
     {
       "id": "prompteval",
@@ -107,9 +112,10 @@
       "version": "2405.17202v3",
       "source_url": "https://arxiv.org/abs/2405.17202v3",
       "pdf_url": "https://arxiv.org/pdf/2405.17202v3",
-      "filename": "prompteval-2405.17202v3.pdf",
+      "filename": "Prompt Eval - Efficient Multi-Prompt Evaluation of LLMs.pdf",
       "sha256": "2b8e08e36363f70e6aab2ed73ecd9077188b9f38bef5e8f57e3272bc1b55b046",
-      "role": "background"
+      "role": "background",
+      "document_title": "Prompt Eval - Efficient Multi-Prompt Evaluation of LLMs"
     },
     {
       "id": "hyperband",
@@ -168,10 +174,11 @@
       "version": "2602.13110v4",
       "source_url": "https://arxiv.org/abs/2602.13110v4",
       "pdf_url": "https://arxiv.org/pdf/2602.13110v4",
-      "filename": "scope-2602.13110v4.pdf",
+      "filename": "SCOPE - Selective Conformal Optimized Pairwise LLM Judging.pdf",
       "sha256": "cffb88735d13b89ed0a471b6b2e81a7143d2bf88ab9c4695a2b56df5a9abf515",
       "role": "context",
-      "reading_status": "downloaded; not reviewed in depth"
+      "reading_status": "downloaded; not reviewed in depth",
+      "document_title": "SCOPE - Selective Conformal Optimized Pairwise LLM Judging"
     },
     {
       "id": "beyond-prompts",
@@ -187,10 +194,11 @@
       "version": "2609.05736v2",
       "source_url": "https://arxiv.org/abs/2609.05736v2",
       "pdf_url": "https://arxiv.org/pdf/2609.05736v2",
-      "filename": "beyond-prompts-2609.05736v2.pdf",
+      "filename": "Beyond Prompts - Measuring and Optimizing LLM Tool-Agent Harnesses.pdf",
       "sha256": "37cb537a53b2e76133bd5f8cc930c9147cd668fe601f28cacf8d87adb2038d4a",
       "role": "context",
-      "reading_status": "downloaded; not reviewed in depth"
+      "reading_status": "downloaded; not reviewed in depth",
+      "document_title": "Beyond Prompts: Measuring and Optimizing LLM Tool-Agent Harnesses"
     },
     {
       "id": "harness-design",
@@ -209,10 +217,11 @@
       "version": "2609.20804v1",
       "source_url": "https://arxiv.org/abs/2609.20804v1",
       "pdf_url": "https://arxiv.org/pdf/2609.20804v1",
-      "filename": "harness-design-2609.20804v1.pdf",
+      "filename": "An Empirical Study of Harness Design for Coding Agents.pdf",
       "sha256": "a39a9e03aaaa877b294a4b702ff07ae09110dcb1a2b0c0196a72ea46e0ec390e",
       "role": "context",
-      "reading_status": "downloaded; not reviewed in depth"
+      "reading_status": "downloaded; not reviewed in depth",
+      "document_title": "An Empirical Study of Harness Design for Coding Agents"
     },
     {
       "id": "harness-engineering",
@@ -226,10 +235,11 @@
       "version": "2609.00006v1",
       "source_url": "https://arxiv.org/abs/2609.00006v1",
       "pdf_url": "https://arxiv.org/pdf/2609.00006v1",
-      "filename": "harness-engineering-2609.00006v1.pdf",
+      "filename": "Harness Engineering - Anatomy, Architecture, and Evolution of Coding Agents — A Source-Code Study of Eleven Systems.pdf",
       "sha256": "e81b5a4855adda8cc5e46db0a05cd69e0d0d542bd49cec6b157c17e6001395d7",
       "role": "context",
-      "reading_status": "downloaded; not reviewed in depth"
+      "reading_status": "downloaded; not reviewed in depth",
+      "document_title": "Harness Engineering: Anatomy, Architecture, and Evolution of Coding Agents — A Source-Code Study of Eleven Systems"
     },
     {
       "id": "routerbench",
@@ -247,10 +257,11 @@
       "version": "2403.12031v2",
       "source_url": "https://arxiv.org/abs/2403.12031v2",
       "pdf_url": "https://arxiv.org/pdf/2403.12031v2",
-      "filename": "routerbench-2403.12031v2.pdf",
+      "filename": "Routerbench - A benchmark for multi-llm routing system.pdf",
       "sha256": "1df05ba3e75ad24c3f8e00039a4a35704eb0f8df44088616f8244936e0a9aa01",
       "role": "context",
-      "reading_status": "downloaded; not reviewed in depth"
+      "reading_status": "downloaded; not reviewed in depth",
+      "document_title": "Routerbench: A benchmark for multi-llm routing system"
     }
   ]
 }
