@@ -1,6 +1,6 @@
 # Working together
 
-`main` is the shared, working version. Put each task on its own branch, open a pull request, and have another person review it before merging. The initial setup commit is the exception. Repository rules may depend on the owner's GitHub plan; a written convention is not the same as enforced protection.
+`main` is the shared, working version. Put each task on its own branch, open a pull request, and have another person review it before merging. The initial setup commits are the exception. GitHub's current account plan does not support enforced branch protection for this private repository, so this is a team convention. Automatic checks still run, but do not block merging by themselves.
 
 ## One task, one branch, one owner
 

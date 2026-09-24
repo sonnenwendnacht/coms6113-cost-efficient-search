@@ -16,7 +16,11 @@ Private repository: <https://github.com/sonnenwendnacht/coms6113-cost-efficient-
 
 Owner authentication verified as `sonnenwendnacht`; SSH is configured. Squash merging and automatic deletion of merged branches are enabled. Alternate merge styles and the wiki are disabled to keep the workflow consistent.
 
-Upload, automatic-check, and branch-protection status will be recorded after verification. Teammate usernames have not been supplied, so no collaborator invitations have been sent.
+The initial commit `9fe292c` was uploaded to `main`; [GitHub's automatic checks passed](https://github.com/sonnenwendnacht/coms6113-cost-efficient-search/actions/runs/35943843084). Local tests, all 14 PDF checksums, manifest validation, and local document links also passed verification.
+
+**Branch reviews are a team convention, not an enforced setting.** GitHub rejected the protection request with HTTP 403 because the current account plan does not support branch protection for this private repository. The repository remains private. Automatic checks run on pushes and pull requests but cannot block a merge without a supported protection rule. No account upgrade or visibility change was made.
+
+Teammate usernames have not been supplied, so no collaborator invitations have been sent.
 
 ## Not yet implemented or established
 
