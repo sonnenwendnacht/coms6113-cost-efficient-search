@@ -12,13 +12,13 @@ Updated: 2026-09-23. This file distinguishes setup from research progress.
 
 ## GitHub
 
-Private repository: <https://github.com/sonnenwendnacht/coms6113-cost-efficient-search>.
+Public repository: <https://github.com/sonnenwendnacht/coms6113-cost-efficient-search>. Visibility was changed at the owner's explicit request during setup.
 
 Owner authentication verified as `sonnenwendnacht`; SSH is configured. Squash merging and automatic deletion of merged branches are enabled. Alternate merge styles and the wiki are disabled to keep the workflow consistent.
 
 The initial commit `9fe292c` was uploaded to `main`; [GitHub's automatic checks passed](https://github.com/sonnenwendnacht/coms6113-cost-efficient-search/actions/runs/35943843084). Local tests, all 14 PDF checksums, manifest validation, and local document links also passed verification.
 
-**Branch reviews are a team convention, not an enforced setting.** GitHub rejected the protection request with HTTP 403 because the current account plan does not support branch protection for this private repository. The repository remains private. Automatic checks run on pushes and pull requests but cannot block a merge without a supported protection rule. No account upgrade or visibility change was made.
+**Branch protection is enabled on `main`.** GitHub requires one approving review, passing `offline-checks`, an up-to-date branch, and resolved review conversations. Stale approvals are dismissed, linear history is required, and force pushes/deletion are disabled. The owner retains administrator override for setup and recovery. Protection became available after the requested switch to public visibility; no account upgrade was needed.
 
 Teammate usernames have not been supplied, so no collaborator invitations have been sent.
 

@@ -4,7 +4,7 @@
 
 We study how to find a good combination of models for a multi-step workflow without spending more testing combinations than we can save by using the winner. A configuration specifies which model handles each stage and each allowed retry. The aim is a publishable research contribution; no method or result is established yet.
 
-Repository: <https://github.com/sonnenwendnacht/coms6113-cost-efficient-search> (private).
+Repository: <https://github.com/sonnenwendnacht/coms6113-cost-efficient-search> (public).
 
 ## Start here
 

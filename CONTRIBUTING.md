@@ -1,6 +1,6 @@
 # Working together
 
-`main` is the shared, working version. Put each task on its own branch, open a pull request, and have another person review it before merging. The initial setup commits are the exception. GitHub's current account plan does not support enforced branch protection for this private repository, so this is a team convention. Automatic checks still run, but do not block merging by themselves.
+`main` is the shared, working version. Put each task on its own branch, open a pull request, and have another person review it before merging. The initial setup commits are the exception. GitHub requires one approving review, passing `offline-checks`, an up-to-date branch, and resolved review conversations. Stale approvals are dismissed after changes. Force pushes and branch deletion are blocked. The repository owner retains an administrator override for setup and recovery; ordinary team work follows the same review process.
 
 ## One task, one branch, one owner
 
@@ -38,7 +38,7 @@ They can share the repository history, but should not edit the same working dire
 - A run record includes the commit, settings, dataset version and split hash, model snapshots, prompt/checker versions, seed, pricing snapshot, spending, and artifact location.
 - Preserve failed and negative runs. Do not select only favorable seeds or budgets.
 - Changes to the objective, splits, retry meaning, or cost definition belong in a dated decision record before a confirmatory run.
-- The group has not selected a public software license. Do not add one or make the repository public as an incidental edit.
+- The repository is public at the owner's request. The group has not selected a software license; do not add one or change visibility as an incidental edit.
 
 ## Repository owner
 
