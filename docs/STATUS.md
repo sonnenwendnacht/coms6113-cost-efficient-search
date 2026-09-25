@@ -1,6 +1,6 @@
 # Project status
 
-Updated: 2026-09-23. This file distinguishes setup from research progress.
+Updated: 2026-09-24. This file distinguishes setup from research progress.
 
 ## Completed locally
 
@@ -13,6 +13,8 @@ Updated: 2026-09-23. This file distinguishes setup from research progress.
 - Derived and independently assistant-reviewed reach-conditioned comparisons, partial-execution family bounds, valid adaptive-revelation intervals, two-phase estimators, feasibility rules, and a conservative whole-space regret certificate. These are analysis under explicit assumptions, not a new theorem/novelty claim.
 - Ran nine exact diagnostics on invented populations, with a checked-in reproducible summary. Added a pilot protocol that compares allocation methods under equal actual spending and identical reuse access.
 - Local verification passed: seven accounting tests, the smoke demo, all nine diagnostic calculations and artifact comparison, all 22 PDF checksums, manifest validation, local Markdown links, and Git whitespace checks. No paid calls were made.
+- Completed the first local Experiment 1 pilot on MathQA: 27 ordered solver rows (three Qwen tiers, three attempts including two retries), a fixed answer-key-blind verifier, 20 search questions, 10 independent audit questions, 810 workflow traces, and six equal-realized-cost replay policies. The reviewed summary is [experiment1-local-20260924.json](../results/experiment1-local-20260924.json); raw traces remain ignored under `results/runs/`.
+- Every solver and verifier call in that pilot was charged as `coefficient_model * input_tokens`; output tokens, latency, and cache discounts were excluded. The coefficients are local proxy values, and no provider/API run was performed because no endpoint credentials were configured.
 
 ## GitHub
 
@@ -28,12 +30,12 @@ Teammate usernames have not been supplied, so no collaborator invitations have b
 
 ## Not yet implemented or established
 
-- No live model calls, paid experiments, benchmark data, or empirical research findings.
+- No provider/API calls or publication-level empirical findings. The local proxy pilot is an engineering result, not evidence of provider pricing or statistical superiority.
 - No completed reproduction of GittinsEval, AgentOpt, VineLM, or another baseline.
-- No implementation of the proposed structure-aware search algorithm, real checkpoint engine, live budget manager, latency measurement, or full experiment runner.
+- No implementation of the proposed structure-aware search algorithm, real checkpoint engine, production budget manager, or latency objective. Experiment 1's local runner and replay policies are intentionally a baseline/pilot implementation.
 - No claim of novelty, superiority, or publication readiness. The first pilot must test whether the proposed structural advantage survives strong baselines and fair cost accounting.
 - Full live shared-document access was not obtained; the screenshots are a partial view.
 
 ## Next decisions
 
-Confirm teammate access, select one benchmark/workflow and a deployable retry checker, choose exact model versions, set a spending limit, and agree on the primary objective and practical quality tolerance. See [TASKS.md](TASKS.md), the [assessment](research/deep-review/README.md), and the [pilot protocol](research/deep-review/05-diagnostics-and-pilot.md).
+Confirm teammate access, choose exact API model versions and a spending limit, inspect the pilot's weak verifier, and agree on the next held-out test run. See [TASKS.md](TASKS.md), the [assessment](research/deep-review/README.md), and [Experiment 1](../experiments/experiment1.md).

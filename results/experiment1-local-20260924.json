@@ -1,0 +1,335 @@
+{
+  "schema_version": 1,
+  "experiment": "Experiment 1: retry-aware ordered solver rows",
+  "status": "completed_local_proxy_pilot",
+  "run_id": "exp1-local-20260924",
+  "source_commit_before_publish": "da94856",
+  "protocol": {
+    "rows": 27,
+    "row_definition": [
+      "original_attempt",
+      "retry_1",
+      "retry_2"
+    ],
+    "models": [
+      "qwen2.5-1.5b",
+      "qwen2.5-3b",
+      "qwen2.5-7b"
+    ],
+    "repetition_allowed": true,
+    "fixed_verifier": "qwen2.5-1.5b",
+    "verifier_answer_key_access": false,
+    "search_n": 20,
+    "audit_n": 10,
+    "seed": 6113
+  },
+  "data": {
+    "search": {
+      "path": "/home/gabi/agentic_6113/data/raw/mathqa/train.json",
+      "sha256": "00e8919347d65dbba9289bf04ed998a6c48dbf451ca909eeb66a35f2419c2bf6"
+    },
+    "audit": {
+      "path": "/home/gabi/agentic_6113/data/raw/mathqa/dev.json",
+      "sha256": "aeca12424fc8f32d0e35c09b7738986a446c12f110c8071f3cc8913712f04bf3"
+    },
+    "selected_question_hashes": {
+      "seed": 6113,
+      "search_n": 20,
+      "audit_n": 10,
+      "search_question_sha256": [
+        "ecbba92f243178800188de8402c477755bc390fdbdc3e66a061bc486bcf1f697",
+        "6ea7fb250add957b49b27d33e40cc1f6bdf268ea9afa91542787539805fb654a",
+        "dd5ff8c421daa99692920d82bc231b0d011fe59dbfceccc6829c81b56f9ee2f3",
+        "678e77ba330f637a992afb650e211c7e3b80df771d2d0e85fadd2652ac23402f",
+        "f49ee0d0dcc0dfa08c433ae504ffaf5e984684f4f95028d0d0b1c019c9fb4ede",
+        "7c7725f4f7646209439e2fb3f8a109230774ab618a9230aa3dd0779868fbd259",
+        "4f19a3f39caae195bbbc68b04192dcb4c994ac5b6d4831d6fab0947914800e71",
+        "ae9b135a5aedddcf42345e0608fa019d52d3bd8ef6b701d211dd025af798e469",
+        "bca47c89b68c0cc762eee9694189f63f3a1c12bd4bc818d52d1b77277a708431",
+        "4b339a78da247ee3a674e7bb1a7d2a41726d981df482578ea50aacabc3d49790",
+        "2872ad4e24ec2010e6507b166ee76988d6dbd8d67e8ab716f53eca525a14d018",
+        "2b29b2412513f6986e1dea6d64e69176ca71b838a83e7e5748db9d9aaa160483",
+        "39710bd32bc1e3284923c301460918395fb8abbde62a4133abfb90759fce807a",
+        "544638b1909a6292a0e3ed83f65465f5aceaac0c350f45e795d18c0d47194b12",
+        "4836194423e8303b2559803abcdf1cbdac4642344c05413e533c20d6efa11525",
+        "4eb877db18dfeb6bdeb963b5f61d117bf06809b13923dee1b0ad62567d13bc27",
+        "c382d4fde8171c6f96de6ac6b071b16fededc8079297705852430a63665d05c3",
+        "c37cd8792ddf8f49f1ebfde370d2565a27973637fd8d1b6f22a6b019314c7cda",
+        "98be2a3f55936537e497716df043ac2d07dc6ec57314e1199303fa1f177c00c4",
+        "53a757a9d1b35e8b0df288416e62aba390c973c6defee251c4b37f8a765bf0fd"
+      ],
+      "audit_question_sha256": [
+        "9c01daac7f3af4b0701eeb6d43754bc08eadff6121826db5c96fe7a79b17123d",
+        "7f399d37f2145c57f8967e0f285e41f9f8f43485790723ed15566f96ca3a322c",
+        "7fac2b88d8a92a1dedf3bec7fdb17077114a1805d4ced5f205b32a5f77a67432",
+        "79fc8e986bb3da4fafe9a9291f13530c2fa50ab8184dfee9f2f332af7f96cf5b",
+        "8e2a64f96d4f05e7a2854e8981ca7fb9f5f8772febe641bb035d2a926c5e29d9",
+        "f7f3b12fa944ce42de90801e8c018be17490649edf5bfd98c035c8a999ae66d0",
+        "b6c367f5213d56697cdbd6bfde2cb554f6db078c5965d26e7a4424795a5781ea",
+        "e48f5c9e1f3cf4118e42a63207e0adbcf282e7d44945ae79e7fa8e15356a3a1a",
+        "258a756d915d778f238a3401417f698cd1d9917e1275bf983979e77af665cd9d",
+        "8bc7d11482f98c5f01f4cd822f7f705a114a6e656f797c7afdc5900e4aa7c11a"
+      ]
+    },
+    "test_split_used": false
+  },
+  "cost": {
+    "definition": "sum(coefficient_usd_per_input_token[model] * input_tokens) for every solver and verifier call; output/cache/latency are excluded",
+    "coefficients_usd_per_input_token": {
+      "qwen2.5-1.5b": 1e-07,
+      "qwen2.5-3b": 3e-07,
+      "qwen2.5-7b": 5e-07
+    },
+    "trace_total_usd": 0.0777904,
+    "search_exhaustive_reference_usd": 0.0552058,
+    "audit_exhaustive_reference_usd": 0.0225846,
+    "output_tokens_charged": false,
+    "cache_discount": false
+  },
+  "model_metadata": {
+    "qwen2.5-1.5b": {
+      "path": "/home/gabi/zhengtong/data/models/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+      "config_sha256": "98d2ff8cc47488d08a2b0b3acf4eb99ef210779b42bd48605f6b8e36acdbf670"
+    },
+    "qwen2.5-3b": {
+      "path": "/home/gabi/zhengtong/data/models/models--Qwen--Qwen2.5-3B-Instruct",
+      "config_sha256": "eed00b17e22553979d090fa492e587e92885e328914c8e0b0b78f0a0d3576b3b"
+    },
+    "qwen2.5-7b": {
+      "path": "/home/gabi/zhengtong/data/models/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
+      "config_sha256": "7463bb0ea78315365e6c6b74de4e73bbcc8359dfb0c5a737584e077d42c0b03c"
+    }
+  },
+  "coverage": {
+    "trace_cells": 810,
+    "expected_trace_cells": 810,
+    "solver_calls": 915,
+    "verifier_calls": 915,
+    "attempt_histogram": {
+      "1": 729,
+      "2": 57,
+      "3": 24
+    },
+    "verifier_pass_rate": 0.9851851851851852,
+    "cell_correctness_rate": 0.35802469135802467
+  },
+  "replay": {
+    "budgets_usd": [
+      0.01380145,
+      0.0276029,
+      0.04140435,
+      0.0552058
+    ],
+    "oracle_audit": {
+      "config_id": "qwen2.5-7b/qwen2.5-7b/qwen2.5-7b",
+      "accuracy": 0.6,
+      "n": 10
+    },
+    "aggregates": [
+      {
+        "policy": "arm_elimination",
+        "budget_usd": 0.01380145,
+        "mean_search_spend_usd": 0.013537599999999999,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.5,
+        "repeats": 8
+      },
+      {
+        "policy": "cost_ucb",
+        "budget_usd": 0.01380145,
+        "mean_search_spend_usd": 0.0137477,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.5,
+        "repeats": 8
+      },
+      {
+        "policy": "kernel_bayes_ucb",
+        "budget_usd": 0.01380145,
+        "mean_search_spend_usd": 0.0137643,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.55,
+        "repeats": 8
+      },
+      {
+        "policy": "random",
+        "budget_usd": 0.01380145,
+        "mean_search_spend_usd": 0.013720775,
+        "mean_audit_accuracy": 0.4875,
+        "mean_selected_search_accuracy": 0.8095238095238095,
+        "repeats": 8
+      },
+      {
+        "policy": "ucb1",
+        "budget_usd": 0.01380145,
+        "mean_search_spend_usd": 0.013750499999999999,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.4,
+        "repeats": 8
+      },
+      {
+        "policy": "uniform",
+        "budget_usd": 0.01380145,
+        "mean_search_spend_usd": 0.0134443,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.5,
+        "repeats": 8
+      },
+      {
+        "policy": "arm_elimination",
+        "budget_usd": 0.0276029,
+        "mean_search_spend_usd": 0.0275954,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.6363636363636364,
+        "repeats": 8
+      },
+      {
+        "policy": "cost_ucb",
+        "budget_usd": 0.0276029,
+        "mean_search_spend_usd": 0.027562399999999997,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.6,
+        "repeats": 8
+      },
+      {
+        "policy": "kernel_bayes_ucb",
+        "budget_usd": 0.0276029,
+        "mean_search_spend_usd": 0.027513799999999998,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.5555555555555556,
+        "repeats": 8
+      },
+      {
+        "policy": "random",
+        "budget_usd": 0.0276029,
+        "mean_search_spend_usd": 0.027490124999999997,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.6297348484848485,
+        "repeats": 8
+      },
+      {
+        "policy": "ucb1",
+        "budget_usd": 0.0276029,
+        "mean_search_spend_usd": 0.0273915,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.5714285714285714,
+        "repeats": 8
+      },
+      {
+        "policy": "uniform",
+        "budget_usd": 0.0276029,
+        "mean_search_spend_usd": 0.027551799999999998,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.6,
+        "repeats": 8
+      },
+      {
+        "policy": "arm_elimination",
+        "budget_usd": 0.04140435,
+        "mean_search_spend_usd": 0.041384199999999996,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.6,
+        "repeats": 8
+      },
+      {
+        "policy": "cost_ucb",
+        "budget_usd": 0.04140435,
+        "mean_search_spend_usd": 0.0413052,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.5714285714285714,
+        "repeats": 8
+      },
+      {
+        "policy": "kernel_bayes_ucb",
+        "budget_usd": 0.04140435,
+        "mean_search_spend_usd": 0.041343899999999996,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.6,
+        "repeats": 8
+      },
+      {
+        "policy": "random",
+        "budget_usd": 0.04140435,
+        "mean_search_spend_usd": 0.041267824999999994,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.6357973113487819,
+        "repeats": 8
+      },
+      {
+        "policy": "ucb1",
+        "budget_usd": 0.04140435,
+        "mean_search_spend_usd": 0.0413956,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.6,
+        "repeats": 8
+      },
+      {
+        "policy": "uniform",
+        "budget_usd": 0.04140435,
+        "mean_search_spend_usd": 0.0413751,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.5714285714285714,
+        "repeats": 8
+      },
+      {
+        "policy": "arm_elimination",
+        "budget_usd": 0.0552058,
+        "mean_search_spend_usd": 0.0552058,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.6,
+        "repeats": 8
+      },
+      {
+        "policy": "cost_ucb",
+        "budget_usd": 0.0552058,
+        "mean_search_spend_usd": 0.0552058,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.6,
+        "repeats": 8
+      },
+      {
+        "policy": "kernel_bayes_ucb",
+        "budget_usd": 0.0552058,
+        "mean_search_spend_usd": 0.0552058,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.6,
+        "repeats": 8
+      },
+      {
+        "policy": "random",
+        "budget_usd": 0.0552058,
+        "mean_search_spend_usd": 0.0552058,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.6,
+        "repeats": 8
+      },
+      {
+        "policy": "ucb1",
+        "budget_usd": 0.0552058,
+        "mean_search_spend_usd": 0.0552058,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.6,
+        "repeats": 8
+      },
+      {
+        "policy": "uniform",
+        "budget_usd": 0.0552058,
+        "mean_search_spend_usd": 0.0552058,
+        "mean_audit_accuracy": 0.6,
+        "mean_selected_search_accuracy": 0.6,
+        "repeats": 8
+      }
+    ],
+    "repeats_per_policy_budget": 8,
+    "selector_access": "search cells only; audit cells used after selection"
+  },
+  "api_run": {
+    "status": "not_run",
+    "reason": "No provider API credentials or endpoint were configured in the authorized environment."
+  },
+  "limitations": [
+    "This is a local engineering pilot with simulated coefficients, not evidence about provider prices.",
+    "The audit has 10 questions and the test split is reserved; this does not establish publication-level significance.",
+    "The categorical Bayesian selector is a dependency-free AgentOpt-inspired baseline, not a third-party AgentOpt BO reproduction.",
+    "The fixed small verifier passes many wrong answers in this pilot; checker quality needs a separate study."
+  ]
+}
