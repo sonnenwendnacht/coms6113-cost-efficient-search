@@ -54,3 +54,19 @@ hashes, every cell's calls, and replay aggregates. A provider/API run is a
 separate experiment: it requires a pinned endpoint, model snapshots, current
 pricing, and an explicit budget; no API result is silently substituted for the
 local proxy result.
+
+## Interpretation of the recorded pilot
+
+The first run is useful for checking the workflow and spending ledger, but its
+accuracy table is not ready to support a method claim. The solver output cap
+was too short for many local answers: 501 of 810 final answers were not
+parseable, and 510 solver calls reached the cap. The verifier accepted 798 of
+915 verifier calls, including many responses whose final choice could not be
+parsed. The next run must raise the output limit, tighten the answer format,
+and report parse failures separately before comparing search methods.
+
+The replay policies are small in-repository baselines inspired by the ideas in
+AgentOpt; they are not executions of AgentOpt's package. The eight repeats are
+not eight independent model experiments: only random allocation changes with
+the seed. The replay currently optimizes final observed accuracy under a
+profiling budget, rather than a full deployment cost-accuracy frontier.

@@ -110,7 +110,11 @@
       "2": 57,
       "3": 24
     },
-    "verifier_pass_rate": 0.9851851851851852,
+    "workflow_acceptance_rate": 0.9851851851851852,
+    "verifier_call_pass_rate": 0.8721311475409836,
+    "final_answer_parse_rate": 0.3814814814814815,
+    "final_answer_missing": 501,
+    "solver_calls_at_generation_limit": 510,
     "cell_correctness_rate": 0.35802469135802467
   },
   "replay": {
@@ -330,6 +334,9 @@
     "This is a local engineering pilot with simulated coefficients, not evidence about provider prices.",
     "The audit has 10 questions and the test split is reserved; this does not establish publication-level significance.",
     "The categorical Bayesian selector is a dependency-free AgentOpt-inspired baseline, not a third-party AgentOpt BO reproduction.",
-    "The fixed small verifier passes many wrong answers in this pilot; checker quality needs a separate study."
+    "The fixed small verifier passes many wrong answers in this pilot; checker quality needs a separate study.",
+    "The solver generation cap caused 501 of 810 final answers to be unparseable. The accuracy table is therefore a pipeline diagnostic and must be rerun with a sufficient output limit before making a search-method claim.",
+    "The eight replay repeats are not eight independent model runs: only random allocation changes with the seed; the other policies are deterministic on this fixed trace.",
+    "The replay objective is final observed accuracy under a profiling-cost cap. It does not yet optimize a deployment cost-accuracy Pareto frontier."
   ]
 }

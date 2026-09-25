@@ -297,7 +297,8 @@ def replay_policy(
         counts[arm] += 1
         sums[arm] += cell.reward
         costs[arm] += cell.cost_usd
-        steps.append({"step": t, "config_id": arm, "question_id": qid, "reward": cell.reward, "cost_usd": cell.cost_usd, "cumulative_cost_usd": sum(x["cost_usd"] for x in steps)})
+        cumulative = sum(x["cost_usd"] for x in steps) + cell.cost_usd
+        steps.append({"step": t, "config_id": arm, "question_id": qid, "reward": cell.reward, "cost_usd": cell.cost_usd, "cumulative_cost_usd": cumulative})
     selected = max(arms, key=lambda a: ((sums[a] / counts[a]) if counts[a] else -1.0, -costs[a], a))
     audit = [audit_cells[(selected, q)] for q in sorted({q for arm, q in audit_cells if arm == selected})]
     # The comprehension above intentionally uses only the selected row; the
