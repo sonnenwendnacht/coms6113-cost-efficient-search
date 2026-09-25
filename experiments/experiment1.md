@@ -70,3 +70,48 @@ AgentOpt; they are not executions of AgentOpt's package. The eight repeats are
 not eight independent model experiments: only random allocation changes with
 the seed. The replay currently optimizes final observed accuracy under a
 profiling budget, rather than a full deployment cost-accuracy frontier.
+
+## Expanded nine-model comparison
+
+The next run is specified in `configs/experiment1-nine-model.json` and uses
+nine distinct solver models, so the ordered retry space has `9^3 = 729` rows.
+It reserves 200 MathQA train questions for search and 200 MathQA dev questions
+for the final held-out evaluation. Every `(selector, parameter setting)` is a
+separate reported entry, following the layout of AgentOpt Table 7. The report
+will include mean held-out accuracy, mean search evaluations, realized search
+cost, and savings against exhaustive search, plus a plot of accuracy against
+realized search cost for each selector family.
+
+The nine-model local pool is now installed: Qwen2.5 0.5B/1.5B/3B/7B,
+Qwen3 0.6B, Phi-3.5-mini, Phi-4-mini, TinyLlama 1.1B, and DeepSeek-R1-Distill
+Qwen 1.5B. The paths, snapshot versions, and local proxy coefficients are recorded in
+`configs/experiment1-nine-model.json`. The paths use the
+`COMS6113_MODEL_ROOT` environment variable so the checked-in protocol does not
+contain a machine-specific home directory. On this host it is
+`/home/gabi/zhengtong/data/models`. These coefficients are engineering proxies
+for the input-token ledger, not provider price claims.
+
+All nine models loaded and generated a short deterministic smoke response in the
+current Transformers runtime. Two initially downloaded alternatives (Ministral 3
+and OLMo-2) were not used because that runtime could not load their processor/config;
+TinyLlama and DeepSeek-R1-Distill are the pinned replacements. TinyLlama and
+DeepSeek can exceed the short output cap while explaining, so their parse failures
+remain visible in the trace. The expanded runner uses a concise `FINAL:` contract,
+disables Qwen3 visible thinking when supported, and records the cap and parse
+results.
+
+On the GPU host, set the model root and run generation explicitly:
+
+```bash
+export COMS6113_MODEL_ROOT=/home/gabi/zhengtong/data/models
+PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src \
+  /home/gabi/zhengtong/data/runtime/ministral/bin/python \
+  scripts/run_experiment1_nine_model.py --generate \
+  --run-id exp1-nine-local-YYYYMMDD
+```
+
+The command is intentionally separate from replay because 729 rows times 400
+questions is 291,600 complete workflows. Use
+`scripts/run_experiment1_nine_model.py --help` for the optional resident-model
+and generation-cap controls, then replay a completed trace with
+`scripts/replay_experiment1_nine_model.py`.

@@ -42,6 +42,9 @@ class Experiment1AccountingTests(unittest.TestCase):
 
     def test_parsers_and_baseline_names(self):
         self.assertEqual(parse_answer("work\nFINAL: C"), "c")
+        self.assertEqual(parse_answer("final: e"), "e")
+        self.assertEqual(parse_answer("b"), "b")
+        self.assertIsNone(parse_answer("the answer is probably b"))
         self.assertTrue(parse_verdict("VERDICT: PASS\nlooks good"))
         self.assertFalse(parse_verdict("VERDICT: RETRY"))
         self.assertEqual(ArmEliminationPolicy.name, "arm_elimination")
