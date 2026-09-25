@@ -1,5 +1,13 @@
 # Experiment 1: retry-aware ordered rows
 
+## Visual overview
+
+The diagram below is the whiteboard idea translated to this experiment. It
+shows the 27 ordered rows, the search and audit questions, one retry-aware
+workflow, and the cost recorded for each reached call.
+
+![Experiment 1 retry-aware model-selection diagram](experiment1-diagram.svg)
+
 Experiment 1 is the first live pilot of the group proposal. A row is an
 ordered triple of solver models: the original attempt, retry 1, and retry 2.
 With three solver choices and repeated choices allowed, there are `3^3 = 27`
