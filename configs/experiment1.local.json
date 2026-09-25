@@ -1,0 +1,43 @@
+{
+  "experiment": "exp1_retry_aware_ordered_rows",
+  "row_definition": "ordered triples of solver models for original attempt, retry 1, retry 2; repetition allowed",
+  "solver_models": [
+    "Qwen/Qwen2.5-1.5B-Instruct",
+    "Qwen/Qwen2.5-3B-Instruct",
+    "Qwen/Qwen2.5-7B-Instruct"
+  ],
+  "verifier_model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "retry_limit": 2,
+  "cost": {
+    "formula": "sum(coefficient_usd_per_input_token[model] * input_tokens(call))",
+    "coefficients_usd_per_input_token": {
+      "qwen2.5-1.5b": 1.0e-7,
+      "qwen2.5-3b": 3.0e-7,
+      "qwen2.5-7b": 5.0e-7
+    },
+    "output_tokens_charged": false,
+    "cache_discount": false,
+    "latency_charged": false
+  },
+  "dataset": {
+    "name": "MathQA",
+    "source": "https://math-qa.github.io/math-QA/data/MathQA.zip",
+    "search_source_split": "train",
+    "audit_source_split": "dev",
+    "final_test_split_reserved": "test",
+    "seed": 6113
+  },
+  "policies": [
+    "random",
+    "uniform",
+    "ucb1",
+    "cost_ucb",
+    "arm_elimination",
+    "kernel_bayes_ucb"
+  ],
+  "notes": [
+    "The kernel Bayesian policy is a dependency-free categorical GP-UCB-like baseline, not a reproduction of AgentOpt Bayesian optimization.",
+    "Search policies receive only selected trace cells from the search split; the audit split and answer keys remain evaluator-side.",
+    "The coefficients are local proxy prices for an engineering pilot, not provider price claims."
+  ]
+}
