@@ -1,0 +1,48 @@
+{
+  "experiment": "exp1_retry_aware_nine_model_rows",
+  "row_definition": "ordered triples of solver models for original attempt, retry 1, retry 2; repetition allowed",
+  "solver_model_count": 9,
+  "verifier": {
+    "fixed": true,
+    "answer_key_access": false,
+    "model": "qwen2.5-1.5b"
+  },
+  "search_questions": 200,
+  "evaluation_questions": 200,
+  "datasets": {
+    "search": "MathQA train",
+    "evaluation": "MathQA dev",
+    "test": "reserved"
+  },
+  "expected_rows": 729,
+  "expected_search_cells": 145800,
+  "expected_evaluation_cells": 145800,
+  "cost": {
+    "formula": "sum(coefficient_usd_per_input_token[model] * input_tokens(call))",
+    "output_tokens_charged": false,
+    "cache_discount": false,
+    "latency_charged": false,
+    "coefficients_are_local_proxy_values": true
+  },
+  "model_pool": [
+    {"id": "claude-opus-4.6", "path_required": true, "coefficient_usd_per_input_token": null},
+    {"id": "claude-haiku-4.5", "path_required": true, "coefficient_usd_per_input_token": null},
+    {"id": "claude-3-haiku", "path_required": true, "coefficient_usd_per_input_token": null},
+    {"id": "gpt-oss-120b", "path_required": true, "coefficient_usd_per_input_token": null},
+    {"id": "gpt-oss-20b", "path_required": true, "coefficient_usd_per_input_token": null},
+    {"id": "kimi-k2.5", "path_required": true, "coefficient_usd_per_input_token": null},
+    {"id": "qwen3-next-80b-a3b", "path_required": true, "coefficient_usd_per_input_token": null},
+    {"id": "qwen3-32b", "path_required": true, "coefficient_usd_per_input_token": null},
+    {"id": "ministral-3-8b", "path_required": true, "coefficient_usd_per_input_token": null}
+  ],
+  "selector_families": {
+    "random": {"parameter": "row_fraction", "values": [0.01, 0.025, 0.05, 0.1, 0.2, 0.3, 0.5]},
+    "uniform": {"parameter": "cell_fraction", "values": [0.01, 0.025, 0.05, 0.1, 0.2, 0.3, 0.5]},
+    "matrix_ucb_e": {"parameter": "cell_fraction", "values": [0.01, 0.025, 0.05, 0.1, 0.2, 0.3, 0.5]},
+    "arm_elimination": {"parameter": "confidence_multiplier", "values": [0.25, 0.5, 1.0, 2.0]},
+    "hill_climb": {"parameter": "restarts", "values": [1, 2, 4, 8]},
+    "bayesian_inspired": {"parameter": "row_fraction", "values": [0.01, 0.025, 0.05, 0.1, 0.2]}
+  },
+  "seeds": [6113, 6114, 6115, 6116, 6117, 6118, 6119, 6120],
+  "status": "protocol_only_until_nine_distinct_solver_checkpoints_or_endpoints_are_supplied"
+}

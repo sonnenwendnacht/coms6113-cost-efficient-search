@@ -70,3 +70,22 @@ AgentOpt; they are not executions of AgentOpt's package. The eight repeats are
 not eight independent model experiments: only random allocation changes with
 the seed. The replay currently optimizes final observed accuracy under a
 profiling budget, rather than a full deployment cost-accuracy frontier.
+
+## Expanded nine-model comparison
+
+The next run is specified in `configs/experiment1-nine-model.json` and uses
+nine distinct solver models, so the ordered retry space has `9^3 = 729` rows.
+It reserves 200 MathQA train questions for search and 200 MathQA dev questions
+for the final held-out evaluation. Every `(selector, parameter setting)` is a
+separate reported entry, following the layout of AgentOpt Table 7. The report
+will include mean held-out accuracy, mean search evaluations, realized search
+cost, and savings against exhaustive search, plus a plot of accuracy against
+realized search cost for each selector family.
+
+The expanded runner is deliberately blocked until nine distinct solver
+checkpoints or API adapters are supplied. The current machine has four usable
+local generative checkpoints (Qwen 1.5B/3B/7B and Ministral 8B); the other
+local folders are embedding or reranking models and cannot stand in as solver
+models. Relabeling those four checkpoints as nine models would invalidate the
+comparison. Use `scripts/run_experiment1_nine_model.py --help` for the exact
+model-path and proxy-cost inputs required for the run.
