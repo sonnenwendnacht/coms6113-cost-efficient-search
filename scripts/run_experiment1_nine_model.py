@@ -13,6 +13,7 @@ import argparse
 import gc
 import hashlib
 import json
+import os
 import sys
 import time
 from collections import OrderedDict
@@ -28,8 +29,6 @@ from retry_search.experiment1 import (  # noqa: E402
     parse_answer,
     parse_verdict,
     primary_cost,
-    question_prompt,
-    solver_prompt,
     verifier_prompt,
 )
 
@@ -53,7 +52,19 @@ def model_ids() -> list[str]:
 
 def model_registry() -> tuple[dict[str, str], dict[str, float]]:
     data = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
-    paths = {item["id"]: item["path"] for item in data["model_pool"]}
+    model_root_raw = os.environ.get("COMS6113_MODEL_ROOT")
+    model_root = Path(model_root_raw).expanduser() if model_root_raw else None
+    paths = {}
+    for item in data["model_pool"]:
+        raw_path = item["path"]
+        if raw_path.startswith("${COMS6113_MODEL_ROOT}/"):
+            if model_root is None:
+                raise SystemExit(
+                    "set COMS6113_MODEL_ROOT to the Hugging Face hub directory "
+                    "containing the pinned model snapshots"
+                )
+            raw_path = str(model_root / raw_path.split("/", 1)[1])
+        paths[item["id"]] = os.path.expandvars(raw_path)
     coefficients = {
         item["id"]: float(item["coefficient_usd_per_input_token"])
         for item in data["model_pool"]
@@ -63,6 +74,34 @@ def model_registry() -> tuple[dict[str, str], dict[str, float]]:
 
 def ordered_rows(ids: list[str]) -> list[tuple[str, str, str]]:
     return [(a, b, c) for a in ids for b in ids for c in ids]
+
+
+def expanded_solver_prompt(
+    row: dict[str, Any], previous: str | None = None, feedback: str | None = None
+) -> str:
+    """Use a short, uniform output contract for the expanded local pool.
+
+    The pilot's explanatory prompt causes small checkpoints to spend their
+    whole output budget on prose.  Keeping the contract short makes a missing
+    ``FINAL`` marker a measurable parse failure rather than an artifact of a
+    long prompt.  Retry context is still included because it is part of the
+    deployment input and therefore part of the cost ledger.
+    """
+    prompt = (
+        "Solve this multiple-choice math problem. Work out the answer silently. "
+        "Reply with exactly one line in the form FINAL: a, FINAL: b, FINAL: c, "
+        "FINAL: d, or FINAL: e. Do not explain.\n\n"
+        f"Problem: {row['Problem']}\nOptions: {row['options']}"
+    )
+    if previous:
+        prompt += (
+            "\n\nRetry the problem. The previous attempt was:\n"
+            + previous[-1200:]
+            + "\n\nVerifier feedback:\n"
+            + (feedback or "RETRY")[-400:]
+            + "\nReturn exactly one FINAL line."
+        )
+    return prompt
 
 
 class LocalModel:
@@ -78,6 +117,7 @@ class LocalModel:
         self.path = path
         self.torch = torch
         self.is_mistral = "mistral" in (name + path).lower()
+        self.is_qwen3 = "qwen3" in (name + path).lower()
         if self.is_mistral:
             from transformers import AutoProcessor, Mistral3ForConditionalGeneration
 
@@ -105,9 +145,21 @@ class LocalModel:
             )
         else:
             messages = [{"role": "user", "content": prompt}]
-            inputs = self.tokenizer.apply_chat_template(
-                messages, tokenize=True, add_generation_prompt=True, return_tensors="pt"
-            )
+            template_kwargs = {
+                "tokenize": True,
+                "add_generation_prompt": True,
+                "return_tensors": "pt",
+            }
+            # Qwen3 otherwise spends its short deterministic generation budget
+            # in a visible <think> block.  Older tokenizer templates do not
+            # accept this keyword, so retry without it when unsupported.
+            if self.is_qwen3:
+                template_kwargs["enable_thinking"] = False
+            try:
+                inputs = self.tokenizer.apply_chat_template(messages, **template_kwargs)
+            except TypeError:
+                template_kwargs.pop("enable_thinking", None)
+                inputs = self.tokenizer.apply_chat_template(messages, **template_kwargs)
             if not hasattr(inputs, "items"):
                 inputs = {"input_ids": inputs, "attention_mask": (inputs != self.tokenizer.pad_token_id).long()}
             else:
@@ -169,6 +221,7 @@ class LocalPool:
 def run_workflow(
     row: dict[str, Any], config: tuple[str, str, str], pool: LocalPool,
     question_id: int, coefficients: dict[str, float], verifier_name: str,
+    max_new_tokens: int,
 ) -> dict[str, Any]:
     calls: list[dict[str, Any]] = []
     attempts: list[dict[str, Any]] = []
@@ -177,8 +230,8 @@ def run_workflow(
     accepted_attempt = None
     final_text = ""
     for attempt, solver_name in enumerate(config, start=1):
-        prompt = solver_prompt(row, previous, feedback)
-        text, input_tokens, output_tokens, latency = pool.call(solver_name, prompt, 256)
+        prompt = expanded_solver_prompt(row, previous, feedback)
+        text, input_tokens, output_tokens, latency = pool.call(solver_name, prompt, max_new_tokens)
         calls.append({"role": "solver", "model": solver_name, "input_tokens": input_tokens,
                       "output_tokens": output_tokens, "coefficient_usd_per_token": coefficients[solver_name],
                       "latency_s": latency})
@@ -252,7 +305,11 @@ def generate(args: argparse.Namespace) -> int:
                 "solver_models": ids, "verifier_model": args.verifier_model,
                 "model_paths": solver_paths, "coefficients_usd_per_input_token": coefficients,
                 "seed": args.seed, "output_tokens_charged": False, "cache_discount": False,
-                "answer_key_access": "evaluator only after workflow"}
+                "answer_key_access": "evaluator only after workflow",
+                "solver_prompt": "concise_final_line_v1",
+                "solver_max_new_tokens": args.max_new_tokens,
+                "verifier_max_new_tokens": 64,
+                "max_resident_models": args.max_resident}
     (run_dir / "metadata.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
     missing_paths = [name for name in ids if not Path(solver_paths[name]).exists()]
     if not verifier_path or not Path(verifier_path).exists():
@@ -266,7 +323,8 @@ def generate(args: argparse.Namespace) -> int:
         for done, (qid, row) in enumerate((item for item in questions for _ in configs), start=1):
             # The inner configuration is recovered by a deterministic position.
             config = configs[(done - 1) % len(configs)]
-            traces.append(run_workflow(row, config, pool, qid, coefficients, args.verifier_model))
+            traces.append(run_workflow(row, config, pool, qid, coefficients, args.verifier_model,
+                                       args.max_new_tokens))
             if done == 1 or done % 100 == 0 or done == total:
                 print(f"completed {done}/{total}", file=sys.stderr, flush=True)
     finally:
@@ -291,6 +349,8 @@ def main() -> int:
     ap.add_argument("--coefficient", action="append", default=[], metavar="NAME=USD_PER_INPUT_TOKEN")
     ap.add_argument("--max-resident", type=int, default=3,
                     help="maximum local models kept in memory at once (default: 3)")
+    ap.add_argument("--max-new-tokens", type=int, default=256,
+                    help="solver generation cap (default: 256; output is not charged)")
     args = ap.parse_args()
     if not args.generate:
         ap.error("generation is explicit; use --generate after supplying nine model paths and coefficients")
