@@ -15,6 +15,7 @@ import hashlib
 import json
 import sys
 import time
+from collections import OrderedDict
 from pathlib import Path
 from typing import Any
 
@@ -48,6 +49,16 @@ def sha256_file(path: Path) -> str:
 def model_ids() -> list[str]:
     data = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
     return [item["id"] for item in data["model_pool"]]
+
+
+def model_registry() -> tuple[dict[str, str], dict[str, float]]:
+    data = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+    paths = {item["id"]: item["path"] for item in data["model_pool"]}
+    coefficients = {
+        item["id"]: float(item["coefficient_usd_per_input_token"])
+        for item in data["model_pool"]
+    }
+    return paths, coefficients
 
 
 def ordered_rows(ids: list[str]) -> list[tuple[str, str, str]]:
@@ -128,14 +139,22 @@ class LocalModel:
 
 
 class LocalPool:
-    def __init__(self, paths: dict[str, str], verifier_name: str, verifier_path: str):
+    def __init__(self, paths: dict[str, str], verifier_name: str, verifier_path: str,
+                 max_resident: int = 3):
         self.paths = paths
-        self.runners: dict[str, LocalModel] = {}
+        self.runners: OrderedDict[str, LocalModel] = OrderedDict()
         self.verifier_name = verifier_name
         self.verifier_path = verifier_path
+        self.max_resident = max(2, int(max_resident))
 
     def call(self, name: str, prompt: str, max_new_tokens: int):
-        if name not in self.runners:
+        if name in self.runners:
+            self.runners.move_to_end(name)
+        else:
+            if len(self.runners) >= self.max_resident:
+                old_name, old_runner = self.runners.popitem(last=False)
+                print(f"unloading {old_name}", file=sys.stderr, flush=True)
+                old_runner.close()
             path = self.verifier_path if name == self.verifier_name else self.paths[name]
             print(f"loading {name}", file=sys.stderr, flush=True)
             self.runners[name] = LocalModel(name, path)
@@ -206,10 +225,14 @@ def parse_key_values(items: list[str], ids: list[str], label: str) -> dict[str, 
 
 def generate(args: argparse.Namespace) -> int:
     ids = model_ids()
-    solver_paths = parse_key_values(args.model_path, ids, "--model-path")
-    all_paths = dict(solver_paths)
-    all_paths[args.verifier_model] = args.verifier_path
-    coefficients = {name: float(value) for name, value in (item.split("=", 1) for item in args.coefficient)}
+    configured_paths, configured_coefficients = model_registry()
+    solver_paths = configured_paths
+    if args.model_path:
+        solver_paths.update(parse_key_values(args.model_path, ids, "--model-path"))
+    verifier_path = args.verifier_path or solver_paths.get(args.verifier_model, "")
+    coefficients = configured_coefficients
+    if args.coefficient:
+        coefficients.update({name: float(value) for name, value in (item.split("=", 1) for item in args.coefficient)})
     missing_coefficients = [name for name in ids + [args.verifier_model] if name not in coefficients]
     if missing_coefficients:
         raise SystemExit(f"provide --coefficient NAME=USD_PER_INPUT_TOKEN for {missing_coefficients}")
@@ -231,7 +254,12 @@ def generate(args: argparse.Namespace) -> int:
                 "seed": args.seed, "output_tokens_charged": False, "cache_discount": False,
                 "answer_key_access": "evaluator only after workflow"}
     (run_dir / "metadata.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
-    pool = LocalPool(solver_paths, args.verifier_model, args.verifier_path)
+    missing_paths = [name for name in ids if not Path(solver_paths[name]).exists()]
+    if not verifier_path or not Path(verifier_path).exists():
+        missing_paths.append(args.verifier_model + " (verifier)")
+    if missing_paths:
+        raise SystemExit(f"missing local model paths: {missing_paths}")
+    pool = LocalPool(solver_paths, args.verifier_model, verifier_path, args.max_resident)
     traces: list[dict[str, Any]] = []
     try:
         total = len(questions) * len(configs)
@@ -255,15 +283,17 @@ def main() -> int:
     ap.add_argument("--audit-dataset", default=str(ROOT / "data/raw/mathqa/dev.json"))
     ap.add_argument("--run-id")
     ap.add_argument("--seed", type=int, default=6113)
-    ap.add_argument("--model-path", action="append", default=[], metavar="NAME=PATH")
+    ap.add_argument("--model-path", action="append", default=[], metavar="NAME=PATH",
+                    help="optional override; otherwise use pinned paths in the config")
     ap.add_argument("--verifier-model", default=DEFAULT_VERIFIER)
-    ap.add_argument("--verifier-path", required=False, default="")
+    ap.add_argument("--verifier-path", required=False, default="",
+                    help="optional override; otherwise use the verifier's pinned solver path")
     ap.add_argument("--coefficient", action="append", default=[], metavar="NAME=USD_PER_INPUT_TOKEN")
+    ap.add_argument("--max-resident", type=int, default=3,
+                    help="maximum local models kept in memory at once (default: 3)")
     args = ap.parse_args()
     if not args.generate:
         ap.error("generation is explicit; use --generate after supplying nine model paths and coefficients")
-    if not args.verifier_path:
-        ap.error("--verifier-path is required")
     return generate(args)
 
 

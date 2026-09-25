@@ -82,10 +82,9 @@ will include mean held-out accuracy, mean search evaluations, realized search
 cost, and savings against exhaustive search, plus a plot of accuracy against
 realized search cost for each selector family.
 
-The expanded runner is deliberately blocked until nine distinct solver
-checkpoints or API adapters are supplied. The current machine has four usable
-local generative checkpoints (Qwen 1.5B/3B/7B and Ministral 8B); the other
-local folders are embedding or reranking models and cannot stand in as solver
-models. Relabeling those four checkpoints as nine models would invalidate the
-comparison. Use `scripts/run_experiment1_nine_model.py --help` for the exact
-model-path and proxy-cost inputs required for the run.
+The nine-model local pool is now installed: Qwen2.5 0.5B/1.5B/3B/7B,
+Qwen3 0.6B, Phi-3.5-mini, Phi-4-mini, TinyLlama 1.1B, and DeepSeek-R1-Distill
+Qwen 1.5B. The paths, snapshot versions, and local proxy coefficients are recorded in
+`configs/experiment1-nine-model.json`. These coefficients are engineering
+proxies for the input-token ledger, not provider price claims. Use
+`scripts/run_experiment1_nine_model.py --help` for the run command.
