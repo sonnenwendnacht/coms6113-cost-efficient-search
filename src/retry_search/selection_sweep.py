@@ -542,9 +542,10 @@ def _graph_residual_racing(
         return True
 
     # The anchor is selected before seeing any outcome.  Spending about half
-    # the budget on it makes each later residual much cheaper: on a shared
-    # question the anchor cell is already present, so only the candidate cell
-    # needs to be purchased.
+    # the budget on it creates a direct reference for later residuals.  An
+    # edge's independent question order may overlap an observed anchor cell,
+    # in which case only the missing endpoint is charged; the order itself is
+    # never changed in response to outcomes.
     anchor = rng.randrange(k)
     anchor_count = min(n, max(1, target // 2))
     for question in q_order[:anchor_count]:
