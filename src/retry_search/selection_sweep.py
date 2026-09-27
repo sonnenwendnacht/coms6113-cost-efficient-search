@@ -624,14 +624,6 @@ def _graph_residual_racing(
         if edge not in edge_order:
             order = list(range(n))
             rng.shuffle(order)
-            # Prefer questions where one endpoint has already been measured;
-            # this turns a comparison into a one-new-cell residual whenever
-            # the anchor (or a previously measured row) is reusable.
-            left, right = edge
-            order.sort(key=lambda question: (
-                not ((left, question) in cell_reward or (right, question) in cell_reward),
-                rng.random(),
-            ))
         else:
             order = edge_order[edge]
         edge_order[edge] = order

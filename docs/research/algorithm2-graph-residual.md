@@ -36,10 +36,10 @@ with question difficulty.
 1. Choose an anchor row and a random question order before observing outcomes.
 2. Spend an initial part of the cell budget on the anchor.
 3. Construct the one-slot Hamming graph over complete rows.
-4. For an edge, prefer questions already measured for either endpoint. Pull
-   the missing endpoint, then store the paired residual. Each edge has its own
-   pre-shuffled question order; the order is never changed after seeing a
-   score.
+4. For an edge, follow its own pre-shuffled question order, fixed before any
+   outcomes from that edge are seen. Pull whichever endpoint cells are
+   missing, then store the paired residual. A cell observed for another edge
+   may reduce the new cost, but it does not change which question is next.
 5. Estimate a candidate through a path of measured edge residuals from the
    anchor. The prototype chooses the next edge by residual uncertainty per
    observed pair cost, with a small random reserve for leaving a bad local
@@ -82,12 +82,13 @@ not known for free, unlike a cheap external proxy. Those differences need an
 explicit model and controlled experiments; they do not establish novelty by
 themselves.
 
-Primary comparisons to audit:
+Primary comparisons to audit (including the newly found closest baseline):
 
 - [Covariance-adaptive best arm identification](https://proceedings.neurips.cc/paper_files/paper/2023/file/e82ef7865f29b40640f486bbbe7959a7-Paper-Conference.pdf), which uses pairwise residual variance under simultaneous arm queries;
 - [COMBO](https://proceedings.neurips.cc/paper/2019/hash/2cb6b10338a7fc4117a80da24b582060-Abstract.html) and [GRUB](https://proceedings.neurips.cc/paper_files/paper/2022/hash/0d561979f0f4bc6127cfcfe9c46ee205-Abstract-Conference.html), which use graph structure for categorical/combinatorial search or best-arm identification;
 - [Best Arm Identification with Resource Constraints](https://proceedings.mlr.press/v238/li24c.html), for random cost/resource accounting;
-- the mentor's cost-aware language-model evaluation method and SySRs, for the same-question matrix and unequal pull-cost setting.
+- [SySRs](https://arxiv.org/html/2606.07726), which already uses synchronized same-question model comparisons and a similarity-dependent guarantee;
+- the mentor's cost-aware language-model evaluation method, for the same-question matrix and unequal pull-cost setting.
 
 ## Required evaluation
 
@@ -106,7 +107,38 @@ recommendation. Compare:
 - full-matrix reference on small spaces.
 
 The synthetic check currently favors the original kernel prototype on the
-handcrafted smooth landscape (`0.862` versus `0.662` mean latent reward over
+handcrafted smooth landscape (`0.862` versus `0.654` mean latent reward over
 20 seeds at a 10% cell fraction). That is a useful negative result: the
 paired method is not ready to replace the baseline, and its failure mode must
 be understood before running the expensive nine-model trace.
+
+## A better next variant to test: graph top-two residual search
+
+The anchor is the weakest part of the current prototype: a randomly chosen
+anchor can be poor, and the method may spend too much budget estimating its
+mean. The next small patchwork should replace the fixed anchor with a leader
+and challenger, borrowing the top-two best-arm idea while retaining the row
+graph and paired residual:
+
+1. Keep a leader estimate for the best currently plausible row.
+2. Propose challengers from one-slot neighbors of the leader, plus a small
+   global random reserve. Select a challenger by residual uncertainty divided
+   by the estimated pair cost.
+3. Measure leader and challenger on the same next question from a
+   pre-shuffled stream. Reuse an already measured cell only as an exact
+   observed value; no workflow prefix is reused.
+4. Move the leader toward the challenger with a top-two probability. Early in
+   the search, a temperature gives global proposals a larger chance; later it
+   concentrates on the leader's uncertain neighbors. A fixed exploration
+   floor prevents a locally smooth but globally bad component from becoming
+   permanent.
+5. Estimate the challenger with the leader's row mean plus the paired residual
+   mean. Only use this transfer when the pair has observations; otherwise keep
+   the candidate unmeasured. At a full budget, use direct row means.
+
+This should be compared with the current anchor method, ordinary top-two UCB,
+and graph UCB. The top-two mechanism is established rather than novel; the
+experiment would test whether row-specific Hamming challengers, same-question
+residuals, and realized retry cost improve the allocation in this matrix. The
+variant should not be added to the main claim until it beats the anchor method
+on both smooth and deliberately non-smooth synthetic landscapes.
