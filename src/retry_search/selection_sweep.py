@@ -33,6 +33,8 @@ DEFAULT_SETTINGS: tuple[dict[str, Any], ...] = (
       for x in (1, 2, 4, 8)),
     *(dict(algorithm="bayesian_opt", parameter_name="fraction", parameter_value=x)
       for x in (0.01, 0.025, 0.05, 0.1, 0.2)),
+    *(dict(algorithm="similarity_annealed_ucb", parameter_name="fraction", parameter_value=x)
+      for x in (0.01, 0.025, 0.05, 0.1, 0.2, 0.3, 0.5)),
 )
 
 
@@ -312,6 +314,181 @@ def _hamming_distance(a: int, b: int, k: int) -> int:
     return sum(x != y for x, y in zip(da, db))
 
 
+def _arm_digits(arm: int, k: int) -> tuple[int, int, int] | None:
+    """Decode a cube-indexed row into its three model-choice slots."""
+
+    side = round(k ** (1.0 / 3.0))
+    if side ** 3 != k or side < 2:
+        return None
+    return ((arm // (side * side)) % side, (arm // side) % side, arm % side)
+
+
+def _changed_slot(a: int, b: int, k: int) -> int | None:
+    first, second = _arm_digits(a, k), _arm_digits(b, k)
+    if first is None or second is None:
+        return None
+    changed = [i for i, (x, y) in enumerate(zip(first, second)) if x != y]
+    return changed[0] if len(changed) == 1 else None
+
+
+def _similarity_weights(
+    samples_by_question: Mapping[int, Mapping[int, tuple[float, float]]], k: int
+) -> tuple[float, float, float]:
+    """Increase distance for slots whose one-step changes disagree empirically."""
+
+    disagreement = [0.0, 0.0, 0.0]
+    counts = [0, 0, 0]
+    for samples in samples_by_question.values():
+        for arm, (reward, _) in samples.items():
+            for neighbor in _hamming_neighbors(arm, k):
+                if neighbor <= arm or neighbor not in samples:
+                    continue
+                slot = _changed_slot(arm, neighbor, k)
+                if slot is None:
+                    continue
+                disagreement[slot] += abs(reward - samples[neighbor][0])
+                counts[slot] += 1
+    return tuple(
+        min(3.0, max(0.5, 0.5 + 2.0 * (disagreement[i] / counts[i]))) if counts[i] else 1.0
+        for i in range(3)
+    )
+
+
+def _weighted_prediction(
+    arm: int,
+    question: int,
+    samples_by_question: Mapping[int, Mapping[int, tuple[float, float]]],
+    k: int,
+    bandwidth: float,
+    slot_weights: Sequence[float],
+    global_mean: float,
+) -> tuple[float, float, float]:
+    """Return a same-question kernel mean, uncertainty, and effective sample size."""
+
+    samples = samples_by_question.get(question, {})
+    if not samples:
+        return global_mean, 1.0, 0.0
+    target = _arm_digits(arm, k)
+    weighted: list[tuple[float, float]] = []
+    for other, (reward, _) in samples.items():
+        other_digits = _arm_digits(other, k)
+        if target is None or other_digits is None:
+            distance = 0.0 if other == arm else 1.0
+        else:
+            distance = sum(
+                weight for left, right, weight in zip(target, other_digits, slot_weights)
+                if left != right
+            )
+        weight = math.exp(-distance / max(1e-6, bandwidth))
+        weighted.append((weight, reward))
+    total_weight = sum(weight for weight, _ in weighted)
+    if total_weight <= 0.0:
+        return global_mean, 1.0, 0.0
+    mean = sum(weight * reward for weight, reward in weighted) / total_weight
+    effective_n = total_weight * total_weight / sum(weight * weight for weight, _ in weighted)
+    disagreement = sum(weight * abs(reward - mean) for weight, reward in weighted) / total_weight
+    uncertainty = min(1.0, math.sqrt(0.25 / (effective_n + 1.0)) + 0.5 * disagreement)
+    return mean, uncertainty, effective_n
+
+
+def _similarity_annealed_ucb(
+    fraction: Any, k: int, n: int, rng: random.Random, rewards: Any, costs: Any,
+    observed: dict[int, list[tuple[float, float]]], seen: set[tuple[int, int]],
+) -> tuple[str, int]:
+    """Use an adaptive Hamming graph as side information for cost-aware UCB.
+
+    This is a configuration-level method: rows are similar when their ordered
+    model-choice tuples differ in few slots.  It shares only observed
+    same-question rewards through the graph.  It does not reuse prefixes,
+    suffixes, checkpoints, or model outputs from another workflow.
+    """
+
+    bandwidth = 1.0
+    target = _cell_count(fraction, k, n)
+    q_order = list(range(n))
+    rng.shuffle(q_order)
+    samples_by_question: dict[int, dict[int, tuple[float, float]]] = {}
+    slot_weights = (1.0, 1.0, 1.0)
+    global_mean = 0.5
+    global_cost = 1.0
+
+    def refresh_statistics() -> None:
+        nonlocal slot_weights, global_mean, global_cost
+        rewards_seen = [reward for entries in observed.values() for reward, _ in entries]
+        costs_seen = [cost for entries in observed.values() for _, cost in entries]
+        if rewards_seen:
+            global_mean = sum(rewards_seen) / len(rewards_seen)
+        if costs_seen:
+            global_cost = max(1e-12, sum(costs_seen) / len(costs_seen))
+        slot_weights = _similarity_weights(samples_by_question, k)
+
+    def candidate_arms(question: int) -> list[int]:
+        samples = samples_by_question.get(question, {})
+        candidates = set(samples)
+        for arm in samples:
+            candidates.update(_hamming_neighbors(arm, k))
+        # Keep a small global exploration reserve so disconnected graph
+        # regions are eventually visited even when the current elite is wrong.
+        reserve = list(range(k))
+        rng.shuffle(reserve)
+        for arm in reserve[: min(k, max(8, int(math.sqrt(k))))]:
+            candidates.add(arm)
+        return [arm for arm in candidates if (arm, question) not in seen]
+
+    for step in range(target):
+        if step == 0 or step % max(4, min(32, n)) == 0:
+            refresh_statistics()
+        question = q_order[step % n]
+        candidates = candidate_arms(question)
+        if not candidates:
+            # A graph frontier can be exhausted for one question; advance to
+            # any question with an unseen cell before declaring completion.
+            for fallback in q_order:
+                candidates = candidate_arms(fallback)
+                if candidates:
+                    question = fallback
+                    break
+        if not candidates:
+            break
+        scored: list[tuple[int, float]] = []
+        for arm in candidates:
+            mean, uncertainty, _ = _weighted_prediction(
+                arm, question, samples_by_question, k, bandwidth, slot_weights, global_mean
+            )
+            cost_est = (
+                sum(cost for _, cost in observed[arm]) / len(observed[arm])
+                if arm in observed else global_cost
+            )
+            beta = 0.7 + 0.2 * math.sqrt(math.log(step + 2.0))
+            ucb = min(1.5, mean + beta * uncertainty)
+            # Cost is known only after a cell is pulled.  This estimate uses
+            # observed calls for the row and never reads an unpulled cost.
+            score = ucb - 0.08 * math.log(max(cost_est, 1e-12) / global_cost)
+            scored.append((arm, score))
+        best_score = max(score for _, score in scored)
+        temperature = max(0.01, 0.16 * (1.0 - step / max(1, target - 1)))
+        weights = [math.exp(min(50.0, (score - best_score) / temperature)) for _, score in scored]
+        arm = rng.choices([arm for arm, _ in scored], weights=weights, k=1)[0]
+        cost = _pick_cell(arm, question, rewards, costs, observed, seen)
+        samples_by_question.setdefault(question, {})[arm] = (observed[arm][-1][0], cost)
+
+    refresh_statistics()
+    recommendations: list[tuple[float, float, str, int]] = []
+    for arm in range(k):
+        predicted = [
+            _weighted_prediction(arm, question, samples_by_question, k, bandwidth, slot_weights, global_mean)[0]
+            for question in range(n)
+        ]
+        mean = sum(predicted) / len(predicted) if predicted else global_mean
+        cost_est = (
+            sum(cost for _, cost in observed[arm]) / len(observed[arm])
+            if arm in observed else global_cost
+        )
+        recommendations.append((-mean, cost_est, str(arm), arm))
+    selected = min(recommendations)[-1]
+    return "annealed_similarity_completed", selected
+
+
 def _bayesian_opt(
     fraction: Any, k: int, n: int, rng: random.Random, rewards: Any, costs: Any,
     observed: dict[int, list[tuple[float, float]]], seen: set[tuple[int, int]],
@@ -398,6 +575,7 @@ def run_sweep(
             observed: dict[int, list[tuple[float, float]]] = {}
             seen: set[tuple[int, int]] = set()
             started = time.perf_counter()
+            selection_hint: int | None = None
             if algorithm == "random":
                 stop_reason = _random_rows(parameter_value, k, n, rng, rewards, costs, observed, seen)
             elif algorithm == "uniform":
@@ -410,10 +588,17 @@ def run_sweep(
                 stop_reason = _hill_climb(parameter_value, k, n, rng, rewards, costs, observed, seen)
             elif algorithm in {"bayesian_opt", "bayesian_optimization", "kernel_bayes_ucb"}:
                 stop_reason = _bayesian_opt(parameter_value, k, n, rng, rewards, costs, observed, seen)
+            elif algorithm in {"similarity_annealed_ucb", "graph_similarity_ucb"}:
+                stop_reason, selection_hint = _similarity_annealed_ucb(
+                    parameter_value, k, n, rng, rewards, costs, observed, seen
+                )
             else:
                 raise ValueError(f"unknown selector algorithm: {algorithm}")
-            selected = _best_observed(observed, config_ids)
-            values = observed[selected]
+            selected = selection_hint if selection_hint is not None else _best_observed(observed, config_ids)
+            values = observed.get(selected, [])
+            selected_observed_accuracy = _safe_mean([reward for reward, _ in values])
+            if not values:
+                selected_observed_accuracy = None
             outputs.append({
                 "algorithm": algorithm,
                 "parameter_name": parameter_name,
@@ -423,7 +608,8 @@ def run_sweep(
                 "selected_config_index": selected,
                 "search_evaluations": len(seen),
                 "search_cost": sum(cost for entries in observed.values() for _, cost in entries),
-                "selected_observed_accuracy": _safe_mean([reward for reward, _ in values]),
+                "selected_observed_accuracy": selected_observed_accuracy,
+                "selection_basis": "similarity_posterior" if selection_hint is not None else "observed_cells",
                 "selection_time_seconds": time.perf_counter() - started,
                 "stop_reason": stop_reason,
                 "settings": setting,

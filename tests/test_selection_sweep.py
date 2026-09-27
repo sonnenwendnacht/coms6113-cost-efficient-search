@@ -32,6 +32,38 @@ class SelectionSweepTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             run_sweep([[1.0]], [[1.0, 2.0]], ["row"])
 
+    def test_similarity_selector_uses_hamming_side_information(self):
+        # The best row is never required to be pulled: its one-slot neighbors
+        # carry enough same-question signal for the posterior recommendation.
+        rewards = [
+            [1.0 if arm == 7 else (0.8 if bin(arm ^ 7).count("1") == 1 else 0.2) for _ in range(6)]
+            for arm in range(8)
+        ]
+        costs = [[1.0 + 0.1 * arm for _ in range(6)] for arm in range(8)]
+        rows = run_sweep(
+            rewards,
+            costs,
+            [f"row-{i}" for i in range(8)],
+            settings=[{"algorithm": "similarity_annealed_ucb", "parameter_name": "fraction", "parameter_value": 0.5}],
+            seeds=[1],
+        )
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["selected_config_id"], "row-7")
+        self.assertEqual(rows[0]["selection_basis"], "similarity_posterior")
+        self.assertEqual(rows[0]["search_evaluations"], 24)
+
+    def test_similarity_selector_does_not_duplicate_cells(self):
+        rewards = [[(arm + question) % 2 for question in range(4)] for arm in range(8)]
+        costs = [[1.0 for _ in range(4)] for _ in range(8)]
+        rows = run_sweep(
+            rewards,
+            costs,
+            [f"row-{i}" for i in range(8)],
+            settings=[{"algorithm": "similarity_annealed_ucb", "parameter_name": "fraction", "parameter_value": 0.75}],
+            seeds=[4, 5],
+        )
+        self.assertEqual([row["search_evaluations"] for row in rows], [24, 24])
+
 
 if __name__ == "__main__":
     unittest.main()

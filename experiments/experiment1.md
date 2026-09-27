@@ -39,6 +39,14 @@ baseline is our dependency-free implementation; it is labelled as
 AgentOpt-inspired rather than presented as a reproduction of AgentOpt's
 Bayesian implementation.
 
+Algorithm 2 is `similarity_annealed_ucb`, documented in
+`docs/research/algorithm2-similarity-search.md`. It uses an adaptive Hamming
+graph over complete retry rows, same-question evidence transfer, a learned
+trust weight for each model-choice slot, and a cooling exploration schedule.
+It never reuses a workflow prefix or treats a suffix as an independent arm.
+The selector is included as seven additional fraction settings in the next
+replay; its synthetic test is only a sanity check, not an empirical claim.
+
 Run on the GPU host with the runtime that contains `torch`, `transformers`, and
 `accelerate`:
 
