@@ -116,10 +116,12 @@ def render_plot(
     exhaustive_accuracy: float | None = None,
     title: str = "Accuracy versus search cost",
 ) -> None:
-    """Plot raw parameter points and descriptive within-family fitted curves.
+    """Plot accuracy on x, search cost on y, with one curve per algorithm.
 
-    The lines interpolate observed parameter settings only.  They are visual
-    guides, not statistical fits and are never extrapolated beyond the data.
+    The lines interpolate the observed parameter settings in increasing budget
+    order. They are visual guides, not statistical fits, and are never
+    extrapolated beyond the data. Parameterizing by budget also handles the
+    common case where several settings have the same measured accuracy.
     """
 
     try:
@@ -134,30 +136,27 @@ def render_plot(
     fig, ax = plt.subplots(figsize=(10, 6), constrained_layout=True)
     for algorithm, values in sorted(grouped.items()):
         values = sorted(values, key=lambda r: (float(r["mean_search_cost"]), repr(r["parameter_value"])))
-        x = [float(r["mean_search_cost"]) for r in values]
-        y = [100.0 * float(r["mean_accuracy"]) for r in values]
+        x = [100.0 * float(r["mean_accuracy"]) for r in values]
+        y = [float(r["mean_search_cost"]) for r in values]
         ax.scatter(x, y, s=35, label=algorithm)
         if len(values) >= 3:
-            # A monotone cubic interpolator is optional. Linear interpolation
-            # is the fallback and keeps the curve honest when scipy is absent.
+            # Interpolate both coordinates against the ordered budget index;
+            # accuracy can repeat, so it is not a safe interpolation axis.
             try:
                 from scipy.interpolate import PchipInterpolator
 
-                unique = {}
-                for xx, yy in zip(x, y):
-                    unique.setdefault(xx, yy)
-                if len(unique) >= 3:
-                    xx = sorted(unique)
-                    interp = PchipInterpolator(xx, [unique[v] for v in xx])
-                    dense = [xx[0] + (xx[-1] - xx[0]) * i / 99 for i in range(100)]
-                    ax.plot(dense, interp(dense), linewidth=1.4)
+                t = list(range(len(values)))
+                dense = [t[0] + (t[-1] - t[0]) * i / 99 for i in range(100)]
+                x_interp = PchipInterpolator(t, x)
+                y_interp = PchipInterpolator(t, y)
+                ax.plot(x_interp(dense), y_interp(dense), linewidth=1.4)
             except ImportError:  # pragma: no cover
                 ax.plot(x, y, linewidth=1.2)
     if exhaustive_accuracy is not None:
-        ax.axhline(100.0 * float(exhaustive_accuracy), color="black", linestyle="--",
+        ax.axvline(100.0 * float(exhaustive_accuracy), color="black", linestyle="--",
                    linewidth=1.0, label="exhaustive reference")
-    ax.set_xlabel("Mean search cost (USD proxy)")
-    ax.set_ylabel("Mean held-out accuracy (%)")
+    ax.set_xlabel("Mean held-out accuracy (%)")
+    ax.set_ylabel("Mean search cost (USD proxy)")
     ax.set_title(title)
     ax.grid(alpha=0.25)
     ax.legend(fontsize="small", ncol=2)
