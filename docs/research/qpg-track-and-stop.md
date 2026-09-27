@@ -66,6 +66,17 @@ The final report should distinguish rows selected from direct measurements
 from rows suggested by the graph model. For the exhaustive fraction, ignore
 the surrogate and use exact direct means.
 
+### Batched questions keep pairing honest
+
+The clean implementation is to adapt only between blocks. At the start of a
+round, choose the graph edges from the history, then draw one fresh random
+question block without looking at its outcomes. Run both endpoints of each
+chosen edge on that block, paying a shared endpoint cell once when several
+edges use it. Choose the next edge set only after the block is complete. This
+retains legitimate cell reuse while avoiding a per-edge question order that
+changes after seeing outcomes. The log should record the block's planned and
+realized token cost, including any overshoot at the stopping boundary.
+
 ## Allocation rule
 
 At each round:
