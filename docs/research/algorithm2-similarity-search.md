@@ -8,10 +8,17 @@ or two model slots. This is configuration similarity, not execution-prefix
 reuse: every observed reward remains tied to the exact row and question that
 was evaluated.
 
-The proposed selector is `similarity_annealed_ucb`. It is a practical
+The first selector prototype is `similarity_annealed_ucb`. It is a practical
 combination of ideas from structured bandits, categorical Bayesian
 optimization, and simulated annealing. It is an algorithm candidate, not yet
 a theorem or a claim of a new general-purpose optimizer.
+
+The prototype is now treated as an exploratory baseline. A full-budget
+diagnostic showed that its smoothed recommendation can disagree with the
+direct empirical best even after every cell is observed. That behavior makes
+its posterior label unsuitable for a correctness claim. The corrected
+paired-residual candidate is documented in
+`docs/research/algorithm2-graph-residual.md`.
 
 ## Method
 
@@ -85,9 +92,9 @@ contribution until a formal guarantee is developed.
 
 ## Current implementation
 
-The selector is in `src/retry_search/selection_sweep.py` under
-`similarity_annealed_ucb`. Its tests use a synthetic smooth Hamming landscape
-and verify that it can recommend a row from side information without
-duplicating cells. The full nine-model trace currently running was started
-before this selector was added; it will be replayed with Algorithm 2 after the
-trace completes, without rerunning model calls.
+The selectors are in `src/retry_search/selection_sweep.py` under
+`similarity_annealed_ucb` and `graph_residual_racing`. Tests verify that both
+avoid duplicate cells and that the residual method returns the exact direct
+reference at a full fraction. The previous nine-model generation attempt
+ended before it produced a usable trace; no MathQA comparison has been run
+for either selector.

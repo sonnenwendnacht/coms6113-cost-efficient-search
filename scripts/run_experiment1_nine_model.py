@@ -276,6 +276,55 @@ def parse_key_values(items: list[str], ids: list[str], label: str) -> dict[str, 
     return values
 
 
+def _write_status(path: Path, *, run_id: str, status: str, completed: int, total: int) -> None:
+    temporary = path.with_suffix('.tmp')
+    temporary.write_text(json.dumps({
+        "run_id": run_id,
+        "status": status,
+        "completed": completed,
+        "total": total,
+        "fraction_complete": completed / total if total else 1.0,
+        "updated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    }, indent=2), encoding="utf-8")
+    temporary.replace(path)
+
+
+def _load_checkpoint(path: Path, questions: list[tuple[int, dict[str, Any]]],
+                     configs: list[tuple[str, str, str]]) -> list[dict[str, Any]]:
+    """Check the exact generation order and recover only a torn final write.
+
+    A complete but invalid record is an error. A final line without a newline
+    is uncommitted, even if its JSON happens to parse, and will be regenerated.
+    """
+    traces = []
+    if not path.exists():
+        return traces
+    last_complete = 0
+    with path.open('rb') as handle:
+        for line_number, line in enumerate(handle, start=1):
+            if not line.endswith(b'\n'):
+                break
+            try:
+                trace = json.loads(line)
+            except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+                raise SystemExit(f'invalid checkpoint line {line_number} in {path}') from exc
+            index = len(traces)
+            if index >= len(questions) * len(configs):
+                raise SystemExit('checkpoint contains more records than the configured run')
+            qid = questions[index // len(configs)][0]
+            cid = configuration_id(configs[index % len(configs)])
+            if not isinstance(trace, dict) or trace.get('question_id') != qid or trace.get('config_id') != cid:
+                raise SystemExit(f'checkpoint order/identity mismatch at line {line_number}')
+            traces.append(trace)
+            last_complete += len(line)
+    if path.stat().st_size != last_complete:
+        with path.open('r+b') as handle:
+            handle.truncate(last_complete)
+        print('discarded uncommitted final checkpoint line; its workflow will be rerun',
+              file=sys.stderr, flush=True)
+    return traces
+
+
 def generate(args: argparse.Namespace) -> int:
     ids = model_ids()
     configured_paths, configured_coefficients = model_registry()
@@ -293,9 +342,15 @@ def generate(args: argparse.Namespace) -> int:
     audit_dataset = Path(args.audit_dataset)
     search = stable_sample(json.loads(dataset.read_text(encoding="utf-8")), 200, args.seed)
     evaluation = stable_sample(json.loads(audit_dataset.read_text(encoding="utf-8")), 200, args.seed + 1)
+    if len(search) != 200 or len(evaluation) != 200:
+        raise SystemExit('both source datasets must contain at least 200 questions')
     questions = [(i, row) for i, row in enumerate(search)] + [(200 + i, row) for i, row in enumerate(evaluation)]
     configs = ordered_rows(ids)
     run_id = args.run_id or time.strftime("exp1-nine-model-%Y%m%d-%H%M%S")
+    if args.resume and not args.run_id:
+        raise SystemExit("--resume requires --run-id so the existing checkpoint is unambiguous")
+    if args.checkpoint_every <= 0:
+        raise SystemExit("--checkpoint-every must be a positive integer")
     run_dir = ROOT / "results/runs" / run_id
     run_dir.mkdir(parents=True, exist_ok=True)
     metadata = {"experiment": "exp1_retry_aware_nine_model_rows", "run_id": run_id,
@@ -303,6 +358,8 @@ def generate(args: argparse.Namespace) -> int:
                 "dataset_sha256": sha256_file(dataset), "audit_dataset_sha256": sha256_file(audit_dataset),
                 "search_n": 200, "evaluation_n": 200, "rows": len(configs),
                 "solver_models": ids, "verifier_model": args.verifier_model,
+                "verifier_path": verifier_path,
+                "runner_sha256": sha256_file(Path(__file__)),
                 "model_paths": solver_paths, "coefficients_usd_per_input_token": coefficients,
                 "seed": args.seed, "output_tokens_charged": False, "cache_discount": False,
                 "answer_key_access": "evaluator only after workflow",
@@ -310,26 +367,57 @@ def generate(args: argparse.Namespace) -> int:
                 "solver_max_new_tokens": args.max_new_tokens,
                 "verifier_max_new_tokens": 64,
                 "max_resident_models": args.max_resident}
-    (run_dir / "metadata.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
+    metadata_path = run_dir / "metadata.json"
+    if args.resume:
+        if not metadata_path.exists():
+            raise SystemExit('--resume requires an existing metadata.json')
+        existing = json.loads(metadata_path.read_text(encoding="utf-8"))
+        changed = [key for key, value in metadata.items()
+                   if key != 'max_resident_models' and existing.get(key) != value]
+        if changed:
+            raise SystemExit(f'resume settings differ from the recorded run: {changed}')
+    else:
+        if any((run_dir / name).exists() for name in ('metadata.json', 'traces.jsonl', 'traces.json')):
+            raise SystemExit('run already exists; use --resume or choose a new --run-id')
+        metadata_path.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
     missing_paths = [name for name in ids if not Path(solver_paths[name]).exists()]
     if not verifier_path or not Path(verifier_path).exists():
         missing_paths.append(args.verifier_model + " (verifier)")
     if missing_paths:
         raise SystemExit(f"missing local model paths: {missing_paths}")
+    total = len(questions) * len(configs)
+    jsonl_path = run_dir / "traces.jsonl"
+    traces = _load_checkpoint(jsonl_path, questions, configs) if args.resume else []
+    start = len(traces)
+    persisted = start
+    _write_status(run_dir / "status.json", run_id=run_id, status="running", completed=start, total=total)
     pool = LocalPool(solver_paths, args.verifier_model, verifier_path, args.max_resident)
-    traces: list[dict[str, Any]] = []
     try:
-        total = len(questions) * len(configs)
-        for done, (qid, row) in enumerate((item for item in questions for _ in configs), start=1):
-            # The inner configuration is recovered by a deterministic position.
-            config = configs[(done - 1) % len(configs)]
-            traces.append(run_workflow(row, config, pool, qid, coefficients, args.verifier_model,
-                                       args.max_new_tokens))
-            if done == 1 or done % 100 == 0 or done == total:
-                print(f"completed {done}/{total}", file=sys.stderr, flush=True)
+        with jsonl_path.open("a", encoding="utf-8") as checkpoint:
+            for index in range(start, total):
+                qid, row = questions[index // len(configs)]
+                done = index + 1
+                # The inner configuration is recovered by a deterministic position.
+                config = configs[index % len(configs)]
+                trace = run_workflow(row, config, pool, qid, coefficients, args.verifier_model,
+                                     args.max_new_tokens)
+                traces.append(trace)
+                checkpoint.write(json.dumps(trace, separators=(",", ":")) + "\n")
+                checkpoint.flush()
+                persisted = done
+                if done == 1 or done % args.checkpoint_every == 0 or done == total:
+                    os.fsync(checkpoint.fileno())
+                    _write_status(run_dir / "status.json", run_id=run_id, status="running",
+                                  completed=done, total=total)
+                    print(f"completed {done}/{total}", file=sys.stderr, flush=True)
+    except BaseException:
+        _write_status(run_dir / 'status.json', run_id=run_id, status='interrupted',
+                      completed=persisted, total=total)
+        raise
     finally:
         pool.close()
     (run_dir / "traces.json").write_text(json.dumps(traces), encoding="utf-8")
+    _write_status(run_dir / "status.json", run_id=run_id, status="completed", completed=total, total=total)
     print(json.dumps({"run_id": run_id, "trace_count": len(traces), "run_dir": str(run_dir)}))
     return 0
 
@@ -351,6 +439,10 @@ def main() -> int:
                     help="maximum local models kept in memory at once (default: 3)")
     ap.add_argument("--max-new-tokens", type=int, default=256,
                     help="solver generation cap (default: 256; output is not charged)")
+    ap.add_argument("--checkpoint-every", type=int, default=1000,
+                    help="sync to disk and update status every N workflows; JSONL is flushed per workflow")
+    ap.add_argument("--resume", action="store_true",
+                    help="resume traces.jsonl for the supplied --run-id")
     args = ap.parse_args()
     if not args.generate:
         ap.error("generation is explicit; use --generate after supplying nine model paths and coefficients")

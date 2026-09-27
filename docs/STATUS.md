@@ -1,6 +1,6 @@
 # Project status
 
-Updated: 2026-09-24. This file distinguishes setup from research progress.
+Updated: 2026-09-27. This file distinguishes setup from research progress.
 
 ## Completed locally
 
@@ -15,6 +15,9 @@ Updated: 2026-09-24. This file distinguishes setup from research progress.
 - Local verification passed: seven accounting tests, the smoke demo, all nine diagnostic calculations and artifact comparison, all 22 PDF checksums, manifest validation, local Markdown links, and Git whitespace checks. No paid calls were made.
 - Completed the first local Experiment 1 pilot on MathQA: 27 ordered solver rows (three Qwen tiers, three attempts including two retries), a fixed answer-key-blind verifier, 20 search questions, 10 independent audit questions, 810 workflow traces, and six equal-realized-cost replay policies. The reviewed summary is [experiment1-local-20260924.json](../results/experiment1-local-20260924.json); raw traces remain ignored under `results/runs/`.
 - Every solver and verifier call in that pilot was charged as `coefficient_model * input_tokens`; output tokens, latency, and cache discounts were excluded. The coefficients are local proxy values, and no provider/API run was performed because no endpoint credentials were configured.
+- Added a candidate Algorithm 2, [adaptive similarity-annealed UCB](research/algorithm2-similarity-search.md). It treats complete ordered retry rows as nodes in a Hamming graph, transfers only same-question observations, learns which retry slots are safe to compare, and uses a cooling exploration policy. A 20-seed synthetic smooth-landscape check favored it over the included random and kernel-BO baselines; this is a sanity check, not MathQA evidence.
+- Added a corrected [graph-residual cost-aware racing candidate](research/algorithm2-graph-residual.md). It measures neighboring complete rows on shared questions and estimates row differences through paired residuals. On the same synthetic landscape it reached mean latent reward `0.662` at a 10% cell fraction, below the exploratory kernel prototype's `0.862`; this negative result is preserved as a warning that the anchor and residual allocation need further work.
+- Added resumable JSONL checkpoints to the nine-model local runner. The earlier `exp1-nine-local-20260927` attempt ended after partial model work without a usable trace; it is not reported as a completed experiment. Future runs can resume with `--resume --run-id ...`.
 
 ## GitHub
 
@@ -32,7 +35,7 @@ Teammate usernames have not been supplied, so no collaborator invitations have b
 
 - No provider/API calls or publication-level empirical findings. The local proxy pilot is an engineering result, not evidence of provider pricing or statistical superiority.
 - No completed reproduction of GittinsEval, AgentOpt, VineLM, or another baseline.
-- No implementation of the proposed structure-aware search algorithm, real checkpoint engine, production budget manager, or latency objective. Experiment 1's local runner and replay policies are intentionally a baseline/pilot implementation.
+- No production budget manager or latency objective. Algorithm 2 is an experimental candidate only; its full nine-model MathQA comparison and ablations remain to be run. Experiment 1's local runner and replay policies are still a baseline/pilot implementation.
 - No claim of novelty, superiority, or publication readiness. The first pilot must test whether the proposed structural advantage survives strong baselines and fair cost accounting.
 - Full live shared-document access was not obtained; the screenshots are a partial view.
 

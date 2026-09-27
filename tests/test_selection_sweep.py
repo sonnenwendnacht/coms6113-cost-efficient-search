@@ -64,6 +64,35 @@ class SelectionSweepTests(unittest.TestCase):
         )
         self.assertEqual([row["search_evaluations"] for row in rows], [24, 24])
 
+    def test_graph_residual_is_exact_at_full_fraction(self):
+        # The structured estimator is optional side information.  It must not
+        # change the exhaustive reference when every cell is paid for.
+        rewards = [[1.0 if arm == 7 else 0.0 for _ in range(4)] for arm in range(8)]
+        costs = [[1.0 for _ in range(4)] for _ in range(8)]
+        rows = run_sweep(
+            rewards,
+            costs,
+            [f"row-{i}" for i in range(8)],
+            settings=[{"algorithm": "graph_residual_racing", "parameter_name": "fraction", "parameter_value": 1.0}],
+            seeds=[0],
+        )
+        self.assertEqual(rows[0]["selected_config_id"], "row-7")
+        self.assertEqual(rows[0]["search_evaluations"], 32)
+        self.assertEqual(rows[0]["stop_reason"], "full_matrix_direct_reference")
+
+    def test_graph_residual_uses_paired_cells_without_duplicates(self):
+        rewards = [[float((arm + question) % 2) for question in range(5)] for arm in range(8)]
+        costs = [[1.0 + 0.1 * arm for _ in range(5)] for arm in range(8)]
+        rows = run_sweep(
+            rewards,
+            costs,
+            [f"row-{i}" for i in range(8)],
+            settings=[{"algorithm": "graph_residual_racing", "parameter_name": "fraction", "parameter_value": 0.5}],
+            seeds=[2, 3],
+        )
+        self.assertEqual([row["search_evaluations"] for row in rows], [20, 20])
+        self.assertTrue(all(row["selection_basis"] == "paired_residual_graph" for row in rows))
+
 
 if __name__ == "__main__":
     unittest.main()

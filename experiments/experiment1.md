@@ -39,13 +39,18 @@ baseline is our dependency-free implementation; it is labelled as
 AgentOpt-inspired rather than presented as a reproduction of AgentOpt's
 Bayesian implementation.
 
-Algorithm 2 is `similarity_annealed_ucb`, documented in
+The first Algorithm 2 prototype is `similarity_annealed_ucb`, documented in
 `docs/research/algorithm2-similarity-search.md`. It uses an adaptive Hamming
 graph over complete retry rows, same-question evidence transfer, a learned
 trust weight for each model-choice slot, and a cooling exploration schedule.
-It never reuses a workflow prefix or treats a suffix as an independent arm.
-The selector is included as seven additional fraction settings in the next
-replay; its synthetic test is only a sanity check, not an empirical claim.
+Its full-budget recommendation can disagree with the direct exhaustive
+winner, so it is now an exploratory baseline rather than a correctness
+certificate. The corrected candidate `graph_residual_racing` is documented in
+`docs/research/algorithm2-graph-residual.md`: it estimates differences between
+neighboring complete rows on paired questions. Neither method reuses a
+workflow prefix or treats a suffix as an independent arm. Both are included
+as separate algorithm/parameter pairs; their synthetic checks are not MathQA
+evidence.
 
 Run on the GPU host with the runtime that contains `torch`, `transformers`, and
 `accelerate`:
@@ -114,12 +119,17 @@ On the GPU host, set the model root and run generation explicitly:
 export COMS6113_MODEL_ROOT=/home/gabi/zhengtong/data/models
 PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src \
   /home/gabi/zhengtong/data/runtime/ministral/bin/python \
-  scripts/run_experiment1_nine_model.py --generate \
-  --run-id exp1-nine-local-YYYYMMDD
+scripts/run_experiment1_nine_model.py --generate \
+  --run-id exp1-nine-local-YYYYMMDD \
+  --checkpoint-every 1000
 ```
 
 The command is intentionally separate from replay because 729 rows times 400
-questions is 291,600 complete workflows. Use
-`scripts/run_experiment1_nine_model.py --help` for the optional resident-model
-and generation-cap controls, then replay a completed trace with
+questions is 291,600 complete workflows. It writes one trace per completed
+workflow to `traces.jsonl` and periodically synchronizes a status file. If the
+process stops, rerun the same command with `--resume --run-id
+exp1-nine-local-YYYYMMDD`; the runner checks the recorded dataset/model
+settings and discards only an incomplete final JSON line. Use
+`scripts/run_experiment1_nine_model.py --help` for the resident-model and
+generation-cap controls, then replay a completed trace with
 `scripts/replay_experiment1_nine_model.py`.

@@ -49,11 +49,11 @@ def main() -> int:
     ids = [str(i) for i in range(args.side ** 3)]
     settings = [
         {"algorithm": name, "parameter_name": "fraction", "parameter_value": args.fraction}
-        for name in ("random", "bayesian_opt", "similarity_annealed_ucb")
+        for name in ("random", "bayesian_opt", "similarity_annealed_ucb", "graph_residual_racing")
     ]
     runs = run_sweep(rewards, costs, ids, settings=settings, seeds=range(args.seeds))
     summary = {}
-    for name in ("random", "bayesian_opt", "similarity_annealed_ucb"):
+    for name in ("random", "bayesian_opt", "similarity_annealed_ucb", "graph_residual_racing"):
         selected = [row["selected_config_index"] for row in runs if row["algorithm"] == name]
         summary[name] = {
             "mean_selected_landscape_reward": statistics.mean(means[index] for index in selected),

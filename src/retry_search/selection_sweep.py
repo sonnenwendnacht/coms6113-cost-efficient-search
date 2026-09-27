@@ -35,6 +35,8 @@ DEFAULT_SETTINGS: tuple[dict[str, Any], ...] = (
       for x in (0.01, 0.025, 0.05, 0.1, 0.2)),
     *(dict(algorithm="similarity_annealed_ucb", parameter_name="fraction", parameter_value=x)
       for x in (0.01, 0.025, 0.05, 0.1, 0.2, 0.3, 0.5)),
+    *(dict(algorithm="graph_residual_racing", parameter_name="fraction", parameter_value=x)
+      for x in (0.01, 0.025, 0.05, 0.1, 0.2, 0.3, 0.5)),
 )
 
 
@@ -489,6 +491,223 @@ def _similarity_annealed_ucb(
     return "annealed_similarity_completed", selected
 
 
+def _edge_list(k: int) -> list[tuple[int, int]]:
+    """Return undirected one-slot edges of the complete-row Hamming graph."""
+
+    return [(arm, neighbor) for arm in range(k) for neighbor in _hamming_neighbors(arm, k)
+            if arm < neighbor]
+
+
+def _graph_residual_racing(
+    fraction: Any, k: int, n: int, rng: random.Random, rewards: Any, costs: Any,
+    observed: dict[int, list[tuple[float, float]]], seen: set[tuple[int, int]],
+) -> tuple[str, int | None]:
+    """Race complete rows using same-question residuals on a Hamming graph.
+
+    A row's score can be estimated from an anchor row plus edge differences
+    ``Y[v,q] - Y[u,q]`` measured on the same questions.  Every edge gets its
+    own random question permutation, fixed before outcomes are observed.  The
+    method is deliberately conservative: it never calls a neighboring row an
+    exact cache hit, and at a full budget it falls back to the direct matrix
+    means so the exhaustive reference remains exact.
+
+    This is an empirical allocation rule rather than a confidence-certified
+    best-arm algorithm.  The paired residual is the proposed structure; the
+    radius/cost score only decides which unresolved comparison to buy next.
+    """
+
+    target = _cell_count(fraction, k, n)
+    q_order = list(range(n))
+    rng.shuffle(q_order)
+    if target >= k * n:
+        for question in q_order:
+            for arm in range(k):
+                _pick_cell(arm, question, rewards, costs, observed, seen)
+        return "full_matrix_direct_reference", None
+
+    cell_reward: dict[tuple[int, int], float] = {}
+    cell_cost: dict[tuple[int, int], float] = {}
+    row_rewards: dict[int, list[float]] = {}
+    row_costs: dict[int, list[float]] = {}
+
+    def pull(arm: int, question: int) -> bool:
+        if (arm, question) in seen:
+            return False
+        cost = _pick_cell(arm, question, rewards, costs, observed, seen)
+        reward = float(rewards[arm][question])
+        cell_reward[(arm, question)] = reward
+        cell_cost[(arm, question)] = cost
+        row_rewards.setdefault(arm, []).append(reward)
+        row_costs.setdefault(arm, []).append(cost)
+        return True
+
+    # The anchor is selected before seeing any outcome.  Spending about half
+    # the budget on it makes each later residual much cheaper: on a shared
+    # question the anchor cell is already present, so only the candidate cell
+    # needs to be purchased.
+    anchor = rng.randrange(k)
+    anchor_count = min(n, max(1, target // 2))
+    for question in q_order[:anchor_count]:
+        if len(seen) >= target:
+            break
+        pull(anchor, question)
+
+    edges = _edge_list(k)
+    edge_by_arm: dict[int, list[tuple[int, int]]] = {}
+    for edge in edges:
+        edge_by_arm.setdefault(edge[0], []).append(edge)
+        edge_by_arm.setdefault(edge[1], []).append(edge)
+    edge_order: dict[tuple[int, int], list[int]] = {}
+    edge_used: dict[tuple[int, int], set[int]] = {}
+    edge_samples: dict[tuple[int, int], list[tuple[float, float]]] = {}
+
+    def orient(edge: tuple[int, int], left: int, right: int) -> float:
+        delta = edge_samples[edge]
+        sign = 1.0 if edge == (left, right) else -1.0
+        return sign * (sum(value for value, _ in delta) / len(delta))
+
+    def edge_radius(edge: tuple[int, int]) -> float:
+        samples = edge_samples.get(edge, [])
+        if not samples:
+            return 1.0
+        values = [value for value, _ in samples]
+        mean = sum(values) / len(values)
+        variance = sum((value - mean) ** 2 for value in values) / max(1, len(values) - 1)
+        return min(2.0, math.sqrt(variance / len(values)) + 1.0 / math.sqrt(len(values)))
+
+    def row_estimates() -> tuple[dict[int, float], dict[int, float], set[int]]:
+        adjacency: dict[int, list[tuple[int, tuple[int, int]]]] = {}
+        for edge in edge_samples:
+            left, right = edge
+            adjacency.setdefault(left, []).append((right, edge))
+            adjacency.setdefault(right, []).append((left, edge))
+        estimates: dict[int, float] = {}
+        radii: dict[int, float] = {}
+        reachable = {anchor}
+        anchor_values = row_rewards.get(anchor, [])
+        if anchor_values:
+            estimates[anchor] = sum(anchor_values) / len(anchor_values)
+            radii[anchor] = 0.5 / math.sqrt(len(anchor_values))
+        # Dijkstra on uncertainty gives a reproducible low-error path to each
+        # row.  Path differences telescope in expectation for uniform questions.
+        frontier: list[tuple[float, int]] = [(radii.get(anchor, 1.0), anchor)]
+        while frontier:
+            frontier.sort()
+            radius, arm = frontier.pop(0)
+            if arm not in estimates:
+                continue
+            reachable.add(arm)
+            for neighbor, edge in adjacency.get(arm, []):
+                candidate_radius = radius + edge_radius(edge)
+                candidate_mean = estimates[arm] + orient(edge, arm, neighbor)
+                if neighbor not in radii or candidate_radius < radii[neighbor]:
+                    radii[neighbor] = candidate_radius
+                    estimates[neighbor] = candidate_mean
+                    frontier.append((candidate_radius, neighbor))
+        # Direct observations are safer than a long extrapolated path.
+        for arm, values in row_rewards.items():
+            if values:
+                direct_radius = 0.5 / math.sqrt(len(values))
+                if arm not in radii or direct_radius < radii[arm]:
+                    estimates[arm] = sum(values) / len(values)
+                    radii[arm] = direct_radius
+                    reachable.add(arm)
+        return estimates, radii, reachable
+
+    def predicted_pair_cost(edge: tuple[int, int]) -> float:
+        values = row_costs.get(edge[0], []) + row_costs.get(edge[1], [])
+        if not values:
+            values = [cost for entries in observed.values() for _, cost in entries]
+        return max(1e-9, 2.0 * (sum(values) / len(values) if values else 1.0))
+
+    def pull_edge(edge: tuple[int, int]) -> bool:
+        if edge not in edge_order:
+            order = list(range(n))
+            rng.shuffle(order)
+            # Prefer questions where one endpoint has already been measured;
+            # this turns a comparison into a one-new-cell residual whenever
+            # the anchor (or a previously measured row) is reusable.
+            left, right = edge
+            order.sort(key=lambda question: (
+                not ((left, question) in cell_reward or (right, question) in cell_reward),
+                rng.random(),
+            ))
+        else:
+            order = edge_order[edge]
+        edge_order[edge] = order
+        used = edge_used.setdefault(edge, set())
+        left, right = edge
+        for question in order:
+            if question in used:
+                continue
+            if len(seen) >= target:
+                return False
+            before = len(seen)
+            pull(left, question)
+            if len(seen) >= target and (right, question) not in seen:
+                return False
+            pull(right, question)
+            if (left, question) in cell_reward and (right, question) in cell_reward:
+                used.add(question)
+                residual = cell_reward[(right, question)] - cell_reward[(left, question)]
+                pair_cost = cell_cost[(left, question)] + cell_cost[(right, question)]
+                edge_samples.setdefault(edge, []).append((residual, pair_cost))
+                return len(seen) > before
+        return False
+
+    # Initialize each edge's order on first use, then spend on the comparison
+    # with the largest residual uncertainty per observed pair cost.  A small
+    # random reserve prevents a bad first anchor from trapping all exploration.
+    while len(seen) < target:
+        estimates, radii, reachable = row_estimates()
+        elite = max(estimates, key=lambda arm: (estimates[arm], -arm)) if estimates else anchor
+        focus_arms = sorted(
+            reachable,
+            key=lambda arm: (estimates.get(arm, 0.5) - radii.get(arm, 1.0), -arm),
+            reverse=True,
+        )[: min(8, len(reachable))]
+        candidates_set: set[tuple[int, int]] = set()
+        for arm in focus_arms:
+            candidates_set.update(edge_by_arm.get(arm, ()))
+        # Keep a bounded global reserve so local graph mistakes do not make
+        # the selector inspect all 8,748 edges on every pull.
+        reserve_size = min(len(edges), max(16, int(4 * math.sqrt(k))))
+        candidates_set.update(rng.sample(edges, reserve_size))
+        candidates = list(candidates_set)
+        if not candidates:
+            candidates = list(edges)
+        scored: list[tuple[float, tuple[int, int]]] = []
+        for edge in candidates:
+            score = edge_radius(edge) / predicted_pair_cost(edge)
+            if elite in edge:
+                score *= 1.25
+            if not edge_samples.get(edge):
+                score += 0.05
+            score += rng.random() * 1e-6
+            scored.append((score, edge))
+        _, edge = max(scored, key=lambda item: item[0])
+        if not pull_edge(edge):
+            # If a previously used question made a pair impossible, try a
+            # fresh edge; only a final odd cell may be consumed directly.
+            alternatives = [item[1] for item in scored if item[1] != edge]
+            if alternatives:
+                if not pull_edge(alternatives[0]):
+                    break
+            else:
+                break
+    if len(seen) < target:
+        for question in q_order:
+            for arm in range(k):
+                if len(seen) >= target:
+                    break
+                pull(arm, question)
+
+    estimates, _, _ = row_estimates()
+    if not estimates:
+        return "paired_residual_completed", anchor
+    return "paired_residual_completed", max(estimates, key=lambda arm: (estimates[arm], -arm))
+
+
 def _bayesian_opt(
     fraction: Any, k: int, n: int, rng: random.Random, rewards: Any, costs: Any,
     observed: dict[int, list[tuple[float, float]]], seen: set[tuple[int, int]],
@@ -592,6 +811,10 @@ def run_sweep(
                 stop_reason, selection_hint = _similarity_annealed_ucb(
                     parameter_value, k, n, rng, rewards, costs, observed, seen
                 )
+            elif algorithm in {"graph_residual_racing", "gr_cabai"}:
+                stop_reason, selection_hint = _graph_residual_racing(
+                    parameter_value, k, n, rng, rewards, costs, observed, seen
+                )
             else:
                 raise ValueError(f"unknown selector algorithm: {algorithm}")
             selected = selection_hint if selection_hint is not None else _best_observed(observed, config_ids)
@@ -609,7 +832,10 @@ def run_sweep(
                 "search_evaluations": len(seen),
                 "search_cost": sum(cost for entries in observed.values() for _, cost in entries),
                 "selected_observed_accuracy": selected_observed_accuracy,
-                "selection_basis": "similarity_posterior" if selection_hint is not None else "observed_cells",
+                "selection_basis": (
+                    "paired_residual_graph" if algorithm in {"graph_residual_racing", "gr_cabai"}
+                    else "similarity_posterior" if selection_hint is not None else "observed_cells"
+                ),
                 "selection_time_seconds": time.perf_counter() - started,
                 "stop_reason": stop_reason,
                 "settings": setting,
