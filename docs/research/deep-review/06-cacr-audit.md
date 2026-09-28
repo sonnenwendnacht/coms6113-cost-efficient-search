@@ -128,10 +128,10 @@ check, not evidence of a gain.
 
 | Landscape and cap | Random | CW-PLR | CACR | SCCR |
 | --- | ---: | ---: | ---: | ---: |
-| Smooth, 100 | 0.454 | 0.588 | 0.745 | 0.662 |
-| Smooth, 200 | 0.626 | 0.618 | 0.796 | 0.690 |
-| Smooth, 400 | 0.801 | 0.723 | 0.861 | 0.815 |
-| IID, 170 | 0.596 | 0.598 | 0.596 | 0.599 |
+| Smooth, 100 | 0.454 | 0.588 | 0.765 | 0.658 |
+| Smooth, 200 | 0.626 | 0.618 | 0.780 | 0.696 |
+| Smooth, 400 | 0.801 | 0.723 | 0.858 | 0.813 |
+| IID, 170 | 0.596 | 0.598 | 0.606 | 0.606 |
 
 The values are held-out audit accuracy from an invented generator. SCCR is
 not being presented as the winner; it is a guard against turning a false

@@ -282,9 +282,9 @@ variance gate is not time-uniform, and the calibration margin is not a proof
 of fixed-confidence correctness. It is useful as an ablation asking whether a
 similarity diagnostic can prevent CACR from trusting a false neighborhood.
 On 50-seed synthetic controls (independent 200-question audit), SCCR reached
-`0.662/0.690/0.815` at smooth cost caps `100/200/400`, below CACR's
-`0.745/0.796/0.861`; on the iid cap-170 control it reached `0.599`, close to
-random `0.596` and CACR `0.596`. These numbers are generator checks only.
+`0.658/0.696/0.813` at smooth cost caps `100/200/400`, below CACR's
+`0.765/0.780/0.858`; on the iid cap-170 control it reached `0.606`, close to
+random `0.596` and CACR `0.606`. These numbers are generator checks only.
 The real study must report safe/unsafe edge counts, calibration spend, and
 confidence intervals, then compare against C-LUCB, the generative-proxy
 certificate, the hybrid-feedback baseline, SySRs, and direct allocation.
