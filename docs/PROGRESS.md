@@ -34,3 +34,7 @@ complete row on the untouched audit questions. Report search spend, held-out
 accuracy, cold deployment cost, and uncertainty separately. Compare CACR/SCCR
 with AgentOpt selectors, synchronized paired elimination, random/uniform
 allocation, direct cost-aware allocation, and the hybrid-feedback baseline.
+
+The replay command now accepts `--include-structured` to add CW-PLR, CACR,
+and SCCR at explicit realized-cost fractions. It has been smoke-tested on the
+completed 27-row pilot via a local fixture; the 729-row run remains pending.
