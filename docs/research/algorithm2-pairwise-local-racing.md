@@ -189,8 +189,14 @@ selection with common random numbers
 ([Görder and Kolonko](https://arxiv.org/abs/1410.6782)), correlated-arm
 best-arm identification ([C-LUCB](https://arxiv.org/abs/2109.04941)), and
 cost-aware best-arm identification ([CABAI](https://arxiv.org/abs/2402.16710)).
-These works motivate the ingredients but do not by themselves establish that
-CACR is new or that it works on retry workflows.
+The newer [Hybrid Feedback](https://arxiv.org/abs/2605.05745) paper also
+allocates between absolute and pairwise feedback with heterogeneous costs and
+gives a cost-aware Track-and-Stop rule. Therefore CACR's paired-versus-direct
+allocation is not, by itself, a novelty claim. A defensible distinction would
+have to come from the full retry cascade: one evaluation can terminate early,
+its realized cost is outcome-dependent, and the observation is not a cheap
+dueling query under a shared GLM. That distinction still needs a formal model
+and an experiment against the hybrid-feedback baseline.
 
 The prototype accepts explicit row_slots when configuration IDs are not in
 canonical base-side order. This is required for real experiments: a string ID
