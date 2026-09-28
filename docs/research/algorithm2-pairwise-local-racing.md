@@ -152,3 +152,8 @@ elimination, SySRs, AgentOpt, resource-constrained BAI, and hybrid-feedback
 allocation. If CACR does not beat those baselines beyond search and audit
 uncertainty, it should remain a negative or descriptive result rather than the
 paper's claimed new algorithm.
+
+In the prototype's smooth control at cap 200, randomly permuting row slots
+reduced CACR audit accuracy from 0.796 to 0.764 (50 seeds), while random cells
+reached 0.626. This is only a partial graph ablation because the restart floor
+and direct evidence remain active.
