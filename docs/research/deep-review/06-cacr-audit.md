@@ -73,6 +73,12 @@ were 0.597, 0.597, and 0.596 for random/CW-PLR/CACR; at a matched cost cap of
 invented generator, not evidence of a MathQA improvement. The iid control and
 a permuted-neighborhood control are required in the real study.
 
+In the smooth generator at cap 200, randomly permuting the row slots before
+CACR proposals reduced audit accuracy from `0.796` to `0.764` (50 seeds), but
+it remained above random (`0.626`). Because the selector has a restart floor
+and direct row evidence, this is only a partial graph ablation; the real study
+must also report the restart rate and the same control with restarts disabled.
+
 ## Existing pilot trace
 
 The completed local pilot `results/runs/exp1-local-20260924` contains 27 rows
