@@ -50,3 +50,10 @@ Before a paper novelty statement, extend the review to correlated/structured bes
 ## Reading order
 
 Read the mentor's cost-aware paper first, then AgentOpt Sections 4.4–5 and VineLM Sections 3.5–4.2 plus Appendix A. Follow with SySRs and BanditEval to choose the strongest allocation baselines. Read PromptEval for question-difficulty modeling, then the three hyperparameter-search papers for the broader framing.
+
+## Additional structured and cost-aware prior art
+
+- [Ranking and Selection: A New Sequential Bayesian Procedure for Use with Common Random Numbers](https://arxiv.org/abs/1410.6782), Gorder and Kolonko, allocates simulation effort using posterior covariance when alternatives share common scenarios. A cost-aware paired race must be compared with covariance-aware ranking and selection; paired blocks alone are not new.
+- [Best-Arm Identification in Correlated Multi-Armed Bandits](https://arxiv.org/abs/2109.04941), Gupta, Joshi, and Yagan, uses correlation information between arms to reduce fixed-confidence best-arm samples. Similarity needs an explicit conditional model or a diagnostic; an observed Hamming pattern is not a proof that an unpulled row can be inferred.
+- [Balancing Performance and Costs in Best Arm Identification](https://arxiv.org/abs/2505.20583), Harding and Kandasamy, treats learning cost and the penalty for recommending a suboptimal arm in one risk objective. We should report profiling cost and held-out row quality separately before introducing any scalarized cost--accuracy objective.
+- [Best Arm Identification with Resource Constraints](https://proceedings.mlr.press/v238/li24c.html), Li and Cheung, allows arm-dependent random resource consumption while identifying the best mean-reward arm. It is a closer cost-accounting baseline than dividing accuracy by a nominal price.

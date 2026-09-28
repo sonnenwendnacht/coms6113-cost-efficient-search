@@ -118,3 +118,24 @@ synthetic report has no independent audit matrix, its selector fractions do
 not imply equal realized spend, and its path estimate is usually replaced by
 the direct observed-row estimate. It remains useful only as a recorded
 ablation.
+
+## Recommended successor: cost-aware correlated racing (CACR)
+
+The safer successor to the graph-residual idea is **Cost-Aware Correlated
+Racing (CACR)**. Similarity is used only to propose one-slot Hamming
+neighbors; every recommended row is directly evaluated. For each
+incumbent--challenger pair, CACR keeps same-question score differences and
+chooses the next block by predicted confidence-radius reduction per
+conservative estimate of the two rows' *new full-workflow cost*. It has a
+fixed random-restart floor, stops clearly losing races, and confirms the
+final row on fresh questions. It never adds residuals along a path and never
+reads a missing retry cell.
+
+This combines established common-random-number ranking and selection
+([Görder and Kolonko](https://arxiv.org/abs/1410.6782)), correlated-arm
+best-arm identification ([C-LUCB](https://arxiv.org/abs/2109.04941)), and
+resource-cost accounting ([BAIwRC](https://proceedings.mlr.press/v238/li24c.html)).
+The possible gap is narrower: a complete retry cascade has outcome-dependent
+realized cost, and the same question supplies both the paired score and cost
+evidence. That is a hypothesis to test, not a novelty claim. The prototype
+and synthetic results are currently on the Algorithm 2 branch in PR #4.
