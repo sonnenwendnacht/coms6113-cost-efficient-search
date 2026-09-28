@@ -82,6 +82,23 @@ not known for free, unlike a cheap external proxy. Those differences need an
 explicit model and controlled experiments; they do not establish novelty by
 themselves.
 
+There is also no automatic information advantage from chaining edges. If a
+path uses the same questions on every edge, its residuals telescope exactly
+to the direct endpoint difference on each question, while paying for every
+intermediate row. If edge blocks use separate questions, the path variance is
+the sum of the edge variances after allocating samples; at equal per-cell
+cost, a direct paired endpoint comparison is at least as efficient unless a
+cheap proxy or multi-target amortization assumption is added. The graph can
+still guide which neighbor to try, but the current evidence does not justify
+using paths to estimate an unmeasured row.
+
+The implementation has an additional limitation: its path estimate is used
+only when it appears more certain than a directly observed row estimate. In
+the current radius heuristic, direct observations usually win this comparison,
+so the final recommendation is often simply the best directly observed row.
+This prototype is therefore an allocation ablation, not a demonstrated graph
+estimator.
+
 Primary comparisons to audit (including the newly found closest baseline):
 
 - [Covariance-adaptive best arm identification](https://proceedings.neurips.cc/paper_files/paper/2023/file/e82ef7865f29b40640f486bbbe7959a7-Paper-Conference.pdf), which uses pairwise residual variance under simultaneous arm queries;

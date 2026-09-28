@@ -56,26 +56,31 @@ direct evidence. An edge with large disagreement is downweighted rather than
 treated as a reliable similarity relation. This is a surrogate for allocating
 experiments, not a free license to report an unmeasured row as known.
 
-When several paths connect the same rows, their implied differences should be
-checked for cycle consistency. A persistent contradiction is evidence that
-the graph is misspecified; downweight that edge and spend the direct-reserve
-budget on the affected rows rather than forcing a smooth fit.
+Residuals telescope around every graph cycle for every reward matrix when the
+same question is used: the sum is zero by algebra, even for a completely
+non-smooth matrix. A nonzero cycle sum therefore detects sampling mismatch,
+implementation error, or nonstationarity; it is not evidence that the Hamming
+graph is a good similarity model. Test graph usefulness by comparing
+neighbor-versus-random residual variance or by predicting held-out search
+cells with a permuted-graph control.
 
-Every predicted survivor receives a direct probe before final recommendation.
-The final report should distinguish rows selected from direct measurements
-from rows suggested by the graph model. For the exhaustive fraction, ignore
-the surrogate and use exact direct means.
+Graph estimates are exploratory side information. A direct probe of a
+survivor does not certify an unobserved row by itself; the final recommendation
+must be a directly measured row with a valid interval, or every finalist must
+be evaluated on an independent confirmation block. For the exhaustive
+fraction, ignore the surrogate and use exact direct means.
 
-### Batched questions keep pairing honest
+### Question schedules keep pairing honest
 
-The clean implementation is to adapt only between blocks. At the start of a
-round, choose the graph edges from the history, then draw one fresh random
-question block without looking at its outcomes. Run both endpoints of each
-chosen edge on that block, paying a shared endpoint cell once when several
-edges use it. Choose the next edge set only after the block is complete. This
-retains legitimate cell reuse while avoiding a per-edge question order that
-changes after seeing outcomes. The log should record the block's planned and
-realized token cost, including any overshoot at the stopping boundary.
+An edge gets a random permutation of the full search questions when it is
+created, before its outcomes are observed. Its sample is always a prefix of
+that permutation; known endpoint cells may be inserted, but earlier questions
+are not skipped. A synchronized-block alternative must run every active row on
+every earlier block; a newly admitted row catches up on those blocks before it
+is compared. Choosing a fresh block only from questions left after an
+outcome-dependent admission can bias the residual mean. The log should record
+planned and realized token cost, including any overshoot at the stopping
+boundary.
 
 ## Allocation rule
 
@@ -110,13 +115,16 @@ The prototype currently uses a heuristic uncertainty score. A publishable
 version needs an anytime rule that remains valid while the selector chooses
 the next stream adaptively. One simple finite-population guardrail is to fix
 each stream's question permutation before collecting any outcomes and use a
-union allocation over all registered rows, edges, and sample counts. For a
-bounded residual `D_e` in `[-1, 1]`, with `m` observations from a stream of
-`N` questions, a Serfling-style radius can be written as
+union allocation over all registered rows, edges, and sample counts. If
+`S = |V| + |E|` streams are registered, `S` must appear in the error
+allocation; spending the entire error probability only over edges leaves the
+direct row intervals uncovered. For a bounded residual `D_e` in `[-1, 1]`,
+with `m` observations from a stream of `N` questions, a Serfling-style radius
+can be written as
 
 ```text
 r_e(m) = sqrt(2 * (1 - (m-1)/N) * log(2/alpha_m) / m),
-alpha_m = delta / (|E| * pi^2 * m^2 / 6).
+alpha_m = 6 * delta / (S * pi^2 * m^2).
 ```
 
 For a direct binary row stream, use the corresponding `[0, 1]` radius. A
@@ -124,9 +132,10 @@ path estimate from anchor `a` to row `x` then has the safe, conservative
 interval radius `r_a + sum_e r_e` along the path. A weighted graph fit may
 tighten the point estimate, but elimination should use the path-union bound
 unless its simultaneous coverage is proved. Eliminate a row only when its
-upper bound is below the leader's lower bound, and directly confirm every
-survivor before reporting it. This is a design target, not a theorem about
-the current implementation.
+upper bound is below the leader's lower bound. This is a design target, not a
+theorem about the current implementation; the finite-population correction
+must be checked against the cited concentration theorem before it is used in
+a paper.
 
 ## Conditions for a meaningful claim
 
@@ -167,6 +176,15 @@ and [budgeted multi-step BO](https://proceedings.neurips.cc/paper_files/paper/20
 cover heterogeneous evaluation costs. QPG-TS should therefore be presented
 as a retry-row, question-conditioned adaptation unless its estimator and cost
 allocation yield a result those methods cannot express.
+
+Classical algorithm configuration also already combines one-change neighbors
+with racing. [ParamILS](https://www.cs.ubc.ca/labs/algorithms/Projects/ParamILS/papers/09-JAIR-ParamILS.pdf)
+uses categorical local moves and restarts, while [FocusedILS/SMAC](https://www.cs.ubc.ca/labs/algorithms/Projects/SMAC/papers/11-LION5-SMAC.pdf)
+intensifies promising configurations on the same instance/seed cases and
+stops losing candidates early. Our method cannot claim local search, matching,
+or early stopping as new. The plausible gap is narrower: use a principled
+paired confidence rule and realized retry-call cost when deciding how much
+additional profiling a complete row receives.
 
 Most critically, [SySRs](https://arxiv.org/html/2606.07726) already
 synchronizes model evaluations on the same benchmark questions and uses
@@ -217,6 +235,36 @@ factors. Its ingredients are still established factorial modeling,
 categorical BO, and top-two exploration; the possible contribution remains
 their cost-aware use for complete retry rows with question-conditioned
 early-stop costs.
+
+## Simpler successor: Cost-Weighted Pairwise Local Racing
+
+The graph-path estimator should not be the default. For two rows `u` and `v`,
+the shared-question residual `Y_v(q)-Y_u(q)` is already the direct paired
+comparison. A path through intermediate rows only adds paid calls: if all
+edges use the same questions, residuals telescope sample by sample; if they
+use separate questions, path variance is bounded by the sum of edge variances
+and cannot beat a direct endpoint pair at equal cell cost without an extra
+assumption such as a cheap proxy row or amortization across many targets.
+
+The practical candidate is **Cost-Weighted Pairwise Local Racing (CW-PLR)**:
+
+1. Start from a random complete row and measure a small direct block.
+2. Propose a one-slot Hamming neighbor, with a cooling probability for a
+   global random restart.
+3. Before seeing that race's outcomes, draw a fresh random permutation of the
+   full search questions. Evaluate the incumbent and challenger on paired
+   prefixes, reusing only exact row/question cells.
+4. Use a time-uniform paired confidence interval. Stop a losing challenger as
+   soon as its upper advantage is below zero (or a practical margin), and
+   promote it only when its lower advantage is positive.
+5. Divide the next block's information gain by predicted *new* realized token
+   cost. Keep a small direct/random reserve and directly confirm the final
+   incumbent on fresh questions.
+
+CW-PLR is a research baseline and candidate extension of classical racing,
+not an established new algorithm. Its testable claim is about the cost-to-
+regret curve under retry-specific realized costs, compared with ParamILS-style
+local racing, SySRs-style synchronized elimination, and independent UCB/BO.
 
 ## Lower-risk implementation: Cost-Aware Similarity Hyperband
 
