@@ -146,3 +146,9 @@ and synthetic results are currently on the Algorithm 2 branch in PR #4.
 The branch also includes an independent-row (`iid`) negative control. With
 135 cells and 50 seeds, CACR was effectively tied with random search on that
 control, so the smooth-landscape gain must not be presented as universal.
+
+The go/no-go test is a matched-dollar comparison against uniform paired
+elimination, SySRs, AgentOpt, resource-constrained BAI, and hybrid-feedback
+allocation. If CACR does not beat those baselines beyond search and audit
+uncertainty, it should remain a negative or descriptive result rather than the
+paper's claimed new algorithm.
