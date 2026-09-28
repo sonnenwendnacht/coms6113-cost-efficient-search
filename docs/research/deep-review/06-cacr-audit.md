@@ -73,6 +73,25 @@ were 0.597, 0.597, and 0.596 for random/CW-PLR/CACR; at a matched cost cap of
 invented generator, not evidence of a MathQA improvement. The iid control and
 a permuted-neighborhood control are required in the real study.
 
+## Existing pilot trace
+
+The completed local pilot `results/runs/exp1-local-20260924` contains 27 rows
+and 30 questions per row (20 search and 10 audit). Running
+`scripts/diagnose_trace_locality.py` gave:
+
+| Hamming distance | Pairs | Mean squared score difference | Mean correlation |
+| ---: | ---: | ---: | ---: |
+| 1 | 81 | 0.116 | 0.775 |
+| 2 | 162 | 0.220 | 0.581 |
+| 3 | 108 | 0.317 | 0.404 |
+
+This is the first descriptive signal from actual workflow traces that one-slot
+rows may be more correlated on the same question. It is not a confirmatory
+result: the pilot is small, the rows use only three local models, and its
+question split is too small to support a powered comparison. The diagnostic
+must be rerun on the completed 400-question experiment and kept separate from
+any tuning data.
+
 ## Required next test
 
 Implement or reproduce a cost-aware absolute/pairwise hybrid baseline, then
