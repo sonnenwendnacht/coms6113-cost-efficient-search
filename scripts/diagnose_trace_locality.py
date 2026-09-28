@@ -30,6 +30,7 @@ def diagnose(run_dir: Path) -> dict:
         trace_path = run_dir / "traces.json"
     traces = _read_traces(trace_path)
     by_row: dict[str, dict[int, float]] = defaultdict(dict)
+    by_cost: dict[str, dict[int, float]] = defaultdict(dict)
     for trace in traces:
         if "config_id" not in trace or "question_id" not in trace or "final_correct" not in trace:
             continue
@@ -37,10 +38,15 @@ def diagnose(run_dir: Path) -> dict:
         if value is None:
             continue
         by_row[str(trace["config_id"])][int(trace["question_id"])] = float(value)
+        cost = trace.get("cost_usd")
+        if cost is not None:
+            by_cost[str(trace["config_id"])][int(trace["question_id"])] = float(cost)
     if len(by_row) < 2:
         raise ValueError("need at least two rows with final_correct values")
     row_slots = {row: tuple(row.split("/")) for row in by_row}
-    grouped: dict[int, dict[str, list[float]]] = defaultdict(lambda: {"squared_diff": [], "correlation": []})
+    grouped: dict[int, dict[str, list[float]]] = defaultdict(
+        lambda: {"squared_diff": [], "correlation": [], "pair_cost": [], "cost_correlation": []}
+    )
     for left, right in combinations(sorted(by_row), 2):
         questions = sorted(set(by_row[left]) & set(by_row[right]))
         if not questions:
@@ -56,6 +62,16 @@ def diagnose(run_dir: Path) -> dict:
                 grouped[distance]["correlation"].append(statistics.correlation(left_values, right_values))
             except statistics.StatisticsError:
                 pass
+        if all(q in by_cost[left] and q in by_cost[right] for q in questions):
+            pair_costs = [by_cost[left][q] + by_cost[right][q] for q in questions]
+            grouped[distance]["pair_cost"].append(statistics.mean(pair_costs))
+            if len(set(pair_costs)) > 1 and len(set(abs(a - b) for a, b in zip(left_values, right_values))) > 1:
+                try:
+                    grouped[distance]["cost_correlation"].append(
+                        statistics.correlation(pair_costs, [abs(a - b) for a, b in zip(left_values, right_values)])
+                    )
+                except statistics.StatisticsError:
+                    pass
     summary = {}
     for distance, values in sorted(grouped.items()):
         summary[str(distance)] = {
@@ -63,6 +79,10 @@ def diagnose(run_dir: Path) -> dict:
             "mean_squared_difference": statistics.mean(values["squared_diff"]),
             "mean_pearson_correlation": (
                 statistics.mean(values["correlation"]) if values["correlation"] else None
+            ),
+            "mean_pair_cost": statistics.mean(values["pair_cost"]) if values["pair_cost"] else None,
+            "mean_cost_abs_difference_correlation": (
+                statistics.mean(values["cost_correlation"]) if values["cost_correlation"] else None
             ),
         }
     return {
