@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-28 03:27 ET.
+Updated: 2026-09-28 12:22 ET.
 
 ## Research branch
 
@@ -16,7 +16,7 @@ Updated: 2026-09-28 03:27 ET.
 ## Long local trace
 
 - Run ID: `exp1-nine-local-20260927-proper`.
-- Status observed at this checkpoint: `60,300 / 291,600` cells (`20.68%`),
+- Status observed at this checkpoint: `83,800 / 291,600` cells (`28.74%`),
   still running in PID `8763`.
 - Status file: `results/runs/exp1-nine-local-20260927-proper/status.json`.
 - The runner writes resumable JSONL checkpoints. If the machine is restarted,
