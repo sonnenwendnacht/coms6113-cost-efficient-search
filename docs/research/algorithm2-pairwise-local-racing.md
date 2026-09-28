@@ -116,3 +116,23 @@ synthetic report has no independent audit matrix, its selector fractions do
 not imply equal realized spend, and its path estimate is usually replaced by
 the direct observed-row estimate. It remains useful only as a recorded
 ablation.
+
+## First synthetic check
+
+I implemented a small prototype in `src/retry_search/pairwise_local_racing.py`
+and a separate held-out benchmark in
+`scripts/benchmark_pairwise_local_racing.py`. With 27 rows, 50 search
+questions, 200 independent audit questions, 50 seeds, and the same 135-cell
+budget for both methods, the smooth synthetic landscape produced:
+
+| Selector | Mean audit accuracy | Optimal-row rate | Mean search cost |
+| --- | ---: | ---: | ---: |
+| Random cells | 0.449 at 5% budget; 0.614 at 10%; 0.799 at 20% | 0.00; 0.08; 0.48 | 98.4; 198.4; 396.7 |
+| CW-PLR | 0.576 at 5% budget; 0.608 at 10%; 0.704 at 20% | 0.06; 0.06; 0.14 | 96.1; 191.7; 387.0 |
+
+These numbers are synthetic only. They suggest a useful low-budget search
+curve but a worse medium-budget curve than random cells. That is exactly the
+kind of boundary we need to measure: local similarity may help find a good
+region early, while broad coverage wins once the budget is large enough. The
+prototype uses a practical empirical radius rather than a proven confidence
+sequence, so this table is a debugging result, not evidence of superiority.
