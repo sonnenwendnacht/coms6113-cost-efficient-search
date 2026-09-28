@@ -11,7 +11,7 @@ Updated: 2026-09-28 03:27 ET.
   and the expanded related-work boundary. The latest pushed algorithm commit
   is checked by the repository's offline CI.
 - Run `python -m unittest discover -s tests -q` for the current offline test
-  suite (30 tests).
+  suite (38 tests).
 
 ## Long local trace
 
@@ -38,3 +38,5 @@ allocation, direct cost-aware allocation, and the hybrid-feedback baseline.
 The replay command now accepts `--include-structured` to add CW-PLR, CACR,
 and SCCR at explicit realized-cost fractions. It has been smoke-tested on the
 completed 27-row pilot via a local fixture; the 729-row run remains pending.
+Replay validates the full config/question rectangle and decodes explicit
+slash-separated retry slots before any structured selector sees a cell.

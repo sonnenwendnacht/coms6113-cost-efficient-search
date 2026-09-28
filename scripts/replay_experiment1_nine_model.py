@@ -136,9 +136,12 @@ def main() -> int:
     metadata = json.loads((trace_dir / "metadata.json").read_text(encoding="utf-8"))
     search_n = int(metadata.get("search_n", 200))
     evaluation_n = int(metadata.get("evaluation_n", 200))
-    configs, search, evaluation = validate_trace_rectangle(
-        traces, metadata, search_n=search_n, evaluation_n=evaluation_n
-    )
+    try:
+        configs, search, evaluation = validate_trace_rectangle(
+            traces, metadata, search_n=search_n, evaluation_n=evaluation_n
+        )
+    except ValueError as exc:
+        raise SystemExit(f"invalid completed trace: {exc}") from exc
     if args.include_structured:
         try:
             row_slots = row_slots_from_config_ids(configs)
