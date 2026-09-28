@@ -95,7 +95,9 @@ and [FocusedILS/SMAC](https://www.cs.ubc.ca/labs/algorithms/Projects/SMAC/papers
 Synchronized paired model evaluation is already central to
 [SySRs](https://arxiv.org/html/2606.07726). Cost-aware best-arm methods such as
 [BAIwRC](https://proceedings.mlr.press/v238/li24c.html) cover resource-limited
-identification. CW-PLR is therefore an experimental combination for this
+identification. The LLM-specific [CAPO](https://arxiv.org/html/2504.16005v2)
+also combines population racing, paired tests on common blocks, and a token
+length penalty. CW-PLR is therefore an experimental combination for this
 retry-row setting, with a possible gap only in how it charges and allocates
 realized early-terminating cascade costs. Pairing, Hamming neighbors, racing,
 and simulated annealing are not individually new contributions.
