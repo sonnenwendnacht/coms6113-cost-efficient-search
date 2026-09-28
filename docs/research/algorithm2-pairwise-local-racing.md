@@ -230,6 +230,12 @@ debugging signal that the acquisition rule is implementable, not evidence of
 superiority. The next check must use retry traces or a synthetic model with
 independent controls for quality and reached-call cost.
 
+With the canonical Hamming slots permuted before CACR proposals (50 seeds,
+cap 200), the audit accuracy was `0.764` versus `0.796` for canonical CACR,
+`0.626` for random cells, and `0.618` for CW-PLR. The gap is only a control
+diagnostic: random restarts and direct row evidence still let the permuted
+version find good rows, so it does not isolate a pure graph effect.
+
 ## Publication gate
 
 Before treating CACR as Algorithm 2 for a paper, run a matched-dollar study

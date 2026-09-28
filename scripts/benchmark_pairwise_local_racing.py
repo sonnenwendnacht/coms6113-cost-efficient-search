@@ -103,6 +103,7 @@ def main() -> int:
     parser.add_argument("--fraction", type=float, default=0.1)
     parser.add_argument("--cost-cap", type=float, default=None)
     parser.add_argument("--landscape", choices=("smooth", "iid"), default="smooth")
+    parser.add_argument("--include-permuted-graph", action="store_true")
     args = parser.parse_args()
     k = args.side**3
     if args.cost_cap is not None and args.cost_cap <= 0:
@@ -128,8 +129,16 @@ def main() -> int:
         records.append(evaluate({"algorithm": "cw_plr", **plr}, audit_rewards, audit_costs))
         cacr = run_cacr(search_rewards, search_costs, ids, seed=seed, **plr_kwargs)
         records.append(evaluate({"algorithm": "cacr", **cacr}, audit_rewards, audit_costs))
+        if args.include_permuted_graph:
+            slots = [(row // (args.side * args.side), (row // args.side) % args.side, row % args.side) for row in range(k)]
+            random.Random(500000 + seed).shuffle(slots)
+            permuted = run_cacr(search_rewards, search_costs, ids, seed=seed, row_slots=slots, **plr_kwargs)
+            records.append(evaluate({"algorithm": "cacr_permuted_graph", **permuted}, audit_rewards, audit_costs))
     summary = {}
-    for algorithm in ("random_cells", "cw_plr", "cacr"):
+    algorithms = ["random_cells", "cw_plr", "cacr"]
+    if args.include_permuted_graph:
+        algorithms.append("cacr_permuted_graph")
+    for algorithm in algorithms:
         rows = [row for row in records if row["algorithm"] == algorithm]
         summary[algorithm] = {
             "mean_audit_accuracy": statistics.mean(row["audit_accuracy"] for row in rows),
