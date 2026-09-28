@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from retry_search.pairwise_local_racing import run_cw_plr  # noqa: E402
+from retry_search.cost_aware_correlated_racing import run_cacr  # noqa: E402
 
 
 def make_matrix(side: int, questions: int, offset: int) -> tuple[list[list[float]], list[list[float]]]:
@@ -55,6 +56,25 @@ def random_cell_selector(rewards, costs, budget: int, seed: int) -> dict:
     return {"selected_config_index": selected, "search_evaluations": len(pulled), "search_cost": spend}
 
 
+def random_cost_selector(rewards, costs, cap: float, seed: int) -> dict:
+    rng = random.Random(seed)
+    k, n = len(rewards), len(rewards[0])
+    cells = [(arm, question) for arm in range(k) for question in range(n)]
+    rng.shuffle(cells)
+    pulled = []
+    spend = 0.0
+    for arm, question in cells:
+        if spend >= cap:
+            break
+        pulled.append((arm, question))
+        spend += costs[arm][question]
+    by_row: dict[int, list[float]] = {}
+    for arm, question in pulled:
+        by_row.setdefault(arm, []).append(rewards[arm][question])
+    selected = max(by_row, key=lambda row: (sum(by_row[row]) / len(by_row[row]), -row))
+    return {"selected_config_index": selected, "search_evaluations": len(pulled), "search_cost": spend}
+
+
 def evaluate(result: dict, audit_rewards, audit_costs) -> dict:
     arm = result["selected_config_index"]
     result = dict(result)
@@ -70,26 +90,30 @@ def main() -> int:
     parser.add_argument("--audit-questions", type=int, default=200)
     parser.add_argument("--seeds", type=int, default=20)
     parser.add_argument("--fraction", type=float, default=0.1)
+    parser.add_argument("--cost-cap", type=float, default=None)
     args = parser.parse_args()
     k = args.side**3
-    budget = max(2, int(args.fraction * k * args.search_questions))
+    if args.cost_cap is not None and args.cost_cap <= 0:
+        parser.error("--cost-cap must be positive")
+    budget = None if args.cost_cap is not None else max(2, int(args.fraction * k * args.search_questions))
     search_rewards, search_costs = make_matrix(args.side, args.search_questions, 0)
     audit_rewards, audit_costs = make_matrix(args.side, args.audit_questions, 1)
     ids = [str(i) for i in range(k)]
     records: list[dict] = []
     for seed in range(args.seeds):
-        random_result = random_cell_selector(search_rewards, search_costs, budget, seed)
-        records.append(evaluate({"algorithm": "random_cells", **random_result}, audit_rewards, audit_costs))
-        plr = run_cw_plr(
-            search_rewards,
-            search_costs,
-            ids,
-            cell_budget=budget,
-            seed=seed,
+        random_result = (
+            random_cost_selector(search_rewards, search_costs, args.cost_cap, seed)
+            if args.cost_cap is not None
+            else random_cell_selector(search_rewards, search_costs, budget, seed)
         )
+        records.append(evaluate({"algorithm": "random_cells", **random_result}, audit_rewards, audit_costs))
+        plr_kwargs = {"cost_budget": args.cost_cap} if args.cost_cap is not None else {"cell_budget": budget}
+        plr = run_cw_plr(search_rewards, search_costs, ids, seed=seed, **plr_kwargs)
         records.append(evaluate({"algorithm": "cw_plr", **plr}, audit_rewards, audit_costs))
+        cacr = run_cacr(search_rewards, search_costs, ids, seed=seed, **plr_kwargs)
+        records.append(evaluate({"algorithm": "cacr", **cacr}, audit_rewards, audit_costs))
     summary = {}
-    for algorithm in ("random_cells", "cw_plr"):
+    for algorithm in ("random_cells", "cw_plr", "cacr"):
         rows = [row for row in records if row["algorithm"] == algorithm]
         summary[algorithm] = {
             "mean_audit_accuracy": statistics.mean(row["audit_accuracy"] for row in rows),
@@ -98,7 +122,7 @@ def main() -> int:
             "mean_search_cost": statistics.mean(row["search_cost"] for row in rows),
             "mean_audit_cold_cost": statistics.mean(row["audit_cold_cost"] for row in rows),
         }
-    print(json.dumps({"synthetic": True, "settings": vars(args), "budget_cells": budget, "summary": summary}, indent=2))
+    print(json.dumps({"synthetic": True, "settings": vars(args), "budget_cells": budget, "cost_cap": args.cost_cap, "summary": summary}, indent=2))
     return 0
 
 

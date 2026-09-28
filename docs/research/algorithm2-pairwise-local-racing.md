@@ -151,3 +151,64 @@ CW-PLR needs. It is a sanity check of the generator, not evidence that the
 MathQA rows have the same property. The real experiment must publish this
 neighbor-versus-random residual diagnostic from the search split before
 interpreting any gain.
+
+## Recommended successor: cost-aware correlated racing (CACR)
+
+The next implementation should make the allocation rule explicit rather than
+presenting CW-PLR's heuristic as the final algorithm. We call the narrower
+candidate **Cost-Aware Correlated Racing (CACR)**:
+
+1. Keep a direct estimate for every row that has been pulled and a paired
+   difference stream for every incumbent--challenger race. A paired sample is
+   `D(q) = Y_challenger(q) - Y_incumbent(q)` from the same question; it is not
+   an estimate of an unpulled cell.
+2. Use one-slot Hamming neighbors only to propose challengers, with a fixed
+   random-restart floor. Do not add residuals along a path and do not infer a
+   row that has never received a direct confirmation block.
+3. For each open race, estimate both the uncertainty of its paired difference
+   and the expected *new* full-workflow cost of the two endpoints. Choose the
+   next block size by predicted reduction in the paired confidence radius per
+   conservative cost estimate. The cost estimate is based on reached calls
+   observed so far, with an uncertainty margin; it never reads a missing cell.
+4. Stop a race when the challenger is clearly behind, promote it when it is
+   clearly ahead by the preregistered margin, and retain a global scout/restart
+   budget. Independently confirm the final row on fresh questions.
+
+This is a testable combination of known ideas: common-random-number paired
+ranking and selection, correlated-arm best-arm identification, heterogeneous
+resource accounting, and categorical local proposals. The possible gap is the
+joint objective: the observation is a complete retry cascade whose realized
+cost depends on early termination, and the same paired question supplies both
+the score difference and the cost evidence. That gap is a hypothesis, not a
+novelty claim. The first paper result should be a comparison against a
+cost-weighted synchronized-elimination baseline, random search, and a local
+racing control with the cost term removed.
+
+Relevant prior art that constrains the claim includes Bayesian ranking and
+selection with common random numbers
+([Görder and Kolonko](https://arxiv.org/abs/1410.6782)), correlated-arm
+best-arm identification ([C-LUCB](https://arxiv.org/abs/2109.04941)), and
+cost-aware best-arm identification ([CABAI](https://arxiv.org/abs/2402.16710)).
+These works motivate the ingredients but do not by themselves establish that
+CACR is new or that it works on retry workflows.
+
+## CACR prototype check
+
+The prototype was added in `src/retry_search/cost_aware_correlated_racing.py`.
+On the same invented 27-row landscape, using 50 seeds and 200 independent
+audit questions, a realized-cost cap gave the following audit accuracies:
+
+| Search cap | Random cells | CW-PLR | CACR |
+| ---: | ---: | ---: | ---: |
+| 100 | 0.454 | 0.588 | 0.725 |
+| 200 | 0.626 | 0.618 | 0.801 |
+| 400 | 0.801 | 0.723 | 0.851 |
+
+The mean realized spends were respectively about `100.7/101.3/101.4`,
+`200.8/200.9/201.4`, and `400.7/400.8/397.1` for random/CW-PLR/CACR. CACR
+also selected higher-cost rows in this generator, so its better accuracy is
+not a claim about a cost--accuracy deployment trade-off. The generator makes
+high-quality rows more expensive by construction. These results are a
+debugging signal that the acquisition rule is implementable, not evidence of
+superiority. The next check must use retry traces or a synthetic model with
+independent controls for quality and reached-call cost.
