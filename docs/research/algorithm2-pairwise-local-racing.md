@@ -136,3 +136,9 @@ kind of boundary we need to measure: local similarity may help find a good
 region early, while broad coverage wins once the budget is large enough. The
 prototype uses a practical empirical radius rather than a proven confidence
 sequence, so this table is a debugging result, not evidence of superiority.
+
+As a second check, a realized-cost cap gave the same pattern on 50 seeds:
+at caps `100/200/400`, CW-PLR reached `0.588/0.618/0.723` audit accuracy,
+while random cells reached `0.454/0.626/0.801`. The realized costs were within
+one endpoint call of the cap for both selectors. This is still one invented
+landscape; it does not justify choosing CW-PLR for MathQA.

@@ -41,7 +41,8 @@ def run_cw_plr(
     costs: Any,
     config_ids: Sequence[str],
     *,
-    cell_budget: int,
+    cell_budget: int | None = None,
+    cost_budget: float | None = None,
     seed: int = 0,
     restart_floor: float = 0.15,
     initial_block: int = 2,
@@ -53,8 +54,9 @@ def run_cw_plr(
     The selector receives only cells it pulls.  A pair race creates an
     independent, pre-shuffled question permutation and consumes its prefix;
     previously observed exact cells may be reused when they occur in that
-    prefix.  The budget is a maximum number of paid cells; a pair is skipped
-    if both missing endpoint cells would exceed it.
+    prefix.  Give either a cell budget or a realized-cost budget. A pair may
+    overshoot a cost budget because its endpoint costs are unknown until the
+    calls return; the overshoot is recorded in ``search_cost``.
     """
 
     k, n = _matrix_shape(rewards, "rewards")
@@ -62,8 +64,12 @@ def run_cw_plr(
         raise ValueError("rewards and costs must have the same shape")
     if len(config_ids) != k or len(set(str(x) for x in config_ids)) != k:
         raise ValueError("config_ids must be unique and match the matrix")
-    if cell_budget < 1:
+    if (cell_budget is None) == (cost_budget is None):
+        raise ValueError("provide exactly one of cell_budget or cost_budget")
+    if cell_budget is not None and cell_budget < 1:
         raise ValueError("cell_budget must be positive")
+    if cost_budget is not None and (not math.isfinite(cost_budget) or cost_budget <= 0.0):
+        raise ValueError("cost_budget must be positive")
     if not 0.0 <= restart_floor <= 1.0:
         raise ValueError("restart_floor must be in [0, 1]")
     if initial_block < 1 or not 0.0 <= margin < 1.0:
@@ -75,7 +81,13 @@ def run_cw_plr(
     pair_stats: dict[tuple[int, int], list[float]] = {}
     pair_costs: dict[tuple[int, int], list[float]] = {}
     total_cost = 0.0
-    max_races = max(1, cell_budget // 2)
+    max_races = max(1, (cell_budget if cell_budget is not None else k * n) // 2)
+
+    def budget_reached() -> bool:
+        return (
+            (cell_budget is not None and len(seen) >= cell_budget)
+            or (cost_budget is not None and total_cost >= cost_budget)
+        )
 
     def pull(arm: int, question: int) -> bool:
         nonlocal total_cost
@@ -110,7 +122,9 @@ def run_cw_plr(
             missing = int((incumbent, question) not in seen) + int(
                 (challenger, question) not in seen
             )
-            if len(seen) + missing > cell_budget:
+            if cell_budget is not None and len(seen) + missing > cell_budget:
+                break
+            if budget_reached():
                 break
             pull(incumbent, question)
             pull(challenger, question)
@@ -153,7 +167,7 @@ def run_cw_plr(
     rng.shuffle(scout_questions)
     for row in scout_rows:
         for question in scout_questions[: min(n, initial_block)]:
-            if len(seen) >= cell_budget:
+            if budget_reached():
                 break
             pull(row, question)
     incumbent = max(
@@ -166,7 +180,7 @@ def run_cw_plr(
     )
     races = 0
     accepted = 0
-    while len(seen) < cell_budget and races < max_races:
+    while not budget_reached() and races < max_races:
         neighbors = [row for row in _hamming_neighbors(incumbent, k) if row != incumbent]
         explore = rng.random() < max(restart_floor, 0.35 * (1.0 - races / max_races))
         candidates = list(range(k)) if explore else neighbors
