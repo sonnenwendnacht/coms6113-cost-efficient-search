@@ -196,7 +196,11 @@ allocation is not, by itself, a novelty claim. A defensible distinction would
 have to come from the full retry cascade: one evaluation can terminate early,
 its realized cost is outcome-dependent, and the observation is not a cheap
 dueling query under a shared GLM. That distinction still needs a formal model
-and an experiment against the hybrid-feedback baseline.
+and an experiment against the hybrid-feedback baseline. A further close prior,
+[Best-Arm Identification with Generative Proxy](https://arxiv.org/abs/2607.06879),
+uses a correlated cheap proxy and controls the residual variance; a future
+proxy version of CACR must compare against it rather than call control-variate
+allocation new.
 
 The prototype accepts explicit row_slots when configuration IDs are not in
 canonical base-side order. This is required for real experiments: a string ID

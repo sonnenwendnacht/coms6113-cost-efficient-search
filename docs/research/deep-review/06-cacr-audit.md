@@ -34,6 +34,11 @@ Hamming similarity assumption fails. We should not describe this as a new
 bandit primitive until a formal reduction shows why the existing models do not
 cover the chosen workflow semantics.
 
+The recent [Generative Proxy BAI](https://arxiv.org/abs/2607.06879) paper is a
+close control-variate precedent. Treating an already measured neighboring row
+as a proxy may be useful, but it must be compared with that framework and must
+account for the proxy's own full-cascade cost.
+
 ## CACR prototype
 
 The prototype in `src/retry_search/cost_aware_correlated_racing.py` does the
