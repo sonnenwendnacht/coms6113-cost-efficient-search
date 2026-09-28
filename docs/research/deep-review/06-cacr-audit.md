@@ -137,7 +137,9 @@ The values are held-out audit accuracy from an invented generator. SCCR is
 not being presented as the winner; it is a guard against turning a false
 similarity assumption into a recommendation. The real experiment must report
 the number of safe and unsafe edges, calibration spend, and uncertainty over
-seeds alongside accuracy.
+seeds alongside accuracy. The benchmark now emits the across-seed standard
+deviation and standard error for every selector, plus SCCR's safe/unsafe-edge
+and calibration-spend diagnostics.
 
 ## Existing pilot trace
 
