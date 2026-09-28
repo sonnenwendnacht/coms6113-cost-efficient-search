@@ -248,6 +248,12 @@ cap 200), the audit accuracy was `0.764` versus `0.796` for canonical CACR,
 diagnostic: random restarts and direct row evidence still let the permuted
 version find good rows, so it does not isolate a pure graph effect.
 
+The 27-row pilot did not show a cost signal either: mean paired cost was
+approximately `0.00019208` at every Hamming distance, with weak mean
+cost/absolute-difference correlations `0.190/0.047/-0.104` at distances
+`1/2/3`. The cost-aware part therefore still needs evidence from the larger
+trace.
+
 ## Publication gate
 
 Before treating CACR as Algorithm 2 for a paper, run a matched-dollar study
