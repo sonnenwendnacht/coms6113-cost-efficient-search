@@ -183,7 +183,9 @@ def run_sccr(
         return incumbent, challenger
 
     def permutation_for(pair: tuple[int, int]) -> list[int]:
-        return pair_permutations.setdefault(pair, rng.sample(range(n), n))
+        if pair not in pair_permutations:
+            pair_permutations[pair] = rng.sample(range(n), n)
+        return pair_permutations[pair]
 
     def take_pair_questions(pair: tuple[int, int], block: int) -> int:
         """Pull a fixed prefix for a pair, returning newly processed questions."""
@@ -213,7 +215,6 @@ def run_sccr(
         nonlocal calibration_evaluations
         if pair in pair_safe:
             return pair_safe[pair]
-        before = len(pair_questions.get(pair, set()))
         processed = take_pair_questions(pair, min(calibration_block, n))
         calibration_evaluations += processed
         if processed == 0 and not pair_questions.get(pair):
@@ -229,7 +230,11 @@ def run_sccr(
         independent_var = _variance(inc_values) + _variance(ch_values)
         # The additive term is a deliberately simple small-sample uncertainty
         # buffer.  It prevents declaring safety from a noisy tiny block.
-        ratio = paired_var / max(independent_var, 1e-9)
+        if independent_var <= 1e-12:
+            # A constant calibration block establishes no covariance benefit.
+            pair_safe[pair] = False
+            return False
+        ratio = paired_var / independent_var
         conservative_ratio = ratio + variance_margin / math.sqrt(len(values))
         is_safe = conservative_ratio <= 1.0 - min_reduction
         pair_safe[pair] = is_safe
@@ -285,8 +290,6 @@ def run_sccr(
         if not safe:
             gated_fallbacks += 1
         processed = take_pair_questions(pair, block)
-        if not processed:
-            return "reject", 0
         return (paired_decision(pair) if safe else direct_decision(incumbent, challenger)), processed
 
     # Small initial scout, as in CACR.  This is direct row evidence only.
@@ -301,14 +304,23 @@ def run_sccr(
                 break
             pull(row, question)
 
-    incumbent = max(scout_rows or [rng.randrange(k)], key=lambda row: row_estimate(row)[0] + row_estimate(row)[1])
+    incumbent = max(
+        (row for row in scout_rows if row_values(row)),
+        key=lambda row: row_estimate(row)[0] + row_estimate(row)[1],
+    )
     while not reached() and rounds < max(1, k * n):
         rounds += 1
         local_candidates = neighbors(incumbent)
         use_global = rng.random() < max(restart_floor, 0.35 * (1 - rounds / max(1, k * n)))
         pool = list(range(k)) if use_global else local_candidates
-        candidates = [row for row in pool if row != incumbent]
+        candidates = [row for row in pool if row != incumbent and (incumbent, row) not in closed]
         candidates = [row for row in candidates if len(pair_questions.get(pair_key(incumbent, row), set())) < n]
+        if not candidates:
+            candidates = [
+                row for row in range(k) if row != incumbent
+                and (incumbent, row) not in closed
+                and len(pair_questions.get((incumbent, row), set())) < n
+            ]
         if not candidates:
             break
 
@@ -333,13 +345,10 @@ def run_sccr(
         if safe is None:
             break
         decision, processed = race_pair(pair, safe)
-        if not processed:
-            closed.add(pair)
-            continue
         if decision == "accept":
             incumbent = challenger
             accepted += 1
-        elif decision == "reject":
+        elif decision == "reject" or not processed:
             closed.add(pair)
 
     direct = row_values(incumbent)

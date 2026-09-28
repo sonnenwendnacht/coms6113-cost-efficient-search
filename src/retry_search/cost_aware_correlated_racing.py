@@ -150,11 +150,16 @@ def run_cacr(
                 best = score, block
         return best[1] if best else 1
 
+    def permutation_for(pair: tuple[int, int]) -> list[int]:
+        if pair not in pair_permutations:
+            pair_permutations[pair] = rng.sample(range(n), n)
+        return pair_permutations[pair]
+
     def race_block(incumbent: int, challenger: int, block: int) -> tuple[str, int]:
         pair = (incumbent, challenger)
         values = pair_values.setdefault(pair, [])
         known_questions = pair_questions.setdefault(pair, set())
-        permutation = pair_permutations.setdefault(pair, rng.sample(range(n), n))
+        permutation = permutation_for(pair)
         cursor = pair_cursors.setdefault(pair, 0)
         processed = 0
         while cursor < n and processed < block and not reached():
@@ -195,13 +200,22 @@ def run_cacr(
                 break
             pull(row, question)
 
-    incumbent = max(scout_rows or [rng.randrange(k)], key=lambda row: row_estimate(row)[0] + row_estimate(row)[1])
+    incumbent = max(
+        (row for row in scout_rows if row_values(row)),
+        key=lambda row: row_estimate(row)[0] + row_estimate(row)[1],
+    )
     while not reached() and rounds < max(1, k * n):
         rounds += 1
         local_candidates = neighbors(incumbent)
         pool = list(range(k)) if rng.random() < max(restart_floor, 0.35 * (1 - rounds / max(1, k * n))) else local_candidates
         candidates = [row for row in pool if row != incumbent and (incumbent, row) not in closed]
         candidates = [row for row in candidates if len(pair_questions.get((incumbent, row), set())) < n]
+        if not candidates:
+            candidates = [
+                row for row in range(k) if row != incumbent
+                and (incumbent, row) not in closed
+                and len(pair_questions.get((incumbent, row), set())) < n
+            ]
         if not candidates:
             break
 

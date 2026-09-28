@@ -171,7 +171,7 @@ def run_cw_plr(
                 break
             pull(row, question)
     incumbent = max(
-        scout_rows or [rng.randrange(k)],
+        (row for row in scout_rows if any(seen_row == row for seen_row, _ in seen)),
         key=lambda row: (
             sum(observed[(row, q)][0] for q in scout_questions if (row, q) in observed)
             / max(1, sum((row, q) in observed for q in scout_questions)),
