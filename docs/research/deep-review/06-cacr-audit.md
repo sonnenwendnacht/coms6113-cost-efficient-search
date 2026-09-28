@@ -46,6 +46,32 @@ reduction; otherwise use a random/direct proposal. This may protect against
 the iid and permuted-graph cases, but it is not implemented or theoretically
 validated yet.
 
+## Precise target problem
+
+Let `Q` be a question drawn from the deployment distribution and let `c` be a
+complete ordered model assignment for every solver/retry slot. One full
+evaluation returns two linked observations:
+
+```text
+Y(c, Q) = final workflow outcome, scored later by the answer key
+C(c, Q) = realized input-token charge for every reached solver/verifier call
+```
+
+The search policy may choose the next complete row and question adaptively,
+but it must pay newly executed calls and may not read answer keys. It must
+recommend one complete row after a profiling budget `B`; deployment quality is
+`E[Y(c,Q)]`, while `E[C(c,Q)]` is reported separately or constrained by a
+pre-registered deployment cap. Similarity is an unknown property of the
+question-level outcomes, such as the covariance of `Y(c,Q)` and `Y(c',Q)` for
+one-slot neighbors. A neighboring row is not an exact cache hit, and an
+unreached retry is not a failed outcome.
+
+This definition makes the possible contribution testable. Existing methods
+cover ordinary arm costs, paired/common-random-number scores, graph-smooth
+means, and cheap proxies. The remaining question is whether the endogenous
+cost of a complete retry cascade changes the best allocation once those
+baselines receive the same trace engine and cache permissions.
+
 ## CACR prototype
 
 The prototype in `src/retry_search/cost_aware_correlated_racing.py` does the

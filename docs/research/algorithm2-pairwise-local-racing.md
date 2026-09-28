@@ -15,6 +15,12 @@ The selector must recommend one complete tuple. It may use similarity between
 tuples to decide what to test next, but it may not treat a nearby tuple as an
 exact cache hit or reuse a workflow prefix.
 
+Each paid cell returns `(Y(c,q), C(c,q))`: the final workflow outcome and the
+realized input-token charge of every reached call. The search policy sees
+neither the answer key nor an unreached retry; deployment quality and cold
+deployment cost remain separate. The full target is recorded in
+`docs/research/deep-review/06-cacr-audit.md`.
+
 ## Proposed procedure
 
 Call the method **Cost-Weighted Pairwise Local Racing (CW-PLR)**. It combines
