@@ -41,6 +41,17 @@ def make_matrix(side: int, questions: int, offset: int) -> tuple[list[list[float
     return rewards, costs
 
 
+def make_iid_matrix(side: int, questions: int, seed: int) -> tuple[list[list[float]], list[list[float]]]:
+    """Rows with no Hamming locality; used as a negative control."""
+    rng = random.Random(seed)
+    rewards = [[float(rng.random() < 0.60) for _ in range(questions)] for _ in range(side**3)]
+    costs = [
+        [1.0 + 0.02 * row + 0.01 * (question % 5) for question in range(questions)]
+        for row in range(side**3)
+    ]
+    return rewards, costs
+
+
 def random_cell_selector(rewards, costs, budget: int, seed: int) -> dict:
     rng = random.Random(seed)
     k, n = len(rewards), len(rewards[0])
@@ -91,16 +102,21 @@ def main() -> int:
     parser.add_argument("--seeds", type=int, default=20)
     parser.add_argument("--fraction", type=float, default=0.1)
     parser.add_argument("--cost-cap", type=float, default=None)
+    parser.add_argument("--landscape", choices=("smooth", "iid"), default="smooth")
     args = parser.parse_args()
     k = args.side**3
     if args.cost_cap is not None and args.cost_cap <= 0:
         parser.error("--cost-cap must be positive")
     budget = None if args.cost_cap is not None else max(2, int(args.fraction * k * args.search_questions))
-    search_rewards, search_costs = make_matrix(args.side, args.search_questions, 0)
-    audit_rewards, audit_costs = make_matrix(args.side, args.audit_questions, 1)
     ids = [str(i) for i in range(k)]
     records: list[dict] = []
     for seed in range(args.seeds):
+        if args.landscape == "smooth":
+            search_rewards, search_costs = make_matrix(args.side, args.search_questions, 0)
+            audit_rewards, audit_costs = make_matrix(args.side, args.audit_questions, 1)
+        else:
+            search_rewards, search_costs = make_iid_matrix(args.side, args.search_questions, 1000 + seed)
+            audit_rewards, audit_costs = make_iid_matrix(args.side, args.audit_questions, 9000 + seed)
         random_result = (
             random_cost_selector(search_rewards, search_costs, args.cost_cap, seed)
             if args.cost_cap is not None

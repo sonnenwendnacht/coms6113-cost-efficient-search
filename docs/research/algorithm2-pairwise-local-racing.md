@@ -196,6 +196,13 @@ The prototype accepts explicit row_slots when configuration IDs are not in
 canonical base-side order. This is required for real experiments: a string ID
 or shuffled matrix row must never silently change the neighborhood.
 
+The benchmark now also has an `--landscape iid` negative control that removes
+row locality. At 135 cells and 50 seeds, its independent 200-question audit
+gave mean accuracies `0.597` (random), `0.597` (CW-PLR), and `0.603` (CACR);
+at a matched cost cap of 170, the values were `0.596`, `0.598`, and `0.601`.
+The small differences are noise-level in this control and do not support a
+similarity benefit. This control must stay in later reports.
+
 ## CACR prototype check
 
 The prototype was added in `src/retry_search/cost_aware_correlated_racing.py`.
