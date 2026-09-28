@@ -199,7 +199,7 @@ or shuffled matrix row must never silently change the neighborhood.
 The benchmark now also has an `--landscape iid` negative control that removes
 row locality. At 135 cells and 50 seeds, its independent 200-question audit
 gave mean accuracies `0.597` (random), `0.597` (CW-PLR), and `0.603` (CACR);
-at a matched cost cap of 170, the values were `0.596`, `0.598`, and `0.601`.
+at a matched cost cap of 170, the values were `0.596`, `0.598`, and `0.596`.
 The small differences are noise-level in this control and do not support a
 similarity benefit. This control must stay in later reports.
 
@@ -211,12 +211,12 @@ audit questions, a realized-cost cap gave the following audit accuracies:
 
 | Search cap | Random cells | CW-PLR | CACR |
 | ---: | ---: | ---: | ---: |
-| 100 | 0.454 | 0.588 | 0.725 |
-| 200 | 0.626 | 0.618 | 0.801 |
-| 400 | 0.801 | 0.723 | 0.851 |
+| 100 | 0.454 | 0.588 | 0.745 |
+| 200 | 0.626 | 0.618 | 0.796 |
+| 400 | 0.801 | 0.723 | 0.861 |
 
-The mean realized spends were respectively about `100.7/101.3/101.4`,
-`200.8/200.9/201.4`, and `400.7/400.8/397.1` for random/CW-PLR/CACR. CACR
+The mean realized spends were respectively about `100.7/101.3/101.6`,
+`200.8/200.9/201.5`, and `400.7/400.8/399.0` for random/CW-PLR/CACR. CACR
 also selected higher-cost rows in this generator, so its better accuracy is
 not a claim about a cost--accuracy deployment trade-off. The generator makes
 high-quality rows more expensive by construction. These results are a

@@ -76,6 +76,8 @@ def run_cacr(
     total_cost = 0.0
     pair_values: dict[tuple[int, int], list[float]] = {}
     pair_questions: dict[tuple[int, int], set[int]] = {}
+    pair_permutations: dict[tuple[int, int], list[int]] = {}
+    pair_cursors: dict[tuple[int, int], int] = {}
     closed: set[tuple[int, int]] = set()
     rounds = 0
     accepted = 0
@@ -152,12 +154,11 @@ def run_cacr(
         pair = (incumbent, challenger)
         values = pair_values.setdefault(pair, [])
         known_questions = pair_questions.setdefault(pair, set())
-        permutation = list(range(n))
-        rng.shuffle(permutation)
+        permutation = pair_permutations.setdefault(pair, rng.sample(range(n), n))
+        cursor = pair_cursors.setdefault(pair, 0)
         processed = 0
-        for question in permutation:
-            if processed >= block or reached():
-                break
+        while cursor < n and processed < block and not reached():
+            question = permutation[cursor]
             missing = int((incumbent, question) not in seen) + int((challenger, question) not in seen)
             if cell_budget is not None and len(seen) + missing > cell_budget:
                 break
@@ -167,6 +168,8 @@ def run_cacr(
                 values.append(observed[(challenger, question)][0] - observed[(incumbent, question)][0])
                 known_questions.add(question)
             processed += 1
+            cursor += 1
+        pair_cursors[pair] = cursor
 
         if not values:
             return "reject", processed
