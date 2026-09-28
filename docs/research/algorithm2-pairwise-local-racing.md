@@ -266,15 +266,25 @@ permuted-graph controls and exceeds uncertainty from search seeds and audit
 questions. Otherwise the honest result is that ordinary paired allocation or
 AgentOpt already captures the gain.
 
-## Possible refinement: safe-cost correlated racing (SCCR)
+## Implemented refinement: safe-cost correlated racing (SCCR)
 
-If the iid control shows that CACR's local proposals can hurt, the next
-research version should add a conservative gate rather than assume every
-Hamming neighbor is useful. For each edge, estimate the reduction in paired
-score variance from a preregistered calibration block and attach a lower
-confidence bound to that reduction. Use the local cost-aware acquisition rule
-only when the bound is positive; otherwise fall back to a direct/random
-proposal. Keep a nonzero global restart floor and confirm the final row
-directly. This is a hypothesis for a safer algorithm, not an implemented or
-theorem-backed result. It would need comparison with C-LUCB and PROBE's
-unknown-correlation variance certificate.
+`src/retry_search/safe_correlated_racing.py` implements the guarded version.
+For each proposed edge it spends a fixed calibration block, compares the
+paired-difference variance with the two endpoint variances, and permits paired
+uncertainty only when a conservative empirical margin still indicates a
+minimum variance reduction. Unsafe edges use direct row means and radii; a
+global restart floor remains active; the returned row has direct observations.
+The fixed question permutation is allocated before outcomes for that edge and
+is only a question-sampling device, not workflow-prefix reuse.
+
+SCCR is deliberately labeled heuristic. The edge is selected adaptively, the
+variance gate is not time-uniform, and the calibration margin is not a proof
+of fixed-confidence correctness. It is useful as an ablation asking whether a
+similarity diagnostic can prevent CACR from trusting a false neighborhood.
+On 50-seed synthetic controls (independent 200-question audit), SCCR reached
+`0.662/0.690/0.815` at smooth cost caps `100/200/400`, below CACR's
+`0.745/0.796/0.861`; on the iid cap-170 control it reached `0.599`, close to
+random `0.596` and CACR `0.596`. These numbers are generator checks only.
+The real study must report safe/unsafe edge counts, calibration spend, and
+confidence intervals, then compare against C-LUCB, the generative-proxy
+certificate, the hybrid-feedback baseline, SySRs, and direct allocation.

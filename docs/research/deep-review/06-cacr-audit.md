@@ -39,12 +39,14 @@ close control-variate precedent. Treating an already measured neighboring row
 as a proxy may be useful, but it must be compared with that framework and must
 account for the proxy's own full-cascade cost.
 
-A safer successor worth testing is a gated version, tentatively SCCR
-(safe-cost correlated racing): use a neighbor's paired allocation only after a
-calibration block gives a conservative positive lower bound on variance
-reduction; otherwise use a random/direct proposal. This may protect against
-the iid and permuted-graph cases, but it is not implemented or theoretically
-validated yet.
+A safer successor is the implemented gated version **SCCR (safe-cost
+correlated racing)**. It spends a fixed calibration block on a candidate edge,
+compares the paired-difference variance with the two endpoint variances, and
+uses the paired race only when a deliberately conservative empirical margin
+still indicates variance reduction. An unsafe edge is raced with direct
+row-level uncertainty and the search retains a global restart floor. This is
+an empirical guard, not a confidence guarantee: the edge itself was selected
+adaptively and the margin is not a time-uniform bound.
 
 ## Precise target problem
 
@@ -116,6 +118,26 @@ CACR proposals reduced audit accuracy from `0.796` to `0.764` (50 seeds), but
 it remained above random (`0.626`). Because the selector has a restart floor
 and direct row evidence, this is only a partial graph ablation; the real study
 must also report the restart rate and the same control with restarts disabled.
+
+### Gated-racing control
+
+The same 50-seed synthetic run gives the following SCCR control. Its lower
+smooth-landscape score is expected: calibration consumes cells and the gate
+declines to exploit some local edges. The iid result is the useful safety
+check, not evidence of a gain.
+
+| Landscape and cap | Random | CW-PLR | CACR | SCCR |
+| --- | ---: | ---: | ---: | ---: |
+| Smooth, 100 | 0.454 | 0.588 | 0.745 | 0.662 |
+| Smooth, 200 | 0.626 | 0.618 | 0.796 | 0.690 |
+| Smooth, 400 | 0.801 | 0.723 | 0.861 | 0.815 |
+| IID, 170 | 0.596 | 0.598 | 0.596 | 0.599 |
+
+The values are held-out audit accuracy from an invented generator. SCCR is
+not being presented as the winner; it is a guard against turning a false
+similarity assumption into a recommendation. The real experiment must report
+the number of safe and unsafe edges, calibration spend, and uncertainty over
+seeds alongside accuracy.
 
 ## Existing pilot trace
 

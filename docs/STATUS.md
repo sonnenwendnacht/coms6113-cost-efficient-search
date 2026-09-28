@@ -1,6 +1,6 @@
 # Project status
 
-Updated: 2026-09-27. This file distinguishes setup from research progress.
+Updated: 2026-09-28. This file distinguishes setup from research progress.
 
 ## Completed locally
 
@@ -19,6 +19,7 @@ Updated: 2026-09-27. This file distinguishes setup from research progress.
 - Added a corrected [graph-residual cost-aware racing candidate](research/algorithm2-graph-residual.md). It measures neighboring complete rows on shared questions and estimates row differences through paired residuals. On the same synthetic landscape it reached mean latent reward `0.654` at a 10% cell fraction, below the exploratory kernel prototype's `0.862`; this negative result is preserved as a warning that the anchor and residual allocation need further work.
 - Audited the closest similarity prior, SySRs, and recorded the stronger Algorithm 2 research direction in [QPG-TS](research/qpg-track-and-stop.md): a cost-weighted, graph-constrained successive-rejection design for complete retry rows with realized cascade costs. Same-question pairing and similarity alone are explicitly excluded as novelty claims; the proposed extension remains a hypothesis until it is compared with SySRs and direct-cost baselines.
 - A follow-up audit found that graph paths have no automatic variance advantage over a direct paired endpoint comparison, and that ParamILS/FocusedILS already combine one-change local moves with same-instance racing. The current research direction is therefore a narrower **Cost-Weighted Pairwise Local Racing** candidate, with a synchronized cost-aware SySRs procedure as the safer baseline. The graph-path prototype remains a negative allocation ablation.
+- Added a gated **Safe Cost-aware Correlated Racing (SCCR)** prototype. It calibrates each proposed edge on a fixed question block, uses paired uncertainty only when an empirical variance-reduction margin passes, and falls back to direct row uncertainty with global restarts otherwise. Its synthetic iid control is noise-level, while its smooth score is below ungated CACR; this is a safety ablation, not a superiority result.
 - Added resumable JSONL checkpoints to the nine-model local runner. The earlier `exp1-nine-local-20260927` attempt ended after partial model work without a usable trace; it is not reported as a completed experiment. Future runs can resume with `--resume --run-id ...`.
 
 ## GitHub
