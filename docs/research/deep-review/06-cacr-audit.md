@@ -166,6 +166,13 @@ within-pair correlation between paired cost and absolute score difference was
 only `0.190`, `0.047`, and `-0.104` for distances 1, 2, and 3. CACR's cost
 allocation therefore remains a hypothesis awaiting the larger trace.
 
+As a software smoke check only, replaying that pilot under a 100-cell cap
+selected SCCR's row with audit accuracy `0.30` and search cost `$0.007685`
+(four gated-safe and one unsafe edge). CACR selected a different row with
+audit accuracy `0.20` and cost `$0.01145`; CW-PLR reached `0.30` at `$0.00696`.
+There are only 20 search and 10 audit questions, so these values are not a
+comparison and must not be cited as evidence.
+
 ## Required next test
 
 Implement or reproduce a cost-aware absolute/pairwise hybrid baseline, then
