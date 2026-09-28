@@ -251,3 +251,16 @@ and final fresh audit. Retain CACR only if its benefit survives the iid and
 permuted-graph controls and exceeds uncertainty from search seeds and audit
 questions. Otherwise the honest result is that ordinary paired allocation or
 AgentOpt already captures the gain.
+
+## Possible refinement: safe-cost correlated racing (SCCR)
+
+If the iid control shows that CACR's local proposals can hurt, the next
+research version should add a conservative gate rather than assume every
+Hamming neighbor is useful. For each edge, estimate the reduction in paired
+score variance from a preregistered calibration block and attach a lower
+confidence bound to that reduction. Use the local cost-aware acquisition rule
+only when the bound is positive; otherwise fall back to a direct/random
+proposal. Keep a nonzero global restart floor and confirm the final row
+directly. This is a hypothesis for a safer algorithm, not an implemented or
+theorem-backed result. It would need comparison with C-LUCB and PROBE's
+unknown-correlation variance certificate.
