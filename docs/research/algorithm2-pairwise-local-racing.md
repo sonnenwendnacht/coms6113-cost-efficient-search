@@ -198,7 +198,7 @@ or shuffled matrix row must never silently change the neighborhood.
 
 The benchmark now also has an `--landscape iid` negative control that removes
 row locality. At 135 cells and 50 seeds, its independent 200-question audit
-gave mean accuracies `0.597` (random), `0.597` (CW-PLR), and `0.603` (CACR);
+gave mean accuracies `0.597` (random), `0.597` (CW-PLR), and `0.596` (CACR);
 at a matched cost cap of 170, the values were `0.596`, `0.598`, and `0.596`.
 The small differences are noise-level in this control and do not support a
 similarity benefit. This control must stay in later reports.
