@@ -17,6 +17,9 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from retry_search.experiment1_report import write_report  # noqa: E402
 from retry_search.selection_sweep import default_settings, run_sweep  # noqa: E402
+from retry_search.pairwise_local_racing import run_cw_plr  # noqa: E402
+from retry_search.cost_aware_correlated_racing import run_cacr  # noqa: E402
+from retry_search.safe_correlated_racing import run_sccr  # noqa: E402
 
 
 def main() -> int:
@@ -24,6 +27,8 @@ def main() -> int:
     ap.add_argument("trace_dir", type=Path, help="completed run directory under results/runs")
     ap.add_argument("--output-dir", type=Path, default=None)
     ap.add_argument("--seed", action="append", type=int, default=None)
+    ap.add_argument("--include-structured", action="store_true",
+                    help="also replay CW-PLR, CACR, and SCCR at realized-cost fractions")
     args = ap.parse_args()
     trace_dir = args.trace_dir
     traces = json.loads((trace_dir / "traces.json").read_text(encoding="utf-8"))
@@ -49,13 +54,29 @@ def main() -> int:
         name = str(row["config_id"])
         evaluation_by_config[name].append(float(row["final_correct"]))
         evaluation_cost_by_config[name].append(float(row["cost_usd"]))
+    exhaustive_cost = sum(sum(row) for row in costs)
     seeds = args.seed if args.seed is not None else metadata.get("seeds", [6113, 6114, 6115, 6116, 6117, 6118, 6119, 6120])
     selector_runs = run_sweep(rewards, costs, configs, settings=default_settings(), seeds=seeds)
+    if args.include_structured:
+        # These are explicit cost-budget settings, analogous to the budget
+        # rows in AgentOpt's Table 7.  The methods see only search cells; the
+        # held-out matrix is attached below after each recommendation.
+        for fraction in (0.10, 0.20, 0.40, 0.60, 0.80, 1.00):
+            budget = exhaustive_cost * fraction
+            for seed in seeds:
+                structured = (
+                    ("cw_plr", run_cw_plr(rewards, costs, configs, cost_budget=budget, seed=int(seed))),
+                    ("cacr", run_cacr(rewards, costs, configs, cost_budget=budget, seed=int(seed))),
+                    ("sccr", run_sccr(rewards, costs, configs, cost_budget=budget, seed=int(seed))),
+                )
+                for algorithm, result in structured:
+                    result.update({"algorithm": algorithm, "parameter_name": "cost_fraction",
+                                   "parameter_value": fraction, "seed": int(seed)})
+                    selector_runs.append(result)
     for run in selector_runs:
         selected = str(run["selected_config_id"])
         run["heldout_accuracy"] = sum(evaluation_by_config[selected]) / len(evaluation_by_config[selected])
         run["heldout_mean_cost"] = sum(evaluation_cost_by_config[selected]) / len(evaluation_cost_by_config[selected])
-    exhaustive_cost = sum(sum(row) for row in costs)
     oracle = max(configs, key=lambda name: (
         sum(rewards[config_index[name]]) / search_n,
         -sum(costs[config_index[name]]),

@@ -31,4 +31,5 @@ __pycache__/
 /data/cache/
 /results/runs/
 /experiments/local/
+/.qa/
 *.log
