@@ -47,6 +47,19 @@ class SafeCorrelatedRacingTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             run_sccr(self.rewards, self.costs, self.ids, cell_budget=4, min_reduction=1.0)
 
+    def test_gate_can_reject_anti_correlated_pair(self):
+        # Opposite answers on the same question make the paired residual noisier
+        # than two independent row estimates.  The selector must retain the
+        # direct fallback rather than treating this edge as safe.
+        rewards = [
+            [0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0],
+            [1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0],
+            self.rewards[2],
+        ]
+        result = run_sccr(rewards, self.costs, self.ids, cell_budget=14, seed=0)
+        self.assertGreater(result["unsafe_edges"], 0)
+        self.assertGreater(result["gated_fallbacks"], 0)
+
 
 if __name__ == "__main__":
     unittest.main()
