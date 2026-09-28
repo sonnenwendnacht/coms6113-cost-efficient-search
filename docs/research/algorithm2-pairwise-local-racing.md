@@ -142,3 +142,12 @@ at caps `100/200/400`, CW-PLR reached `0.588/0.618/0.723` audit accuracy,
 while random cells reached `0.454/0.626/0.801`. The realized costs were within
 one endpoint call of the cap for both selectors. This is still one invented
 landscape; it does not justify choosing CW-PLR for MathQA.
+
+The companion diagnostic `scripts/diagnose_row_similarity.py` measured the
+same synthetic search matrix before running a selector. Its residual variance
+by Hamming distance was `0.182`, `0.279`, and `0.363` for distances one, two,
+and three. This confirms that the generator contains the locality assumption
+CW-PLR needs. It is a sanity check of the generator, not evidence that the
+MathQA rows have the same property. The real experiment must publish this
+neighbor-versus-random residual diagnostic from the search split before
+interpreting any gain.
