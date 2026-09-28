@@ -143,6 +143,11 @@ realized cost, and the same question supplies both the paired score and cost
 evidence. That is a hypothesis to test, not a novelty claim. The prototype
 and synthetic results are currently on the Algorithm 2 branch in PR #4.
 
+[Best-Arm Identification with Generative Proxy](https://arxiv.org/abs/2607.06879)
+is another close boundary: it uses a correlated cheap proxy and controls
+residual variance. A proxy version of CACR would need to compare against that
+framework rather than claim control-variate allocation as new.
+
 The branch also includes an independent-row (`iid`) negative control. With
 135 cells and 50 seeds, CACR was effectively tied with random search on that
 control, so the smooth-landscape gain must not be presented as universal.
