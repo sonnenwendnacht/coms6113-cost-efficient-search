@@ -87,7 +87,10 @@ def run_sccr(
     additive ``variance_margin`` is divided by ``sqrt(m)`` for a conservative
     small-sample buffer.  These are tuning parameters for an ablation, not a
     confidence guarantee.  Calibration cells are charged once and reused by
-    the subsequent race.  Unsafe local pairs use direct row means/radii.
+    the subsequent race.  Unsafe local pairs use direct row means/radii. In
+    realized-cost mode a pair can overshoot the cap because the second
+    endpoint's cost is unknown before the pair is run; the returned spend is
+    always the measured spend.
     """
 
     k, n, _ = _validate(
