@@ -136,6 +136,12 @@ question split is too small to support a powered comparison. The diagnostic
 must be rerun on the completed 400-question experiment and kept separate from
 any tuning data.
 
+The same pilot does not establish a useful cost signal. Mean paired cost was
+approximately `0.00019208` at all three Hamming distances, and the mean
+within-pair correlation between paired cost and absolute score difference was
+only `0.190`, `0.047`, and `-0.104` for distances 1, 2, and 3. CACR's cost
+allocation therefore remains a hypothesis awaiting the larger trace.
+
 ## Required next test
 
 Implement or reproduce a cost-aware absolute/pairwise hybrid baseline, then

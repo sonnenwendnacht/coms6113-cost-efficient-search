@@ -169,6 +169,10 @@ reduced CACR audit accuracy from 0.796 to 0.764 (50 seeds), while random cells
 reached 0.626. This is only a partial graph ablation because the restart floor
 and direct evidence remain active.
 
+The pilot did not show a cost signal: mean paired cost was approximately
+`0.00019208` at each Hamming distance, with weak mean cost/absolute-difference
+correlations `0.190/0.047/-0.104` at distances `1/2/3`.
+
 A possible refinement is a safe-cost gate: estimate variance reduction for each
 neighbor on a preregistered calibration block, use local racing only when a
 conservative lower bound says the reduction is positive, and otherwise fall
