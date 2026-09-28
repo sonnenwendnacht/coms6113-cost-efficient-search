@@ -21,6 +21,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from retry_search.pairwise_local_racing import run_cw_plr  # noqa: E402
 from retry_search.cost_aware_correlated_racing import run_cacr  # noqa: E402
+from retry_search.safe_correlated_racing import run_sccr  # noqa: E402
 
 
 def make_matrix(side: int, questions: int, offset: int) -> tuple[list[list[float]], list[list[float]]]:
@@ -104,6 +105,7 @@ def main() -> int:
     parser.add_argument("--cost-cap", type=float, default=None)
     parser.add_argument("--landscape", choices=("smooth", "iid"), default="smooth")
     parser.add_argument("--include-permuted-graph", action="store_true")
+    parser.add_argument("--include-sccr", action="store_true")
     args = parser.parse_args()
     k = args.side**3
     if args.cost_cap is not None and args.cost_cap <= 0:
@@ -134,10 +136,15 @@ def main() -> int:
             random.Random(500000 + seed).shuffle(slots)
             permuted = run_cacr(search_rewards, search_costs, ids, seed=seed, row_slots=slots, **plr_kwargs)
             records.append(evaluate({"algorithm": "cacr_permuted_graph", **permuted}, audit_rewards, audit_costs))
+        if args.include_sccr:
+            sccr = run_sccr(search_rewards, search_costs, ids, seed=seed, **plr_kwargs)
+            records.append(evaluate({"algorithm": "sccr", **sccr}, audit_rewards, audit_costs))
     summary = {}
     algorithms = ["random_cells", "cw_plr", "cacr"]
     if args.include_permuted_graph:
         algorithms.append("cacr_permuted_graph")
+    if args.include_sccr:
+        algorithms.append("sccr")
     for algorithm in algorithms:
         rows = [row for row in records if row["algorithm"] == algorithm]
         summary[algorithm] = {
