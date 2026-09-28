@@ -147,13 +147,23 @@ def main() -> int:
         algorithms.append("sccr")
     for algorithm in algorithms:
         rows = [row for row in records if row["algorithm"] == algorithm]
+        audit_values = [row["audit_accuracy"] for row in rows]
+        audit_sd = statistics.stdev(audit_values) if len(audit_values) > 1 else 0.0
         summary[algorithm] = {
-            "mean_audit_accuracy": statistics.mean(row["audit_accuracy"] for row in rows),
+            "mean_audit_accuracy": statistics.mean(audit_values),
+            "sd_audit_accuracy": audit_sd,
+            "se_audit_accuracy": audit_sd / (len(audit_values) ** 0.5) if audit_values else 0.0,
             "audit_optimal_rate": sum(row["selected_config_index"] == k - 1 for row in rows) / len(rows),
             "mean_search_evaluations": statistics.mean(row["search_evaluations"] for row in rows),
             "mean_search_cost": statistics.mean(row["search_cost"] for row in rows),
             "mean_audit_cold_cost": statistics.mean(row["audit_cold_cost"] for row in rows),
         }
+        if algorithm == "sccr":
+            summary[algorithm]["mean_safe_edges"] = statistics.mean(row["safe_edges"] for row in rows)
+            summary[algorithm]["mean_unsafe_edges"] = statistics.mean(row["unsafe_edges"] for row in rows)
+            summary[algorithm]["mean_calibration_evaluations"] = statistics.mean(
+                row["calibration_evaluations"] for row in rows
+            )
     print(json.dumps({"synthetic": True, "settings": vars(args), "budget_cells": budget, "cost_cap": args.cost_cap, "summary": summary}, indent=2))
     return 0
 
