@@ -33,6 +33,11 @@ class PairwiseLocalRacingTests(unittest.TestCase):
         self.assertIn(result["selected_config_id"], self.ids)
         self.assertGreaterEqual(result["search_cost"], 20.0)
 
+    def test_cacr_accepts_explicit_row_slots(self):
+        slots = [(row // 4, row % 4) for row in range(8)]
+        result = run_cacr(self.rewards, self.costs, self.ids, cell_budget=24, seed=5, row_slots=slots)
+        self.assertIn(result["selected_config_id"], self.ids)
+
 
 if __name__ == "__main__":
     unittest.main()

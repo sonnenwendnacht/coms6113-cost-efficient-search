@@ -192,6 +192,10 @@ cost-aware best-arm identification ([CABAI](https://arxiv.org/abs/2402.16710)).
 These works motivate the ingredients but do not by themselves establish that
 CACR is new or that it works on retry workflows.
 
+The prototype accepts explicit row_slots when configuration IDs are not in
+canonical base-side order. This is required for real experiments: a string ID
+or shuffled matrix row must never silently change the neighborhood.
+
 ## CACR prototype check
 
 The prototype was added in `src/retry_search/cost_aware_correlated_racing.py`.

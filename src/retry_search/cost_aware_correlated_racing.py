@@ -38,6 +38,7 @@ def run_cacr(
     restart_floor: float = 0.15,
     initial_block: int = 2,
     margin: float = 0.0,
+    row_slots: Sequence[Sequence[int]] | None = None,
 ) -> dict[str, Any]:
     """Run the CACR research prototype on a complete row/question matrix.
 
@@ -52,6 +53,14 @@ def run_cacr(
         raise ValueError("rewards and costs must have the same shape")
     if len(config_ids) != k or len(set(str(item) for item in config_ids)) != k:
         raise ValueError("config_ids must be unique and match the matrix")
+    if row_slots is not None:
+        if len(row_slots) != k or any(len(slot) == 0 for slot in row_slots):
+            raise ValueError("row_slots must have one nonempty slot tuple per row")
+        normalized_slots = [tuple(int(value) for value in slot) for slot in row_slots]
+        if len(set(normalized_slots)) != k:
+            raise ValueError("row_slots must be unique")
+    else:
+        normalized_slots = None
     if (cell_budget is None) == (cost_budget is None):
         raise ValueError("provide exactly one of cell_budget or cost_budget")
     if cell_budget is not None and cell_budget < 1:
@@ -111,6 +120,16 @@ def run_cacr(
             return mean * 1.25
         variance = sum((value - mean) ** 2 for value in values) / (len(values) - 1)
         return max(1e-9, mean + 1.96 * math.sqrt(variance / len(values)))
+
+    def neighbors(row: int) -> list[int]:
+        if normalized_slots is None:
+            return [candidate for candidate in _hamming_neighbors(row, k) if candidate != row]
+        target = normalized_slots[row]
+        return [
+            candidate
+            for candidate, slot in enumerate(normalized_slots)
+            if candidate != row and len(slot) == len(target) and sum(a != b for a, b in zip(slot, target)) == 1
+        ]
 
     def block_choice(pair: tuple[int, int]) -> int:
         history = pair_values.get(pair, [])
@@ -176,8 +195,8 @@ def run_cacr(
     incumbent = max(scout_rows or [rng.randrange(k)], key=lambda row: row_estimate(row)[0] + row_estimate(row)[1])
     while not reached() and rounds < max(1, k * n):
         rounds += 1
-        neighbors = [row for row in _hamming_neighbors(incumbent, k) if row != incumbent]
-        pool = list(range(k)) if rng.random() < max(restart_floor, 0.35 * (1 - rounds / max(1, k * n))) else neighbors
+        local_candidates = neighbors(incumbent)
+        pool = list(range(k)) if rng.random() < max(restart_floor, 0.35 * (1 - rounds / max(1, k * n))) else local_candidates
         candidates = [row for row in pool if row != incumbent and (incumbent, row) not in closed]
         candidates = [row for row in candidates if len(pair_questions.get((incumbent, row), set())) < n]
         if not candidates:
