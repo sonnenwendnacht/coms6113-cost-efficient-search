@@ -39,6 +39,13 @@ close control-variate precedent. Treating an already measured neighboring row
 as a proxy may be useful, but it must be compared with that framework and must
 account for the proxy's own full-cascade cost.
 
+A safer successor worth testing is a gated version, tentatively SCCR
+(safe-cost correlated racing): use a neighbor's paired allocation only after a
+calibration block gives a conservative positive lower bound on variance
+reduction; otherwise use a random/direct proposal. This may protect against
+the iid and permuted-graph cases, but it is not implemented or theoretically
+validated yet.
+
 ## CACR prototype
 
 The prototype in `src/retry_search/cost_aware_correlated_racing.py` does the

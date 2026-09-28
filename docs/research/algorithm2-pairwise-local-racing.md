@@ -162,3 +162,9 @@ In the prototype's smooth control at cap 200, randomly permuting row slots
 reduced CACR audit accuracy from 0.796 to 0.764 (50 seeds), while random cells
 reached 0.626. This is only a partial graph ablation because the restart floor
 and direct evidence remain active.
+
+A possible refinement is a safe-cost gate: estimate variance reduction for each
+neighbor on a preregistered calibration block, use local racing only when a
+conservative lower bound says the reduction is positive, and otherwise fall
+back to a random/direct proposal. This is a future hypothesis, not an
+implemented or theorem-backed method.
