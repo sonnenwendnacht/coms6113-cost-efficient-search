@@ -135,7 +135,10 @@ This combines established common-random-number ranking and selection
 ([Görder and Kolonko](https://arxiv.org/abs/1410.6782)), correlated-arm
 best-arm identification ([C-LUCB](https://arxiv.org/abs/2109.04941)), and
 resource-cost accounting ([BAIwRC](https://proceedings.mlr.press/v238/li24c.html)).
-The possible gap is narrower: a complete retry cascade has outcome-dependent
+The newer [Hybrid Feedback](https://arxiv.org/abs/2605.05745) paper also
+allocates between absolute and pairwise feedback with heterogeneous costs, so
+CACR's paired-versus-direct allocation is not itself a novelty claim. The
+possible gap is narrower: a complete retry cascade has outcome-dependent
 realized cost, and the same question supplies both the paired score and cost
 evidence. That is a hypothesis to test, not a novelty claim. The prototype
 and synthetic results are currently on the Algorithm 2 branch in PR #4.
