@@ -229,3 +229,15 @@ high-quality rows more expensive by construction. These results are a
 debugging signal that the acquisition rule is implementable, not evidence of
 superiority. The next check must use retry traces or a synthetic model with
 independent controls for quality and reached-call cost.
+
+## Publication gate
+
+Before treating CACR as Algorithm 2 for a paper, run a matched-dollar study
+against random search, uniform synchronized evaluation, SySRs-style paired
+elimination, AgentOpt's available selector, a cost-aware resource-constrained
+BAI baseline, and a direct/pairwise hybrid-feedback baseline. Use the same
+question split, full-row retry semantics, stopping checker, cache permissions,
+and final fresh audit. Retain CACR only if its benefit survives the iid and
+permuted-graph controls and exceeds uncertainty from search seeds and audit
+questions. Otherwise the honest result is that ordinary paired allocation or
+AgentOpt already captures the gain.
