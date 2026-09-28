@@ -58,7 +58,9 @@ def _validate(
         raise ValueError("initial_block must be positive and calibration_block at least 2")
     if not 0 <= restart_floor <= 1:
         raise ValueError("restart_floor must be in [0, 1]")
-    if not 0 <= min_reduction < 1 or variance_margin < 0:
+    if not math.isfinite(min_reduction) or not 0 <= min_reduction < 1:
+        raise ValueError("invalid min_reduction")
+    if not math.isfinite(variance_margin) or variance_margin < 0:
         raise ValueError("invalid gate parameters")
     return k, n, None
 
@@ -100,7 +102,7 @@ def run_sccr(
         min_reduction=min_reduction,
         variance_margin=variance_margin,
     )
-    if not 0 <= margin < 1:
+    if not math.isfinite(margin) or not 0 <= margin < 1:
         raise ValueError("margin must be in [0, 1)")
 
     if row_slots is not None:

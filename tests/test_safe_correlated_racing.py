@@ -46,6 +46,10 @@ class SafeCorrelatedRacingTests(unittest.TestCase):
             run_sccr(self.rewards, self.costs, self.ids, cell_budget=4, calibration_block=1)
         with self.assertRaises(ValueError):
             run_sccr(self.rewards, self.costs, self.ids, cell_budget=4, min_reduction=1.0)
+        with self.assertRaises(ValueError):
+            run_sccr(self.rewards, self.costs, self.ids, cell_budget=4, variance_margin=float("nan"))
+        with self.assertRaises(ValueError):
+            run_sccr(self.rewards, self.costs, self.ids, cell_budget=4, margin=float("nan"))
 
     def test_gate_can_reject_anti_correlated_pair(self):
         # Opposite answers on the same question make the paired residual noisier
@@ -59,6 +63,19 @@ class SafeCorrelatedRacingTests(unittest.TestCase):
         result = run_sccr(rewards, self.costs, self.ids, cell_budget=14, seed=0)
         self.assertGreater(result["unsafe_edges"], 0)
         self.assertGreater(result["gated_fallbacks"], 0)
+
+    def test_full_calibration_still_uses_direct_decision(self):
+        result = run_sccr(
+            [[0.0, 0.0, 0.0, 0.0], [1.0, 1.0, 1.0, 1.0]],
+            [[1.0] * 4, [1.0] * 4],
+            ["low", "high"],
+            cell_budget=8,
+            seed=0,
+            initial_block=1,
+            calibration_block=4,
+        )
+        self.assertEqual(result["selected_config_id"], "high")
+        self.assertEqual(result["search_evaluations"], 8)
 
 
 if __name__ == "__main__":

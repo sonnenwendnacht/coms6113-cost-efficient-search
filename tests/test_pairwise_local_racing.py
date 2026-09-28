@@ -38,6 +38,10 @@ class PairwiseLocalRacingTests(unittest.TestCase):
         result = run_cacr(self.rewards, self.costs, self.ids, cell_budget=24, seed=5, row_slots=slots)
         self.assertIn(result["selected_config_id"], self.ids)
 
+    def test_cacr_tiny_budget_returns_observed_row(self):
+        result = run_cacr(self.rewards, self.costs, self.ids, cell_budget=1, seed=6)
+        self.assertIsNotNone(result["selected_observed_accuracy"])
+
 
 if __name__ == "__main__":
     unittest.main()
