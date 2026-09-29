@@ -21,6 +21,10 @@ Updated: 2026-09-28 21:14 ET (research-only checkpoint).
   cost/reward dependence, robust structured pure exploration, categorical BO
   prior art, and a concrete falsification plan. The synthesis is in
   `docs/research/deep-review/11-research-synthesis-2026-09-29.md`.
+- The mentor-paper audit is in
+  `docs/research/deep-review/12-mentor-gittinseval-audit-2026-09-29.md`; it
+  records GittinsEval's Gaussian independent-arm assumptions and the exact
+  retry-row differences that require a separate baseline or reduction.
 - The current Algorithm 2 checkpoint is pushed as commit `da7461f` on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
