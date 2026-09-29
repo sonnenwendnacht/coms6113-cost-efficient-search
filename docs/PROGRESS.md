@@ -9,11 +9,12 @@ Updated: 2026-09-29 19:00 ET.
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is checked by the repository's offline CI. Research notes 33--35 audit the
+  is checked by the repository's offline CI. Research notes 33--36 audit the
   replay contract: the current full trace supports leak-free counterfactual
   selector comparison, but not a live shared-hub ledger or strict equal-dollar
-  caps; note 34 specifies the next oracle and manifest contract, and note 35
-  requires a cached-incumbent baseline before claiming hub savings.
+  caps; note 34 specifies the next oracle and manifest contract, note 35
+  requires a cached-incumbent baseline before claiming hub savings, and note
+  36 records newly found September 2026 prior art.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 

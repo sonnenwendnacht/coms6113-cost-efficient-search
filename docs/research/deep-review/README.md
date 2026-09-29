@@ -53,6 +53,7 @@ prototype is novel or statistically certified:
 | [33: Replay protocol audit](33-replay-protocol-audit-2026-09-29.md) | Why the current full trace is a leak-free offline benchmark but not yet a live hub ledger or strict equal-dollar comparison |
 | [34: Ledger-backed hub specification](34-ledger-backed-hub-spec-2026-09-29.md) | Concrete oracle, manifest, reservation, confirmation, and reporting contract for Algorithm 2 |
 | [35: Hub amortization baseline](35-hub-amortization-baseline-2026-09-29.md) | Why reuse must be compared with a cached-incumbent baseline and how to state the break-even condition |
+| [36: September 2026 prior-art audit](36-september-2026-prior-art-audit-2026-09-29.md) | New cost-aware LLM configuration, dueling, and budgeted verification papers that narrow the claim boundary |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
