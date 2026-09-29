@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 19:22 ET (research-only window resumed; no experiments launched).
+Updated: 2026-09-29 19:23 ET (research-only window resumed; no experiments launched).
 
 ## Research branch
 
@@ -9,7 +9,7 @@ Updated: 2026-09-29 19:22 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `cc7d25c`; source-audit commits after it add notes 19--61.
+  is `6edd3c5`; source-audit commits after it add notes 19--62.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -137,6 +137,9 @@ Updated: 2026-09-29 19:22 ET (research-only window resumed; no experiments launc
 - Note 61 synthesizes the claim matrix into execution-policy, query-router,
   and outer-BAI/HPO families. It gives the manuscript a precise intersection
   claim and lists the broad novelty wording to avoid.
+- Note 62 audits EcoTune and unified routing/cascade theory. Token-aware
+  expected improvement, dynamic fidelity, and per-query optimal cascade are
+  required baselines rather than standalone Algorithm 2 novelty.
 - The latest main-branch documentation checkpoints are `2aa67dd`,
   `e2c5960`, and `4ec01f5`; the algorithm branch is included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
