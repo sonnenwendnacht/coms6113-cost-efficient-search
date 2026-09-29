@@ -25,6 +25,9 @@ Updated: 2026-09-28 21:14 ET (research-only checkpoint).
   `docs/research/deep-review/12-mentor-gittinseval-audit-2026-09-29.md`; it
   records GittinsEval's Gaussian independent-arm assumptions and the exact
   retry-row differences that require a separate baseline or reduction.
+- A candidate theory formulation for combining same-question covariance with
+  outcome-dependent complete-row charges is in
+  `docs/research/deep-review/13-correlated-resource-bai-theory-2026-09-29.md`.
 - The current Algorithm 2 checkpoint is pushed as commit `da7461f` on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
