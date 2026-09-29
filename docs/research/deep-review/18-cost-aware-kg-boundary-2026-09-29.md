@@ -115,6 +115,13 @@ Primary source: [Cost-aware Stopping for Bayesian Optimization](https://arxiv.or
 the “no worse than immediate stopping” result, and the independent-versus-
 correlated budget distinction.
 
+Correlated Pandora-style search is also not an untouched combination. Gergatsouli
+and Tzamos, *Weitzman's Rule for Pandora's Box with Correlations* (NeurIPS
+2023), studies correlated hidden values with fixed opening costs. Its objective
+and observation model differ from ours, but it is another reason to avoid a
+claim that correlation plus a cost-aware Pandora rule is generically new.
+See [the NeurIPS paper](https://proceedings.neurips.cc/paper_files/paper/2023/hash/29d319f7c1513c9ecd81d3a6e9632a6e-Abstract.html).
+
 The 2026 *Price of Knowledge* paper goes further for costly observations in
 correlated-action Gaussian-process bandits: it defines cost-adjusted
 information-gain complexities and gives C3-GP and GP-C-LUCB regret bounds.
