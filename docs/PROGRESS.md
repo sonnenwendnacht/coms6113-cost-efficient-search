@@ -201,6 +201,10 @@ Updated: 2026-09-29 19:39 ET (research-only window resumed; no experiments launc
   outcome-dependent missingness, so reached-only averages and zero imputation
   are invalid without a declared observation model or positive-probability gold
   audits.
+- Note 79 states the counterfactual boundary: unexecuted retry correctness is
+  not identifiable from deployment logs without a validated continuation model
+  or randomized forced continuation, so Algorithm 2 must recommend only after
+  direct complete-row confirmation.
 - The latest main branch is `02ba91f` and the algorithm branch is
   `200bbed`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on

@@ -66,9 +66,10 @@ cells with a permuted-graph control.
 
 Graph estimates are exploratory side information. A direct probe of a
 survivor does not certify an unobserved row by itself; the final recommendation
-must be a directly measured row with a valid interval, or every finalist must
-be evaluated on an independent confirmation block. For the exhaustive
-fraction, ignore the surrogate and use exact direct means.
+must be a directly measured row with a valid simultaneous interval. If a
+separate confirmation block is used, every finalist receives a pre-sized block
+and a valid simultaneous interval; otherwise the result is labeled exploratory.
+For the exhaustive fraction, ignore the surrogate and use exact direct means.
 
 ### Question schedules keep pairing honest
 
@@ -252,8 +253,8 @@ The practical candidate is **Cost-Weighted Pairwise Local Racing (CW-PLR)**:
 2. Propose a one-slot Hamming neighbor, with a cooling probability for a
    global random restart.
 3. Before seeing that race's outcomes, draw a fresh random permutation of the
-   full search questions. Evaluate the incumbent and challenger on paired
-   prefixes, reusing only exact row/question cells.
+   full search questions. Evaluate the incumbent and challenger as paired full
+   workflows on the same question block, reusing only exact row/question cells.
 4. Use a time-uniform paired confidence interval. Stop a losing challenger as
    soon as its upper advantage is below zero (or a practical margin), and
    promote it only when its lower advantage is positive.
