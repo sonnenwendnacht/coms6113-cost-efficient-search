@@ -4,7 +4,11 @@
 
 A structural selector can compare many complete rows through same-question residuals. If it creates edge streams after seeing the data, a confidence interval calibrated for one preselected edge is not enough. The edge set, time index, and any path chosen from the graph all become selection events.
 
-For the 9-by-9-by-9 row grid, the one-coordinate Hamming graph already has `3 * 8 * 9 * 9 = 1,944` undirected edges. A union bound over every edge and every interim sample can make early intervals too wide, but silently ignoring the multiplicity invalidates a global certificate.
+For the 9-by-9-by-9 row grid, the one-coordinate Hamming graph already has
+`3 * 9^2 * C(9,2) = 8,748` undirected edges (17,496 directed neighbor
+relations). A union bound over every edge and every interim sample can make
+early intervals too wide, but silently ignoring the multiplicity invalidates a
+global certificate.
 
 ## Defensible choices
 

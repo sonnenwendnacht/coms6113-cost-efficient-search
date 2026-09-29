@@ -197,6 +197,10 @@ Updated: 2026-09-29 19:39 ET (research-only window resumed; no experiments launc
 - Note 77 specifies CW-PTT, a no-prefix complete-row paired Top-Two control,
   and narrows Algorithm 2 to a certified structural sidecar that prioritizes
   direct comparisons but cannot recommend an unobserved row.
+- Note 78 audits missing-outcome bandits. Verifier-gated absent retries are
+  outcome-dependent missingness, so reached-only averages and zero imputation
+  are invalid without a declared observation model or positive-probability gold
+  audits.
 - The latest main branch is `02ba91f` and the algorithm branch is
   `200bbed`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
