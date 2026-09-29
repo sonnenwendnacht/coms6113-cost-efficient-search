@@ -9,7 +9,7 @@ Updated: 2026-09-29 19:00 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `3bac7b6`; source-audit commits after it add notes 19--41.
+  is `0f67eda`; source-audit commits after it add notes 19--42.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -79,6 +79,10 @@ Updated: 2026-09-29 19:00 ET (research-only window resumed; no experiments launc
 - Note 41 formalizes one complete row observation as `(Q,K,R)`, explains why
   retry slots are not independently sampleable attributes, and states the
   conditional theorem target plus its failure conditions.
+- Note 42 defines the fair baseline and claim matrix: cached-incumbent
+  paired racing is the required control, verifier-only and per-question
+  generate/verify methods are separate scopes, and exhaustive trace cost is
+  not selector money saved.
 - The latest main-branch documentation checkpoints are `2aa67dd`,
   `e2c5960`, and `4ec01f5`; the algorithm branch is included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
