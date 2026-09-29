@@ -75,13 +75,15 @@ For the exhaustive fraction, ignore the surrogate and use exact direct means.
 
 An edge gets a random permutation of the full search questions when it is
 created, before its outcomes are observed. Its sample is always a prefix of
-that permutation; known endpoint cells may be inserted, but earlier questions
-are not skipped. A synchronized-block alternative must run every active row on
-every earlier block; a newly admitted row catches up on those blocks before it
-is compared. Choosing a fresh block only from questions left after an
-outcome-dependent admission can bias the residual mean. The log should record
-planned and realized token cost, including any overshoot at the stopping
-boundary.
+that permutation. For each next prefix index `j`, pull any missing endpoint
+cells at `pi_e[j]`; record a residual only after both endpoints at that index
+are available. Previously observed cells at `pi_e[j]` may be reused, but no
+question outside the prefix may be promoted. A synchronized-block alternative
+must run every active row on every earlier block; a newly admitted row catches
+up on those blocks before it is compared. Choosing a fresh block only from
+questions left after an outcome-dependent admission can bias the residual mean.
+The log should record planned and realized token cost, including any overshoot
+at the stopping boundary.
 
 ## Allocation rule
 
