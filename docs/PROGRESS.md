@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 18:28 ET (research-only window resumed; no experiments launched).
+Updated: 2026-09-29 18:40 ET (research-only window resumed; no experiments launched).
 
 ## Research branch
 
@@ -15,7 +15,7 @@ Updated: 2026-09-29 18:28 ET (research-only window resumed; no experiments launc
 
 ## Research-only window
 
-- Through 2026-09-29 18:28 ET, no new experiments, replays, tests, or model/API
+- Through 2026-09-29 18:40 ET, no new experiments, replays, tests, or model/API
   calls were launched. The existing long trace was left untouched.
 - Source-audited notes now cover the validity limits of paired similarity,
   cost/reward dependence, robust structured pure exploration, categorical BO
@@ -52,8 +52,8 @@ Updated: 2026-09-29 18:28 ET (research-only window resumed; no experiments launc
 ## Long local trace
 
 - Run ID: `exp1-nine-local-20260927-proper`.
-- Status observed at 2026-09-29 22:18 UTC: `235,400 / 291,600` cells
-  (`80.73%`), still running in PID `8763`.
+- Status observed at 2026-09-29 22:39 UTC: `237,400 / 291,600` cells
+  (`81.41%`), still running in PID `8763`.
 - Status file: `results/runs/exp1-nine-local-20260927-proper/status.json`.
 - The runner writes resumable JSONL checkpoints. If the machine is restarted,
   resume with the same command and add `--resume --run-id
