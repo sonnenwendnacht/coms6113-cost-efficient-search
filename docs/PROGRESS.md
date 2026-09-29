@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 19:29 ET (research-only window resumed; no experiments launched).
+Updated: 2026-09-29 19:32 ET (research-only window resumed; no experiments launched).
 
 ## Research branch
 
@@ -9,7 +9,7 @@ Updated: 2026-09-29 19:29 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `af17cd6`; source-audit commits after it add notes 19--67.
+  is `9550789`; source-audit commits after it add notes 19--68.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -158,6 +158,11 @@ Updated: 2026-09-29 19:29 ET (research-only window resumed; no experiments launc
   heuristic predictor and can recommend an unpulled row; it still lacks
   hard-charge reservations, anytime bounds, reach strata, and direct search-
   time confirmation. It must not be described as certified HAPR yet.
+- Note 68 corrects the information boundary: the runtime verifier is
+  answer-key blind, but a benchmark selector may receive `final_correct` after
+  paying for a complete cell; only held-out cells remain hidden. This aligns
+  HAPR with the current replay and GittinsEval, and removes hidden-gold labels
+  as a false novelty claim.
 - The latest main-branch documentation checkpoints are `2aa67dd`,
   `e2c5960`, and `4ec01f5`; the algorithm branch is included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
