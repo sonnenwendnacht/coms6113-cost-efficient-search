@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 19:23 ET (research-only window resumed; no experiments launched).
+Updated: 2026-09-29 19:25 ET (research-only window resumed; no experiments launched).
 
 ## Research branch
 
@@ -9,7 +9,7 @@ Updated: 2026-09-29 19:23 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `6edd3c5`; source-audit commits after it add notes 19--62.
+  is `f0fbd70`; source-audit commits after it add notes 19--65.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -140,6 +140,17 @@ Updated: 2026-09-29 19:23 ET (research-only window resumed; no experiments launc
 - Note 62 audits EcoTune and unified routing/cascade theory. Token-aware
   expected improvement, dynamic fidelity, and per-query optimal cascade are
   required baselines rather than standalone Algorithm 2 novelty.
+- Note 63 derives the hub break-even condition. Positive similarity is not
+  enough: a shared hub must reduce paired uncertainty per candidate charge and
+  be compared against a baseline with the same cached incumbent.
+- Note 64 audits the mentor's updated GittinsEval paper (arXiv:2609.25645).
+  Independent row arms, fixed per-example costs, and precomputed matrices are
+  direct baseline assumptions; HAPR's only defensible extension is the
+  verifier-censored, path-cost, cross-row-dependent retry setting.
+- Note 65 states the conditional structural-BAI theorem target: a low-
+  dimensional row feature model with residual uncertainty, paired covariance,
+  and explicit no-free-lunch/permutation controls. SySRs remains a mandatory
+  similarity baseline.
 - The latest main-branch documentation checkpoints are `2aa67dd`,
   `e2c5960`, and `4ec01f5`; the algorithm branch is included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
