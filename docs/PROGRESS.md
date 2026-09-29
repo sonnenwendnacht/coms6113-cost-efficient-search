@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 19:15 ET (research-only window resumed; no experiments launched).
+Updated: 2026-09-29 19:18 ET (research-only window resumed; no experiments launched).
 
 ## Research branch
 
@@ -9,7 +9,7 @@ Updated: 2026-09-29 19:15 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `ac3076d`; source-audit commits after it add notes 19--54.
+  is `1d40c91`; source-audit commits after it add notes 19--56.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -112,6 +112,13 @@ Updated: 2026-09-29 19:15 ET (research-only window resumed; no experiments launc
   Router-R1. Verifier-gated per-question retries, stochastic matrix
   non-identifiability, and sequential RL routing must be explicit baselines
   or assumptions rather than claimed novelties.
+- Note 55 formalizes a reach-aware execution ledger and nonanticipating
+  question blocks. It requires finite-population confidence sequences or
+  fresh confirmation after adaptive opening, and forbids imputing an
+  unexecuted continuation.
+- Note 56 audits BATS, ModelSwitch, and discriminative verification. Runtime
+  budget awareness, model complementarity, and verifier-cost tradeoffs are
+  established execution-side baselines, separate from outer row profiling.
 - The latest main-branch documentation checkpoints are `2aa67dd`,
   `e2c5960`, and `4ec01f5`; the algorithm branch is included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
