@@ -44,6 +44,20 @@ residual reduction and anchor cost satisfy this inequality. If the anchor mean
 is already known, any nonzero covariance can help; if it must be estimated at a
 comparable cost, the covariance must be strong enough to amortize that cost.
 
+Conditionally, if question draws are uniform from the registered bank, `beta`
+is fixed on an independent pilot, and the anchor mean is estimated from `m`
+independent anchor questions, then
+
+```text
+E[D_cv] = E[D],
+Var(mean(D_cv)) = v_R/n + beta^2 * v_Z/m,
+```
+
+where `v_R` is the residual variance and `v_Z` is the anchor-mean variance
+proxy. This is a control-variate identity, not a guarantee for an adaptively
+chosen anchor. If the search stops on realized dollars, replace the fixed-sample
+bound with an all-prefix confidence sequence.
+
 ## Safe algorithmic use
 
 1. Register the anchor and a pilot question split before outcomes are seen.
