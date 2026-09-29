@@ -89,6 +89,8 @@ prototype is novel or statistically certified:
 | [69: Explicit row-coordinate reproducibility](69-explicit-row-coordinate-reproducibility-2026-09-29.md) | Finds that default graph selectors infer Hamming coordinates from numeric order; all structured methods need an immutable row-slot mapping |
 | [70: Reach-stratified structural estimator](70-reach-stratified-structural-estimator-2026-09-29.md) | Gives a concrete paired linear residual model, reach-stratified covariance update, cost-normalized acquisition rule, and failure fallback |
 | [71: Objective and frontier contract](71-objective-and-frontier-contract-2026-09-29.md) | Separates profiling spend, held-out quality, deployment path cost, hard caps, and scalar tradeoffs for fair reporting |
+| [72: Procedure-level target and winner's curse](72-procedure-level-target-and-winner-curse-2026-09-29.md) | Separates finite-benchmark winner quality from fresh-task performance of the full budgeted search procedure |
+| [73: Verifier proxy and gold-audit boundary](73-verifier-proxy-and-gold-audit-boundary-2026-09-29.md) | Shows why verifier-only best-row identification needs calibration or selectively audited gold outcomes |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
