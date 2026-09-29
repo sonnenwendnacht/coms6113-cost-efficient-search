@@ -72,8 +72,8 @@ Updated: 2026-09-29 19:00 ET (research-only window resumed; no experiments launc
   versus verification allocation is established; the remaining boundary is
   outer identification of one complete retry row with endogenous path charge
   and a shared-row ledger.
-- The latest main-branch documentation checkpoints are `c4a9a60` and
-  `f5fe2da`; the algorithm branch is included in PR #4.
+- The latest main-branch documentation checkpoints are `2aa67dd`,
+  `e2c5960`, and `4ec01f5`; the algorithm branch is included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
