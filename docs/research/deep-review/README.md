@@ -95,6 +95,7 @@ prototype is novel or statistically certified:
 | [75: Confidence budget for adaptive edges](75-confidence-budget-for-adaptive-edges-2026-09-29.md) | Counts the multiple edge streams in the row graph and separates certified streams from uncertified model-assisted ranking |
 | [76: Finite-population reach decomposition](76-finite-pop-reach-decomposition-2026-09-29.md) | Gives the exact reach-times-reached-effect identity, finite-bank corrections, and the no-reach/selection-bias rules |
 | [77: No-prefix paired Top-Two control](77-no-prefix-paired-top-two-control-2026-09-29.md) | Defines a strong direct-complete-row baseline and a fail-closed structural sidecar that cannot recommend an unobserved row |
+| [78: Outcome-dependent missingness](78-outcome-dependent-missingness-2026-09-29.md) | Connects verifier-gated absent retries to MNAR bandit feedback and rules out zero/imputation shortcuts |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
