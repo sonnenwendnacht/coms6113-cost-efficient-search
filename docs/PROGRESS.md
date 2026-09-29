@@ -235,6 +235,10 @@ Updated: 2026-09-29 19:52 ET (research-only window resumed; no experiments launc
 - Note 87 specifies anchor selection. Candidate hubs and control coefficients
   must be chosen on a pilot or cross-fitted fold, with multiplicity charged and
   a direct CW-PTT fallback when no hub passes the conservative gate.
+- Note 88 freezes the claim matrix after the covariance audit. Paired residuals
+  are established; the possible contribution is only a gated, paid complete-row
+  cost adaptation, and any stronger novelty claim depends on equal-dollar
+  comparisons, permutation controls, and held-out evidence.
 - The latest main branch is `2a4f430` and the algorithm branch is
   `5b932bf`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
