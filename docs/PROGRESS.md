@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 19:34 ET (research-only window resumed; no experiments launched).
+Updated: 2026-09-29 19:36 ET (research-only window resumed; no experiments launched).
 
 ## Research branch
 
@@ -9,7 +9,7 @@ Updated: 2026-09-29 19:34 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `e07cbe4`; source-audit commits after it add notes 19--69.
+  is `da75cf4`; source-audit commits after it add notes 19--70.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -167,6 +167,10 @@ Updated: 2026-09-29 19:34 ET (research-only window resumed; no experiments launc
 - Note 69 finds a reproducibility defect: default graph selectors infer
   Hamming coordinates from numeric arm order. Every structured selector must
   use and record an immutable explicit row-slot mapping.
+- Note 70 derives a concrete reach-stratified structural estimator: paired
+  complete-row utility residuals, explicit coordinate features, observed reach
+  strata, cost-normalized acquisition, and a direct-racing fallback when fit
+  or covariance is weak.
 - The latest main-branch documentation checkpoints are `2aa67dd`,
   `e2c5960`, and `4ec01f5`; the algorithm branch is included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
