@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 18:57 ET (research-only window resumed; no experiments launched).
+Updated: 2026-09-29 19:00 ET (research-only window resumed; no experiments launched).
 
 ## Research branch
 
@@ -9,7 +9,7 @@ Updated: 2026-09-29 18:57 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `114c7c2`; source-audit commits after it add notes 19--37.
+  is `44848d4`; source-audit commits after it add notes 19--39.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -64,6 +64,14 @@ Updated: 2026-09-29 18:57 ET (research-only window resumed; no experiments launc
   any claim must require the complete retry-row arm, answer-key-blind
   solver/verifier coupling, endogenous early stopping, and a matched
   cached-incumbent comparison.
+- Note 38 audits structured BAI and feedback-graph overlap. A hub is a
+  same-question covariate/control variate, not free side feedback about an
+  unpulled candidate; direct candidate observations and final confirmation
+  remain required.
+- Note 39 audits adaptive generate-rank-verify. Within-question generation
+  versus verification allocation is established; the remaining boundary is
+  outer identification of one complete retry row with endogenous path charge
+  and a shared-row ledger.
 - The latest main-branch documentation checkpoints are `c4a9a60` and
   `f5fe2da`; the algorithm branch is included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
