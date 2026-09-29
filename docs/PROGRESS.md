@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 19:00 ET (research-only window resumed; no experiments launched).
+Updated: 2026-09-29 19:15 ET (research-only window resumed; no experiments launched).
 
 ## Research branch
 
@@ -9,7 +9,7 @@ Updated: 2026-09-29 19:00 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `7376934`; source-audit commits after it add notes 19--45.
+  is `ac3076d`; source-audit commits after it add notes 19--54.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -94,6 +94,24 @@ Updated: 2026-09-29 19:00 ET (research-only window resumed; no experiments launc
 - Note 45 audits LLMSelector. Static module assignment, coordinate updates,
   and monotonicity are prior art; verifier-controlled retry reach and hidden
   correctness invalidate direct transfer of its theorem.
+- Notes 46--47 audit budget-aware agentic routing, model/verifier serving,
+  self-healing workflows, profile/contrastive similarity, and MCTS workflow
+  search. They require the manuscript to say complete-row profiling rather
+  than generic agentic routing, and to treat full-matrix similarity as an
+  offline oracle rather than partial-observation evidence.
+- Note 48 audits contextual partial-feedback routing (PILOT and BaRP),
+  cost-aware best-arm identification, hybrid/dueling feedback, graph
+  side-observations, and clustered BAI. These are direct baselines or claim
+  boundaries for any similarity-plus-budget method.
+- Notes 49--51 audit stateful workflow planners, serving schedulers,
+  hierarchical autotuning, FlowCompile, foundation-model programs, and
+  AgentTTS. Online policy selection, workflow proxies, path-dependent cost,
+  and combinatorial search are established; HAPR remains an outer sparse
+  complete-row identification protocol.
+- Notes 52--54 audit Resample-or-Reroute, routing-gap identifiability, and
+  Router-R1. Verifier-gated per-question retries, stochastic matrix
+  non-identifiability, and sequential RL routing must be explicit baselines
+  or assumptions rather than claimed novelties.
 - The latest main-branch documentation checkpoints are `2aa67dd`,
   `e2c5960`, and `4ec01f5`; the algorithm branch is included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
