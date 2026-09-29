@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 19:50 ET (research-only window resumed; no experiments launched).
+Updated: 2026-09-29 19:51 ET (research-only window resumed; no experiments launched).
 
 ## Research branch
 
@@ -225,8 +225,8 @@ Updated: 2026-09-29 19:50 ET (research-only window resumed; no experiments launc
   anchor/control-variate ingredients are established; only their conditional
   combination for complete verifier-gated retry rows remains a defensible
   project-specific hypothesis.
-- The latest main branch is `19d0783` and the algorithm branch is
-  `6ba6d6a`; both are pushed and included in PR #4.
+- The latest main branch is `4f6142c` and the algorithm branch is
+  `183a4ce`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
