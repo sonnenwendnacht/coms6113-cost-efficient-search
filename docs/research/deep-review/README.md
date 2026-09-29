@@ -56,6 +56,7 @@ prototype is novel or statistically certified:
 | [36: September 2026 prior-art audit](36-september-2026-prior-art-audit-2026-09-29.md) | New cost-aware LLM configuration, dueling, and budgeted verification papers that narrow the claim boundary |
 | [37: Contextual dueling boundary](37-contextual-dueling-boundary-2026-09-29.md) | Why treating questions as contexts and row comparisons as duels is established, with a narrower retry-ledger gap |
 | [38: Structured feedback-graph boundary](38-structured-feedback-graph-boundary-2026-09-29.md) | Why structured BAI and feedback graphs are prior art, while a hub supplies a paired covariate rather than free candidate feedback |
+| [39: Generation-verification prior art](39-generation-verification-prior-art-2026-09-29.md) | Why adaptive generate-rank-verify is established for one prompt, leaving only the outer complete-row identification boundary |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
