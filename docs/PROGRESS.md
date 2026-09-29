@@ -9,7 +9,7 @@ Updated: 2026-09-29 18:40 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `8b6430a`; source-audit commits after it add notes 19--35.
+  is `f1762b4`; source-audit commits after it add notes 19--36.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -55,6 +55,10 @@ Updated: 2026-09-29 18:40 ET (research-only window resumed; no experiments launc
   confirmation, and separate search versus audit fields.
 - Note 35 requires a cached-incumbent baseline before claiming that a shared
   hub saves calls; fresh-comparator reuse is only a diagnostic.
+- Note 36 audits three new 2026 papers on cost-aware multi-objective LLM
+  configuration search, cost-aware LLM dueling, and budgeted multi-attribute
+  verification. They narrow the claim to shared-question, complete-row,
+  path-dependent retry charges.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
