@@ -9,7 +9,7 @@ Updated: 2026-09-29 19:00 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `bd3bc94`; source-audit commits after it add notes 19--40.
+  is `3bac7b6`; source-audit commits after it add notes 19--41.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -76,6 +76,9 @@ Updated: 2026-09-29 19:00 ET (research-only window resumed; no experiments launc
   fail-closed support gate: a row transfer must have direct paired evidence
   on a registered fold and held-out direct confirmation; pointwise oracle
   maxima and full-trace replay do not license a deployable selector.
+- Note 41 formalizes one complete row observation as `(Q,K,R)`, explains why
+  retry slots are not independently sampleable attributes, and states the
+  conditional theorem target plus its failure conditions.
 - The latest main-branch documentation checkpoints are `2aa67dd`,
   `e2c5960`, and `4ec01f5`; the algorithm branch is included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
