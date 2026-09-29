@@ -9,7 +9,7 @@ Updated: 2026-09-29 18:40 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `c1a63ab`; source-audit commits after it add notes 19--34.
+  is `8b6430a`; source-audit commits after it add notes 19--35.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -53,6 +53,8 @@ Updated: 2026-09-29 18:40 ET (research-only window resumed; no experiments launc
 - Note 34 specifies the next ledger-backed hub oracle: registered question
   streams, explicit initial cache, hard/soft reservation semantics, direct
   confirmation, and separate search versus audit fields.
+- Note 35 requires a cached-incumbent baseline before claiming that a shared
+  hub saves calls; fresh-comparator reuse is only a diagnostic.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
