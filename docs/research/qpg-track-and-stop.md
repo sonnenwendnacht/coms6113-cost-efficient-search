@@ -257,9 +257,11 @@ The practical candidate is **Cost-Weighted Pairwise Local Racing (CW-PLR)**:
 3. Before seeing that race's outcomes, draw a fresh random permutation of the
    full search questions. Evaluate the incumbent and challenger as paired full
    workflows on the same question block, reusing only exact row/question cells.
-4. Use a time-uniform paired confidence interval. Stop a losing challenger as
-   soon as its upper advantage is below zero (or a practical margin), and
-   promote it only when its lower advantage is positive.
+4. Use a time-uniform paired confidence interval. Because pair selection and
+   restarts are adaptive, assign each new pair stream a pre-registered error
+   share (or use one global simultaneous martingale sequence). Stop a losing
+   challenger as soon as its upper advantage is below zero (or a practical
+   margin), and promote it only when its lower advantage is positive.
 5. Divide the next block's information gain by predicted *new* realized token
    cost. Keep a small direct/random reserve and directly confirm the final
    incumbent on fresh questions.
