@@ -209,6 +209,10 @@ Updated: 2026-09-29 19:46 ET (research-only window resumed; no experiments launc
   reach and correctness, dollar-stopped runs need all-prefix confidence
   sequences; a fixed-sample interval is valid only for a pre-registered,
   nonadaptive confirmation block.
+- Note 81 derives the pairing cost–variance break-even. Similarity should guide
+  paired allocation only when residual covariance beats the cost-optimal
+  independent allocation; heterogeneous-cost and low-covariance cases are
+  required negative controls.
 - The latest main branch is `c31c823` and the algorithm branch is
   `0c89b4a`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on

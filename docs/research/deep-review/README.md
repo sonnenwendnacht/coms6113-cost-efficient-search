@@ -98,6 +98,7 @@ prototype is novel or statistically certified:
 | [78: Outcome-dependent missingness](78-outcome-dependent-missingness-2026-09-29.md) | Connects verifier-gated absent retries to MNAR bandit feedback and rules out zero/imputation shortcuts |
 | [79: Counterfactual retry identifiability](79-counterfactual-retry-identifiability-2026-09-29.md) | Separates observable complete-row scores from unidentifiable unexecuted retry outcomes |
 | [80: Cost stopping and confidence sequences](80-cost-stopping-and-confidence-sequences-2026-09-29.md) | Explains why dollar-stopped adaptive runs need all-prefix confidence sequences rather than fixed-sample error bars |
+| [81: Pairing cost–variance break-even](81-pairing-cost-variance-break-even-2026-09-29.md) | Derives when same-question pairing beats cost-optimal independent allocation and identifies required negative controls |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
