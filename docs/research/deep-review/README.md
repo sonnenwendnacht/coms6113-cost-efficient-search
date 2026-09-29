@@ -110,6 +110,7 @@ prototype is novel or statistically certified:
 | [91: Covariance confidence under adaptive stopping](91-covariance-confidence-under-adaptive-stopping-2026-09-29.md) | Separates iid matrix confidence-sequence theory from sparse, verifier-censored row observations |
 | [92: CW-CV-TT theorem target](92-cw-cv-tt-theorem-target-2026-09-29.md) | States the conditional delta-correctness target and the assumptions still missing from a proof |
 | [93: LLM surrogate-reward overlap](93-llm-surrogate-reward-overlap-2026-09-29.md) | Audits MLA-UCB's LLM model-selection surrogate and rules out cheap-proxy control variates as new |
+| [94: Structured-row bandit overlap](94-structured-row-bandit-overlap-2026-09-29.md) | Audits factored-reward and multi-agent vector-action BAI and narrows configuration-vector novelty |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.

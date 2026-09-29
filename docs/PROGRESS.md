@@ -255,6 +255,10 @@ Updated: 2026-09-29 19:52 ET (research-only window resumed; no experiments launc
   control variates are already demonstrated, so the only remaining boundary is
   the expensive complete-row, verifier-censored, path-cost setting with hidden
   final correctness.
+- Note 94 audits factored-reward and multi-agent vector-action BAI. A vector of
+  model choices or intermediate-stage structure is not novel by itself; the
+  remaining scope is complete retry-row identification with verifier censoring
+  and path-dependent cost.
 - The latest main branch is `2a4f430` and the algorithm branch is
   `5b932bf`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
