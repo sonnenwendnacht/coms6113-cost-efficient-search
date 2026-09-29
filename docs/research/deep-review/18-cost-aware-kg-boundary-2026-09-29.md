@@ -155,8 +155,10 @@ The most credible novelty hypothesis is therefore conditional and empirical:
 This wording makes the burden explicit. If PBGI or a generic correlated KG
 baseline matches SC-KG, the contribution is a careful benchmark and a negative
 result, not a new algorithm. If the gain comes only from a better prior or
-from using answer-key quality during search, the claim must be narrowed or
-rejected.
+from using answer-key quality in a setting that forbids post-run benchmark
+scores, the claim must be narrowed or rejected. The primary benchmark
+profiling setting may expose the score of a paid cell; only held-out cells
+remain hidden.
 
 ## Design consequence
 

@@ -152,8 +152,9 @@ Updated: 2026-09-29 19:32 ET (research-only window resumed; no experiments launc
   and explicit no-free-lunch/permutation controls. SySRs remains a mandatory
   similarity baseline.
 - Note 66 positions the method as censored structural best-row identification
-  and adds the required verifier-calibration condition: hidden gold labels
-  cannot support an accuracy guarantee from arbitrary PASS/FAIL signals.
+  and adds the required verifier-calibration condition for any
+  deployment-adaptive variant: runtime PASS/FAIL signals alone cannot support
+  an accuracy guarantee.
 - Note 67 audits the current replay implementation. The graph selector is a
   heuristic predictor and can recommend an unpulled row; it still lacks
   hard-charge reservations, anytime bounds, reach strata, and direct search-
