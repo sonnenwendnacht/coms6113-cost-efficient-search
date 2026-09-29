@@ -190,6 +190,10 @@ Updated: 2026-09-29 19:39 ET (research-only window resumed; no experiments launc
 - Note 75 specifies confidence accounting for adaptively opened similarity
   edges: pre-register a sparse edge family or charge each new independent
   stream, while using the full graph only as a non-certified acquisition model.
+- Note 76 gives the exact finite-bank decomposition `Delta = rho * delta` for
+  a paired row difference, including the low-reach early-exit rule, finite-
+  population corrections, and the requirement to charge uniform rejection
+  screening.
 - The latest main branch is `02ba91f` and the algorithm branch is
   `200bbed`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
