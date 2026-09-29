@@ -58,6 +58,7 @@ prototype is novel or statistically certified:
 | [38: Structured feedback-graph boundary](38-structured-feedback-graph-boundary-2026-09-29.md) | Why structured BAI and feedback graphs are prior art, while a hub supplies a paired covariate rather than free candidate feedback |
 | [39: Generation-verification prior art](39-generation-verification-prior-art-2026-09-29.md) | Why adaptive generate-rank-verify is established for one prompt, leaving only the outer complete-row identification boundary |
 | [40: Hidden-verifier retry boundary](40-hidden-verifier-retry-boundary-2026-09-29.md) | Why answer-key-blind retry traces and resample/reroute support gates are established, requiring fail-closed row-level identification |
+| [41: Complete-row arm formalization](41-complete-row-arm-formalization-2026-09-29.md) | A precise `(Q,K,R)` trajectory model, row-level target, paired hub observation, and conditional theorem/failure conditions |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
