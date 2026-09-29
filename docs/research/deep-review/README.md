@@ -99,6 +99,8 @@ prototype is novel or statistically certified:
 | [79: Counterfactual retry identifiability](79-counterfactual-retry-identifiability-2026-09-29.md) | Separates observable complete-row scores from unidentifiable unexecuted retry outcomes |
 | [80: Cost stopping and confidence sequences](80-cost-stopping-and-confidence-sequences-2026-09-29.md) | Explains why dollar-stopped adaptive runs need all-prefix confidence sequences rather than fixed-sample error bars |
 | [81: Pairing cost–variance break-even](81-pairing-cost-variance-break-even-2026-09-29.md) | Derives when same-question pairing beats cost-optimal independent allocation and identifies required negative controls |
+| [82: Known unit cost versus realized row cost](82-known-unit-cost-versus-realized-row-cost-2026-09-29.md) | Separates public per-attempt coefficients from outcome-linked complete-row charges and deployment cost bounds |
+| [83: Complete-row anchor control variate](83-complete-row-anchor-control-variate-2026-09-29.md) | Proposes a no-prefix, complete-row hub estimator with pilot-frozen coefficients, cost break-even, and fail-closed controls |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
