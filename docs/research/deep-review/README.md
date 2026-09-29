@@ -72,6 +72,8 @@ prototype is novel or statistically certified:
 | [52: Resample-or-reroute boundary](52-resample-reroute-boundary-2026-09-29.md) | Per-question verifier-gated resampling/rerouting is a mandatory close baseline; HAPR remains outer fixed-row identification from sparse paid cells |
 | [53: Routing-gap identifiability](53-routing-gap-identifiability-2026-09-29.md) | Single stochastic draws do not identify a response matrix; deterministic decoding is a controlled assumption and repeated draws are required for API experiments |
 | [54: Sequential RL routing overlap](54-sequential-rl-routing-overlap-2026-09-29.md) | Multi-round RL model routing with cost and stopping is established; distinguish runtime policy learning from outer sparse complete-row profiling |
+| [55: Reach-aware paired estimation](55-reach-aware-paired-estimation-2026-09-29.md) | Formalizes complete execution ledgers, reach-stratified residuals, nonanticipating question blocks, and confidence requirements for path-dependent retries |
+| [56: Runtime verifier and switching overlap](56-runtime-verifier-and-switching-overlap-2026-09-29.md) | BATS, ModelSwitch, and discriminative verification cover runtime budget awareness, model complementarity, and verifier-cost tradeoffs |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
