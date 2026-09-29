@@ -82,6 +82,11 @@ simultaneous confidence accounting must retain the common uncertainty.
 5. Recommend only a directly measured complete row, with independent final
    confirmation.
 
+If the target is a quality-under-cost constraint rather than a predeclared
+scalar utility, use separate control variates (or direct confidence intervals)
+for quality and mean realized cost. A quality residual alone cannot certify
+frontier feasibility; the final row must be directly checked on both quantities.
+
 Required negative controls are zero-covariance rows, a costly anchor, a
 permuted row-coordinate mapping, and a setting where direct paired racing is
 already optimal. Same-question leader/challenger pairing already captures
