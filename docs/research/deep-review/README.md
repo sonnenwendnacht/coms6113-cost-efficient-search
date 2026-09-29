@@ -44,7 +44,7 @@ prototype is novel or statistically certified:
 | [24: Finite-population confidence sequences](24-finite-population-confidence-sequences-2026-09-29.md) | Validity for registered MathQA permutations, paired streams, and adaptive opening |
 | [25: Offline-evidence bias boundary](25-offline-bias-boundary-2026-09-29.md) | Why prior traces and similarity models need a shift/bias assumption |
 | [26: Cost-performance BAI prior art](26-cost-performance-bai-prior-art-2026-09-29.md) | Why accuracy-versus-search-cost is already a formal BAI objective |
-| [27: Retry cost semantics](27-retry-cost-semantics-audit-2026-09-29.md) | Verified distinction between known price coefficients and path-dependent cell charges |
+| [28: Retry cost semantics](28-retry-cost-semantics-audit-2026-09-29.md) | Verified distinction between known price coefficients and path-dependent cell charges |
 | [27: Cost-aware paired racing design](27-cost-aware-paired-racing-design-2026-09-29.md) | A transparent candidate combining paired CSs, finite MathQA streams, and realized charges |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
