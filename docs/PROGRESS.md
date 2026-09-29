@@ -28,7 +28,7 @@ Updated: 2026-09-28 21:14 ET (research-only checkpoint).
 - A candidate theory formulation for combining same-question covariance with
   outcome-dependent complete-row charges is in
   `docs/research/deep-review/13-correlated-resource-bai-theory-2026-09-29.md`.
-- The current Algorithm 2 checkpoint is pushed as commit `da7461f` on
+- The current Algorithm 2 checkpoint is pushed as commit `d607012` on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
 ## Long local trace
