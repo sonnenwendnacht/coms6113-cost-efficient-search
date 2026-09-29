@@ -9,7 +9,7 @@ Updated: 2026-09-29 19:00 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `0f67eda`; source-audit commits after it add notes 19--42.
+  is `f290d0e`; source-audit commits after it add notes 19--43.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -83,6 +83,10 @@ Updated: 2026-09-29 19:00 ET (research-only window resumed; no experiments launc
   paired racing is the required control, verifier-only and per-question
   generate/verify methods are separate scopes, and exhaustive trace cost is
   not selector money saved.
+- Note 43 audits direct workflow-search overlap from workflow portfolios and
+  Agent-UCT. Cost-aware workflow search, held-out workflow evaluation, and
+  prefix-aware UCT are prior art; the remaining candidate is a conditional
+  no-prefix paired complete-row result under matched cached-incumbent spend.
 - The latest main-branch documentation checkpoints are `2aa67dd`,
   `e2c5960`, and `4ec01f5`; the algorithm branch is included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
