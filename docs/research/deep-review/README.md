@@ -48,6 +48,7 @@ prototype is novel or statistically certified:
 | [28: Hub-anchor paired racing](28-hub-anchor-paired-racing-2026-09-29.md) | Reusing already-paid cheap row cells for many paired comparisons |
 | [29: Retry cost semantics](29-retry-cost-semantics-audit-2026-09-29.md) | Verified distinction between known price coefficients and path-dependent cell charges |
 | [30: Hub-anchor break-even](30-hub-anchor-break-even-2026-09-29.md) | Cost-saving condition and confirmation requirements for a shared complete-row anchor |
+| [31: Hub-anchored Algorithm 2 protocol](31-hub-anchored-algorithm2-protocol-2026-09-29.md) | A complete-row, no-prefix protocol with reservations, fallback, and falsification gates |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
