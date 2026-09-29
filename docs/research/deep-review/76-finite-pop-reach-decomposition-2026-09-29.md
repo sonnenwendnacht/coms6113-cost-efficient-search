@@ -16,6 +16,11 @@ This identity is exact for the finite bank. A uniform sample of questions estima
 - Rejection screening is valid only when questions are drawn uniformly until they reach the divergence, and every prefix-screening call is charged.
 - Selecting “easy” reached questions after looking at outcomes biases `delta`; use recorded inclusion probabilities or a direct paired row sample.
 - The same decomposition applies to cost differences, but cost intervals need explicit token caps or tail assumptions.
+- If `m` reached continuation pairs are obtained by rejection screening, the
+  paid charge is approximately
+  `m * E[C_prefix] / rho + m * E[C_cont,a + C_cont,b | reached]`, not just the
+  continuation charge. Prefix cost can correlate with reach and question
+  difficulty, so the ledger must record every failed screening call.
 - The reach probability is row-pair- and checker-specific. It cannot be transferred across a different verifier, retry policy, or model randomness coupling.
 - Same-question pairing alone is not a stochastic coupling. The simplification
   `D=0` before the divergence requires deterministic decoding or shared
