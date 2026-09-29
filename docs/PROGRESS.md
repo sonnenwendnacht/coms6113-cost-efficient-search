@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-28 12:27 ET.
+Updated: 2026-09-29 19:00 ET.
 
 ## Research branch
 
@@ -9,7 +9,10 @@ Updated: 2026-09-28 12:27 ET.
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is checked by the repository's offline CI.
+  is checked by the repository's offline CI. Research note 33 audits the
+  replay contract: the current full trace supports leak-free counterfactual
+  selector comparison, but not a live shared-hub ledger or strict equal-dollar
+  caps.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -40,3 +43,12 @@ and SCCR at explicit realized-cost fractions. It has been smoke-tested on the
 completed 27-row pilot via a local fixture; the 729-row run remains pending.
 Replay validates the full config/question rectangle and decodes explicit
 slash-separated retry slots before any structured selector sees a cell.
+
+## Research-only audit checkpoint
+
+- No new generation, selector replay, tests, or model/API calls were launched
+  during the 2026-09-29 review window.
+- The next implementation gate is an isolated ledger-backed oracle with a
+  registered question-stream manifest, explicit initial cache, reservation
+  accounting, and separate search/confirmation/audit charges. Until that
+  exists, replay costs must be described as counterfactual search costs.
