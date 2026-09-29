@@ -213,6 +213,14 @@ Updated: 2026-09-29 19:46 ET (research-only window resumed; no experiments launc
   paired allocation only when residual covariance beats the cost-optimal
   independent allocation; heterogeneous-cost and low-covariance cases are
   required negative controls.
+- Note 82 clarifies that known per-attempt coefficients do not make a complete
+  retry-row charge known: verifier reach makes total cost random and correlated
+  with quality. Profiling and deployment constraints must use realized charges
+  and separate cost confidence bounds.
+- Note 83 proposes the strongest current no-prefix candidate: a complete-row
+  anchor control variate. A pilot-frozen residual can reduce paired variance,
+  but only when its anchor cost and mean uncertainty satisfy an explicit
+  break-even condition; otherwise CW-PTT remains the fallback.
 - The latest main branch is `c31c823` and the algorithm branch is
   `0c89b4a`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
