@@ -108,6 +108,8 @@ prototype is novel or statistically certified:
 | [88: Claim matrix after covariance audit](88-claim-matrix-after-covariance-audit-2026-09-29.md) | Separates established paired-bandit facts, conditional cost claims, and the empirical burden for a publishable result |
 | [90: Generative-proxy control-variate overlap](90-generative-proxy-control-variate-overlap-2026-09-29.md) | Audits PROBE and rules out generic OLS/control-variate residualization as novelty |
 | [91: Covariance confidence under adaptive stopping](91-covariance-confidence-under-adaptive-stopping-2026-09-29.md) | Separates iid matrix confidence-sequence theory from sparse, verifier-censored row observations |
+| [92: CW-CV-TT theorem target](92-cw-cv-tt-theorem-target-2026-09-29.md) | States the conditional delta-correctness target and the assumptions still missing from a proof |
+| [93: LLM surrogate-reward overlap](93-llm-surrogate-reward-overlap-2026-09-29.md) | Audits MLA-UCB's LLM model-selection surrogate and rules out cheap-proxy control variates as new |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
