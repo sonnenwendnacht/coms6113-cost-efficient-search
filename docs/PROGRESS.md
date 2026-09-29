@@ -243,6 +243,10 @@ Updated: 2026-09-29 19:52 ET (research-only window resumed; no experiments launc
   Generic OLS residualization and variance certification are not novel; the
   remaining boundary requires expensive complete-row anchors, endogenous retry
   costs/missingness, and separate verifier-blind gold evaluation.
+- Note 91 audits matrix covariance confidence sequences. Their iid common-
+  covariance assumptions do not transfer to sparse verifier-censored rows, so
+  CW-CV-TT should certify low-dimensional residual streams rather than rely on
+  a plug-in full covariance matrix.
 - The latest main branch is `2a4f430` and the algorithm branch is
   `5b932bf`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
