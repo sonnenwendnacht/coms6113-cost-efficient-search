@@ -194,6 +194,9 @@ Updated: 2026-09-29 19:39 ET (research-only window resumed; no experiments launc
   a paired row difference, including the low-reach early-exit rule, finite-
   population corrections, and the requirement to charge uniform rejection
   screening.
+- Note 77 specifies CW-PTT, a no-prefix complete-row paired Top-Two control,
+  and narrows Algorithm 2 to a certified structural sidecar that prioritizes
+  direct comparisons but cannot recommend an unobserved row.
 - The latest main branch is `02ba91f` and the algorithm branch is
   `200bbed`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
