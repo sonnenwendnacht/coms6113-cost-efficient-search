@@ -113,9 +113,13 @@ Verzelen](https://arxiv.org/abs/2306.02630)). Cost-aware pairwise pure
 exploration already studies arm-dependent pair costs
 ([Wu et al., ICML 2025](https://proceedings.mlr.press/v258/wu25c.html)), and
 Hybrid Feedback already allocates between absolute and pairwise feedback under
-known action costs ([Zeng et al.](https://arxiv.org/abs/2605.05745)). The
-candidate gap is their joint complete-retry-row reduction, not any one of
-these ingredients.
+known action costs ([Zeng et al.](https://arxiv.org/abs/2605.05745)). Price of
+Knowledge further develops cost-adjusted information measures for correlated
+actions with heterogeneous observation costs ([Schur, Lago, and Fiez, UAI
+2026](https://proceedings.mlr.press/v337/schur26a.html)). The candidate gap is
+therefore even narrower: a joint complete-retry-row reduction with
+same-question paired outcomes and a realized reward/charge process, not any
+one of these ingredients.
 
 The theorem target should therefore be stated conditionally and modestly:
 under bounded complete-row charges and a declared question-sampling design,
