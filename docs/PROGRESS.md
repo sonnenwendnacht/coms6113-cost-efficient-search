@@ -9,7 +9,7 @@ Updated: 2026-09-29 19:00 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `2bd7aa7`; source-audit commits after it add notes 19--44.
+  is `7376934`; source-audit commits after it add notes 19--45.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -91,6 +91,9 @@ Updated: 2026-09-29 19:00 ET (research-only window resumed; no experiments launc
   project’s global-row target. A deployment policy that chooses retry budget
   per question is a different action space and must be a labeled extension or
   baseline.
+- Note 45 audits LLMSelector. Static module assignment, coordinate updates,
+  and monotonicity are prior art; verifier-controlled retry reach and hidden
+  correctness invalidate direct transfer of its theorem.
 - The latest main-branch documentation checkpoints are `2aa67dd`,
   `e2c5960`, and `4ec01f5`; the algorithm branch is included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
