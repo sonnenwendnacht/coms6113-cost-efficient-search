@@ -58,6 +58,19 @@ deployment checker can be an observable attribute, while final correctness is
 an offline audit label. It does not license using the MathQA key to stop a
 retry or to train a live selector.
 
+## Structured search in multi-agent systems
+
+[MASPOB](https://arxiv.org/abs/2603.02630) already combines a bandit UCB
+rule, a topology-aware graph-neural surrogate, and coordinate ascent to search
+prompt combinations in a fixed multi-agent workflow. Its problem is prompt
+optimization with a workflow graph and a strict evaluation budget, rather
+than complete model-choice rows with retry-dependent charges. It nevertheless
+rules out presenting coordinate ascent, a graph surrogate, or “one-slot
+changes are similar” as a standalone novelty. For our first Algorithm 2, a
+transparent categorical similarity prior is easier to audit than a learned
+GNN; any learned surrogate would need to beat MASPOB-style baselines and be
+calibrated on held-out question folds.
+
 ## Revised claim boundary
 
 The following phrases are already occupied and should be avoided as the sole
@@ -80,4 +93,3 @@ The defensible remaining question is conditional and more specific:
 The paper must demonstrate that condition empirically and state exactly which
 parts are an application-specific protocol versus a theorem. It should cite
 the three papers above even if the first experiment remains single-objective.
-
