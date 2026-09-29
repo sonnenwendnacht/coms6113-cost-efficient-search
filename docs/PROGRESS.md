@@ -127,8 +127,8 @@ Updated: 2026-09-29 19:18 ET (research-only window resumed; no experiments launc
 ## Long local trace
 
 - Run ID: `exp1-nine-local-20260927-proper`.
-- Status observed at 2026-09-29 22:39 UTC: `237,400 / 291,600` cells
-  (`81.41%`), still running in PID `8763`.
+- Status observed at 2026-09-29 23:17 UTC: `240,700 / 291,600` cells
+  (`82.54%`), still running in PID `8763`.
 - Status file: `results/runs/exp1-nine-local-20260927-proper/status.json`.
 - The runner writes resumable JSONL checkpoints. If the machine is restarted,
   resume with the same command and add `--resume --run-id
