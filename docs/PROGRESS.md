@@ -183,6 +183,10 @@ Updated: 2026-09-29 19:39 ET (research-only window resumed; no experiments launc
   control retry reach but cannot by themselves identify the best accuracy row;
   calibration or positive-probability gold audits are required for an accuracy
   claim.
+- Note 74 audits finite-bank inference. Search-bank winner quality, held-out
+  bank quality, and future-task procedure quality are distinct estimands; a
+  heterogeneous MathQA allocation needs an explicit finite-population design or
+  disjoint audit rather than generic iid error bars.
 - The latest main branch is `02ba91f` and the algorithm branch is
   `200bbed`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
