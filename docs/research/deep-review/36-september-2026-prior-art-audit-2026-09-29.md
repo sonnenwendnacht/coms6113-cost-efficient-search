@@ -22,6 +22,14 @@ complete retry execution on a particular question, its charge depends on the
 answer-key-blind stopping path and prompt lengths, and two rows evaluated on
 the same question produce correlated evidence that can be reused by a hub.
 
+The paper's experimental protocol is also a useful control: it separates a
+profiling split from a held-out evaluation split and uses a fixed cost proxy
+for its main identification problem. Its discussion treats structural
+information among models/prompts/decoding choices as future work. That is
+evidence for our narrower direction, not permission to call generic structure
+new: we must show a gain from the shared-row protocol under a matched
+cached-incumbent baseline.
+
 ## Cost-aware dueling feedback for LLMs
 
 [Gharat et al., Cost-Aware Best-LLM Identification using Dueling
