@@ -79,6 +79,7 @@ prototype is novel or statistically certified:
 | [59: HAPR current protocol](59-hapr-current-protocol-2026-09-29.md) | Consolidates the registered ledger, hub, reach-aware confidence, reservation, allocation, stopping, confirmation, and baseline contract |
 | [60: Verifier blind spots and audit](60-verifier-blind-spot-and-independent-audit-2026-09-29.md) | Cheap verifier passes can hide large gold-label error; held-out correctness, false-accept/reject rates, and independent audit are mandatory |
 | [61: Claim matrix synthesis](61-claim-matrix-synthesis-2026-09-29.md) | Groups the expanded literature into execution policies, query routers, and outer BAI/HPO; states the narrow intersection claim and prohibited novelty wording |
+| [62: HPO and cascade-theory overlap](62-hpo-and-cascade-theory-overlap-2026-09-29.md) | EcoTune and unified routing/cascade theory rule out generic token-aware EI, dynamic fidelity, and per-query optimal cascade as new |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
