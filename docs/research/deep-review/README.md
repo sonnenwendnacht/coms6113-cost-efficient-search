@@ -93,6 +93,7 @@ prototype is novel or statistically certified:
 | [73: Verifier proxy and gold-audit boundary](73-verifier-proxy-and-gold-audit-boundary-2026-09-29.md) | Shows why verifier-only best-row identification needs calibration or selectively audited gold outcomes |
 | [74: Finite-bank versus future-task estimand](74-finite-bank-versus-future-task-estimand-2026-09-29.md) | Separates fixed-bank MathQA accuracy from future-task procedure quality and warns against unsupported adaptive-sampling error bars |
 | [75: Confidence budget for adaptive edges](75-confidence-budget-for-adaptive-edges-2026-09-29.md) | Counts the multiple edge streams in the row graph and separates certified streams from uncertified model-assisted ranking |
+| [76: Finite-population reach decomposition](76-finite-pop-reach-decomposition-2026-09-29.md) | Gives the exact reach-times-reached-effect identity, finite-bank corrections, and the no-reach/selection-bias rules |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
