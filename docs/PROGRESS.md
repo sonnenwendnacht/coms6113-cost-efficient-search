@@ -251,6 +251,10 @@ Updated: 2026-09-29 19:52 ET (research-only window resumed; no experiments launc
   charge bound would require complete traces, predictable sampling, pilot-fixed
   coefficients, valid residual confidence sets, and separate cost feasibility;
   the current project has not proved it and remains empirical.
+- Note 93 audits MLA-UCB's LLM surrogate-reward model selection. Cheap-proxy
+  control variates are already demonstrated, so the only remaining boundary is
+  the expensive complete-row, verifier-censored, path-cost setting with hidden
+  final correctness.
 - The latest main branch is `2a4f430` and the algorithm branch is
   `5b932bf`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
