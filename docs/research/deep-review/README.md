@@ -75,6 +75,7 @@ prototype is novel or statistically certified:
 | [55: Reach-aware paired estimation](55-reach-aware-paired-estimation-2026-09-29.md) | Formalizes complete execution ledgers, reach-stratified residuals, nonanticipating question blocks, and confidence requirements for path-dependent retries |
 | [56: Runtime verifier and switching overlap](56-runtime-verifier-and-switching-overlap-2026-09-29.md) | BATS, ModelSwitch, and discriminative verification cover runtime budget awareness, model complementarity, and verifier-cost tradeoffs |
 | [57: Retry-routing and benchmark overlap](57-retry-routing-and-benchmark-overlap-2026-09-29.md) | InflationAgent, RouterEval, LLMRouterBench, ThriftLLM, CAPS, and learned cascades broaden required runtime, matrix, ensemble, and verifier baselines |
+| [58: Semantic reliability and cascade overlap](58-semantic-reliability-and-cascade-overlap-2026-09-29.md) | Semantic-nearest-neighbor reliability, PromptWise/C2MAB-V, self-escalation, and CascadeDebate cover similarity, cost-aware allocation, and learned stopping |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
