@@ -74,6 +74,7 @@ prototype is novel or statistically certified:
 | [54: Sequential RL routing overlap](54-sequential-rl-routing-overlap-2026-09-29.md) | Multi-round RL model routing with cost and stopping is established; distinguish runtime policy learning from outer sparse complete-row profiling |
 | [55: Reach-aware paired estimation](55-reach-aware-paired-estimation-2026-09-29.md) | Formalizes complete execution ledgers, reach-stratified residuals, nonanticipating question blocks, and confidence requirements for path-dependent retries |
 | [56: Runtime verifier and switching overlap](56-runtime-verifier-and-switching-overlap-2026-09-29.md) | BATS, ModelSwitch, and discriminative verification cover runtime budget awareness, model complementarity, and verifier-cost tradeoffs |
+| [57: Retry-routing and benchmark overlap](57-retry-routing-and-benchmark-overlap-2026-09-29.md) | InflationAgent, RouterEval, LLMRouterBench, ThriftLLM, CAPS, and learned cascades broaden required runtime, matrix, ensemble, and verifier baselines |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
