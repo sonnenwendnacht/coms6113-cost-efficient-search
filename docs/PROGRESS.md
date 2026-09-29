@@ -239,6 +239,10 @@ Updated: 2026-09-29 19:52 ET (research-only window resumed; no experiments launc
   are established; the possible contribution is only a gated, paid complete-row
   cost adaptation, and any stronger novelty claim depends on equal-dollar
   comparisons, permutation controls, and held-out evidence.
+- Note 90 audits PROBE, a direct generative-proxy control-variate BAI prior.
+  Generic OLS residualization and variance certification are not novel; the
+  remaining boundary requires expensive complete-row anchors, endogenous retry
+  costs/missingness, and separate verifier-blind gold evaluation.
 - The latest main branch is `2a4f430` and the algorithm branch is
   `5b932bf`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
