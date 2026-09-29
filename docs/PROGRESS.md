@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 19:19 ET (research-only window resumed; no experiments launched).
+Updated: 2026-09-29 19:20 ET (research-only window resumed; no experiments launched).
 
 ## Research branch
 
@@ -9,7 +9,7 @@ Updated: 2026-09-29 19:19 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `6dc2bbb`; source-audit commits after it add notes 19--57.
+  is `384c32f`; source-audit commits after it add notes 19--58.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -123,6 +123,10 @@ Updated: 2026-09-29 19:19 ET (research-only window resumed; no experiments launc
   and learned cascades. Retry-aware routing, response-matrix benchmarks,
   model-set selection, and verifier allocation must all be represented in the
   baseline matrix before making a row-search claim.
+- Note 58 audits semantic-nearest-neighbor reliability, PromptWise, C2MAB-V,
+  Bayesian self-escalation, and CascadeDebate. Similarity, Lagrangian
+  quality-cost control, and learned stopping are established; the remaining
+  candidate is sparse fixed-row identification with a paid ledger.
 - The latest main-branch documentation checkpoints are `2aa67dd`,
   `e2c5960`, and `4ec01f5`; the algorithm branch is included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
