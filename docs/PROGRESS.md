@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-28 12:27 ET.
+Updated: 2026-09-28 21:14 ET (research-only checkpoint).
 
 ## Research branch
 
@@ -13,11 +13,22 @@ Updated: 2026-09-28 12:27 ET.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
+## Research-only window
+
+- Through 2026-09-29 11:00 ET, no new experiments, replays, tests, or model/API
+  calls are being launched. The existing long trace is left untouched.
+- Source-audited notes now cover the validity limits of paired similarity,
+  cost/reward dependence, robust structured pure exploration, categorical BO
+  prior art, and a concrete falsification plan. The synthesis is in
+  `docs/research/deep-review/11-research-synthesis-2026-09-29.md`.
+- The current Algorithm 2 checkpoint is pushed as commit `da7461f` on
+  `research/algorithm2-sequential-comparison` and is included in PR #4.
+
 ## Long local trace
 
 - Run ID: `exp1-nine-local-20260927-proper`.
-- Status observed at this checkpoint: `84,100 / 291,600` cells (`28.84%`),
-  still running in PID `8763`.
+- Status observed at 2026-09-29 00:58 UTC: `110,700 / 291,600` cells
+  (`37.96%`), still running in PID `8763`.
 - Status file: `results/runs/exp1-nine-local-20260927-proper/status.json`.
 - The runner writes resumable JSONL checkpoints. If the machine is restarted,
   resume with the same command and add `--resume --run-id
