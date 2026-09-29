@@ -18,6 +18,26 @@ The strongest candidate direction is **adaptive evaluation of shared prefixes an
 
 GittinsEval, AgentOpt, and VineLM were read through their appendices. Selected SySRs theory/proofs and three public repositories were inspected. Reading depth for other papers is stated individually; downloaded does not mean fully reviewed. Public repository snapshots are pinned, but not assumed to be the revisions that generated published figures. The mathematics in note 03 and the exact diagnostic arithmetic received a separate assistant review. That is a useful check, not external peer review.
 
+## 2026-09-29 research extensions
+
+The later notes are a dated research record, not a claim that the current
+prototype is novel or statistically certified:
+
+| Note | What it establishes |
+| --- | --- |
+| [08: Similarity theory](08-similarity-theory-2026-09-29.md) | Validity limits of paired row racing and a conservative block design |
+| [09: HPO alternatives](09-hpo-alternatives-2026-09-29.md) | Robust structured BO/pure exploration alternatives and prior-art boundaries |
+| [10: Similarity-gated exploration](10-similarity-gated-row-exploration-2026-09-29.md) | A temporary heuristic design and its counterexamples |
+| [11: Research synthesis](11-research-synthesis-2026-09-29.md) | Candidate contribution, falsification plan, and novelty limits |
+| [12: GittinsEval audit](12-mentor-gittinseval-audit-2026-09-29.md) | Exact differences between the mentor paper's arm model and complete retry rows |
+| [13: Correlated-resource BAI theory](13-correlated-resource-bai-theory-2026-09-29.md) | A conditional theory target combining paired observations and realized charges |
+| [14: Constrained-BAI audit](14-constrained-bai-audit-2026-09-29.md) | Why outcome-dependent cost alone is already covered by prior work |
+| [15: Inference corrections](15-inference-corrections-2026-09-29.md) | Corrections for cost intervals, optional stopping, finite-population streams, and search reward semantics |
+| [16: Structured correlated KG](16-structured-knowledge-gradient-2026-09-29.md) | One coherent model-based Algorithm 2 candidate using complete-row observations only |
+
+The 2026-09-29 review window launched no new experiments, tests, replays, or
+model/API calls. The active long trace was left untouched.
+
 ## 1. Your interpretation is right, with three important distinctions
 
 For a fixed workflow and fixed retry rules, a configuration is the complete set of model choices at every possible invocation. This is analogous to a hyperparameter setting. One question gives one observation of its performance. The question is an experimental unit; it is not another recommendation arm.
