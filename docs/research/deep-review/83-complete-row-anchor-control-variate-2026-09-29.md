@@ -53,10 +53,22 @@ E[D_cv] = E[D],
 Var(mean(D_cv)) = v_R/n + beta^2 * v_Z/m,
 ```
 
-where `v_R` is the residual variance and `v_Z` is the anchor-mean variance
-proxy. This is a control-variate identity, not a guarantee for an adaptively
+where `v_R` is a residual per-question variance proxy and `v_Z` is a per-anchor-
+question variance proxy. This is a control-variate identity, not a guarantee for an adaptively
 chosen anchor. If the search stops on realized dollars, replace the fixed-sample
 bound with an all-prefix confidence sequence.
+
+For `K` pair races sharing one anchor mean, the anchor setup is amortized but
+its uncertainty is shared. Under the same fixed-sample proxy, the cost to reach
+variance target `t` is proportional to
+
+```text
+(sqrt(K * c_D * v_R) + |beta| * sqrt(c_Z * v_Z))^2 / t,
+```
+
+versus `K * c_D * v_D / t` for direct paired races. The anchor term is not
+divided by `K` unless the design actually supplies independent anchor means;
+simultaneous confidence accounting must retain the common uncertainty.
 
 ## Safe algorithmic use
 
