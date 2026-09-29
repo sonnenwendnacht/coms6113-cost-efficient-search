@@ -104,6 +104,7 @@ prototype is novel or statistically certified:
 | [84: Correlated-bandit prior-art boundary](84-correlated-bandit-prior-art-boundary-2026-09-29.md) | Audits correlated-arm and resource-constrained BAI prior art and narrows the defensible retry-row claim |
 | [85: CW-CV-TT candidate algorithm](85-cw-cv-top-two-algorithm-2026-09-29.md) | Gives the gated step-by-step Algorithm 2 candidate with direct-racing fallback and final confirmation |
 | [86: Covariance-adaptive BAI overlap](86-covariance-adaptive-bai-overlap-2026-09-29.md) | Audits a close covariance-aware BAI theory and clarifies the paid complete-row, stochastic-path-cost difference |
+| [87: Anchor selection and cross-fitting](87-anchor-selection-and-cross-fitting-2026-09-29.md) | Specifies pilot selection, cross-fitting, multiplicity, and fail-closed handling for adaptive hubs |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.

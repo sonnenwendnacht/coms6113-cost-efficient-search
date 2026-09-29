@@ -232,6 +232,9 @@ Updated: 2026-09-29 19:52 ET (research-only window resumed; no experiments launc
   residual elimination, but assumes joint subset queries; our distinction is
   paid complete rows, endogenous verifier paths, and separate quality/cost
   certification. It must be a baseline, not a novelty claim.
+- Note 87 specifies anchor selection. Candidate hubs and control coefficients
+  must be chosen on a pilot or cross-fitted fold, with multiplicity charged and
+  a direct CW-PTT fallback when no hub passes the conservative gate.
 - The latest main branch is `2a4f430` and the algorithm branch is
   `5b932bf`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
