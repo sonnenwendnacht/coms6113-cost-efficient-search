@@ -41,6 +41,7 @@ prototype is novel or statistically certified:
 | [21: Spectral BAI prior art](21-spectral-bai-prior-art-2026-09-29.md) | Why a similarity graph and Track-and-Stop allocation are established baselines |
 | [22: Common-random-number ranking](22-common-random-number-ranking-2026-09-29.md) | Why same-question pairing is a CRN ranking-and-selection baseline |
 | [23: Contextual BAI boundary](23-contextual-bai-boundary-2026-09-29.md) | Why question difficulty makes the target either finite-population or contextual BAI |
+| [24: Finite-population confidence sequences](24-finite-population-confidence-sequences-2026-09-29.md) | Validity for registered MathQA permutations, paired streams, and adaptive opening |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
