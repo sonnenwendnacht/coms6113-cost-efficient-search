@@ -247,6 +247,10 @@ Updated: 2026-09-29 19:52 ET (research-only window resumed; no experiments launc
   covariance assumptions do not transfer to sparse verifier-censored rows, so
   CW-CV-TT should certify low-dimensional residual streams rather than rely on
   a plug-in full covariance matrix.
+- Note 92 states the conditional CW-CV-TT theorem target. A delta-correct
+  charge bound would require complete traces, predictable sampling, pilot-fixed
+  coefficients, valid residual confidence sets, and separate cost feasibility;
+  the current project has not proved it and remains empirical.
 - The latest main branch is `2a4f430` and the algorithm branch is
   `5b932bf`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
