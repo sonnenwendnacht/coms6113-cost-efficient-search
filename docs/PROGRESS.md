@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 19:25 ET (research-only window resumed; no experiments launched).
+Updated: 2026-09-29 19:27 ET (research-only window resumed; no experiments launched).
 
 ## Research branch
 
@@ -9,7 +9,7 @@ Updated: 2026-09-29 19:25 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `f0fbd70`; source-audit commits after it add notes 19--65.
+  is `bf776a3`; source-audit commits after it add notes 19--66.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -151,6 +151,9 @@ Updated: 2026-09-29 19:25 ET (research-only window resumed; no experiments launc
   dimensional row feature model with residual uncertainty, paired covariance,
   and explicit no-free-lunch/permutation controls. SySRs remains a mandatory
   similarity baseline.
+- Note 66 positions the method as censored structural best-row identification
+  and adds the required verifier-calibration condition: hidden gold labels
+  cannot support an accuracy guarantee from arbitrary PASS/FAIL signals.
 - The latest main-branch documentation checkpoints are `2aa67dd`,
   `e2c5960`, and `4ec01f5`; the algorithm branch is included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
