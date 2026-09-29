@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 19:20 ET (research-only window resumed; no experiments launched).
+Updated: 2026-09-29 19:21 ET (research-only window resumed; no experiments launched).
 
 ## Research branch
 
@@ -9,7 +9,7 @@ Updated: 2026-09-29 19:20 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `384c32f`; source-audit commits after it add notes 19--58.
+  is `6146bae`; source-audit commits after it add notes 19--59.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -127,6 +127,10 @@ Updated: 2026-09-29 19:20 ET (research-only window resumed; no experiments launc
   Bayesian self-escalation, and CascadeDebate. Similarity, Lagrangian
   quality-cost control, and learned stopping are established; the remaining
   candidate is sparse fixed-row identification with a paid ledger.
+- Note 59 consolidates the current HAPR protocol: registered rows and splits,
+  paid hub ledger, reach-aware residuals, nonanticipating blocks, conservative
+  reservations, simultaneous bounds, direct confirmation, and matched
+  cached-incumbent controls.
 - The latest main-branch documentation checkpoints are `2aa67dd`,
   `e2c5960`, and `4ec01f5`; the algorithm branch is included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
