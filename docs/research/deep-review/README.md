@@ -62,6 +62,7 @@ prototype is novel or statistically certified:
 | [42: Baseline and claim matrix](42-baseline-and-claim-matrix-2026-09-29.md) | A fair comparison matrix separating outer row selection, cached incumbents, verifier-only allocation, and per-question retry control |
 | [43: Direct workflow-search overlap](43-direct-workflow-search-overlap-2026-09-29.md) | Workflow portfolios and Agent-UCT are close outer baselines; the remaining candidate is no-prefix, path-cost, paired complete-row profiling under matched spend |
 | [44: Per-question budget allocation boundary](44-per-question-budget-allocation-boundary-2026-09-29.md) | Adaptive test-time compute allocates a budget per incoming question; the project’s global-row target must remain separate |
+| [45: LLMSelector monotonicity boundary](45-llmselector-monotonicity-boundary-2026-09-29.md) | Static module-assignment search is prior art; verifier-gated retries invalidate its monotonicity and answer-key assumptions |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
