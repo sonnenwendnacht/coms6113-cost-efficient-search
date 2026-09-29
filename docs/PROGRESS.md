@@ -221,6 +221,10 @@ Updated: 2026-09-29 19:46 ET (research-only window resumed; no experiments launc
   anchor control variate. A pilot-frozen residual can reduce paired variance,
   but only when its anchor cost and mean uncertainty satisfy an explicit
   break-even condition; otherwise CW-PTT remains the fallback.
+- Note 84 audits correlated-bandit and resource-constrained BAI prior art. The
+  anchor/control-variate ingredients are established; only their conditional
+  combination for complete verifier-gated retry rows remains a defensible
+  project-specific hypothesis.
 - The latest main branch is `c31c823` and the algorithm branch is
   `0c89b4a`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
