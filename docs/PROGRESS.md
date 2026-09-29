@@ -35,11 +35,13 @@ Updated: 2026-09-29 18:28 ET (research-only window resumed; no experiments launc
   the distinction between checker control and offline `final_correct` search
   reward. Note 16 gives one coherent structured correlated-KG candidate with
   217 categorical features, a residual, top-two pairing, and a cost model.
-- Notes 17--22 audit covariance-adaptive stopping, cost-aware KG/Pandora,
-  hierarchical and transfer BAI, generative proxies, spectral graph BAI, and
-  common-random-number ranking. They narrow the defensible claim to complete
-  retry-row observations with same-question covariance and realized path cost;
-  generic similarity, KG-per-cost, or paired elimination are prior art.
+- Notes 17--23 audit covariance-adaptive stopping, cost-aware KG/Pandora,
+  hierarchical and transfer BAI, generative proxies, spectral graph BAI,
+  common-random-number ranking, and contextual BAI. They narrow the defensible
+  claim to complete retry-row observations with same-question covariance and
+  realized path cost; generic similarity, KG-per-cost, paired elimination, and
+  silent switching between fixed-set and population targets are prior art or
+  protocol errors.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
