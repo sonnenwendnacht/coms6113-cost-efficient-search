@@ -9,7 +9,7 @@ Updated: 2026-09-29 18:28 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `a0d9df6`; source-audit commits after it add notes 19--30.
+  is `839dd67`; source-audit commits after it add notes 19--30.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 

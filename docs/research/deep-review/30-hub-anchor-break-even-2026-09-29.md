@@ -31,6 +31,36 @@ and that the hub cells are retained. It is an API-call/accounting saving; it is
 not workflow-prefix reuse and it does not make an unexecuted candidate cell
 known.
 
+## Finite-population estimator when the hub is complete
+
+Let the registered search set contain `N` questions and suppose the hub has
+been evaluated on all of them, so its finite-set mean `mu_h` is known exactly.
+If candidate `c` is evaluated on a uniformly sampled subset `S_c` of size
+`m_c`, then
+
+```text
+mu_hat_c = mu_h + (1/m_c) sum_{q in S_c} [Q(c,q) - Q(h,q)]
+```
+
+is unbiased for the candidate's finite-set mean. Its design-based variance is
+approximately
+
+```text
+(1 - m_c/N) * S^2_{D_c} / m_c,
+```
+
+where `S^2_{D_c}` is the finite-population variance of the paired difference.
+Positive question-level covariance can make `S^2_{D_c}` much smaller than the
+candidate's marginal variance. This is the precise reason a cheap complete row
+can be a useful control variate.
+
+If the hub is observed only on the candidate subset, the hub mean is not known
+and the difference estimates only `mu_c - mu_h`; add a direct hub estimate or
+use a confidence sequence for the contrast and a separate interval for the hub.
+Do not treat the same hub cells as independent evidence for every candidate's
+absolute mean. For a future-task target, `mu_h` is also a sample estimate of a
+population mean and needs its own task-distribution uncertainty.
+
 ## Statistical tradeoff
 
 For a candidate `c`, use
@@ -69,4 +99,3 @@ claim: a paid cheap complete row can be reused as a common-question anchor for
 many row-level comparisons under the retry cost ledger. It would not establish
 novelty for paired evaluation, control variates, or cost-aware pure exploration
 in general.
-
