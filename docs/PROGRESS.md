@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 19:37 ET (research-only window resumed; no experiments launched).
+Updated: 2026-09-29 19:39 ET (research-only window resumed; no experiments launched).
 
 ## Research branch
 
@@ -9,7 +9,8 @@ Updated: 2026-09-29 19:37 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `45e55f1`; source-audit commits after it add notes 19--71.
+  is `200bbed`; source-audit commits after the earlier implementation
+  checkpoint add notes 19--71.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -174,16 +175,24 @@ Updated: 2026-09-29 19:37 ET (research-only window resumed; no experiments launc
 - Note 71 separates profiling spend, held-out quality, deployment path cost,
   hard deployment caps, and scalar tradeoffs. It defines the fair frontier and
   prevents search cost from being conflated with cold deployment cost.
-- The latest main-branch documentation checkpoints are `2aa67dd`,
-  `e2c5960`, and `4ec01f5`; the algorithm branch is included in PR #4.
+- Note 72 audits SIREN's winner's-curse correction. It requires us to label
+  finite search-set selection quality separately from the held-out performance
+  of the full budgeted search procedure, with actual paid profiling spend on
+  the main curve.
+- Note 73 audits limited-gold best-arm identification. Verifier passes can
+  control retry reach but cannot by themselves identify the best accuracy row;
+  calibration or positive-probability gold audits are required for an accuracy
+  claim.
+- The latest main branch is `02ba91f` and the algorithm branch is
+  `200bbed`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
 ## Long local trace
 
 - Run ID: `exp1-nine-local-20260927-proper`.
-- Status observed at 2026-09-29 23:17 UTC: `240,700 / 291,600` cells
-  (`82.54%`), still running in PID `8763`.
+- Status observed at 2026-09-29 23:35 UTC: `241,200 / 291,600` cells
+  (`82.72%`), still running in PID `8763`.
 - Status file: `results/runs/exp1-nine-local-20260927-proper/status.json`.
 - The runner writes resumable JSONL checkpoints. If the machine is restarted,
   resume with the same command and add `--resume --run-id
