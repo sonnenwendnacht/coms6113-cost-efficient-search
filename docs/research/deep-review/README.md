@@ -55,6 +55,7 @@ prototype is novel or statistically certified:
 | [35: Hub amortization baseline](35-hub-amortization-baseline-2026-09-29.md) | Why reuse must be compared with a cached-incumbent baseline and how to state the break-even condition |
 | [36: September 2026 prior-art audit](36-september-2026-prior-art-audit-2026-09-29.md) | New cost-aware LLM configuration, dueling, and budgeted verification papers that narrow the claim boundary |
 | [37: Contextual dueling boundary](37-contextual-dueling-boundary-2026-09-29.md) | Why treating questions as contexts and row comparisons as duels is established, with a narrower retry-ledger gap |
+| [38: Structured feedback-graph boundary](38-structured-feedback-graph-boundary-2026-09-29.md) | Why structured BAI and feedback graphs are prior art, while a hub supplies a paired covariate rather than free candidate feedback |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
