@@ -119,7 +119,11 @@ actions with heterogeneous observation costs ([Schur, Lago, and Fiez, UAI
 2026](https://proceedings.mlr.press/v337/schur26a.html)). The candidate gap is
 therefore even narrower: a joint complete-retry-row reduction with
 same-question paired outcomes and a realized reward/charge process, not any
-one of these ingredients.
+one of these ingredients. Constrained BAI also directly studies dependent
+reward/cost arm distributions under a mean-cost constraint and gives matched
+sample-complexity results ([Lardy, Katsimerou, and Koolen, NeurIPS 2025]
+(https://proceedings.nips.cc/paper_files/paper/2025/hash/917373186cceb7efe90742ea8a51ca78-Abstract-Conference.html)).
+Thus outcome-dependent retry cost cannot be advertised as the gap by itself.
 
 The theorem target should therefore be stated conditionally and modestly:
 under bounded complete-row charges and a declared question-sampling design,
