@@ -8,9 +8,10 @@ uses complete retry rows only; no workflow prefix or continuation is purchased.
 Given 729 complete rows and a registered search set of `N=200` questions, return
 one row whose finite-search accuracy is high under a declared search-spend
 limit. Let `Q(c,q)` be the offline final correctness and `K(c,q)` the realized
-input-token charge. In a live system, replace `Q` with a permitted quality
-signal; the answer-key score is used only after the search recommendation is
-frozen.
+input-token charge. For benchmark profiling, `Q` is revealed after the paid
+cell completes; held-out questions remain withheld until the recommendation
+is frozen. A deployment-adaptive variant must replace `Q` with a permitted
+runtime signal and is a separate, calibrated problem.
 
 ## Protocol
 
@@ -76,4 +77,3 @@ intervals remain too wide to eliminate rows. A positive result would support a
 narrow empirical claim about amortized complete-row comparisons under the
 retry-cost protocol. It would not establish novelty for control variates,
 common random numbers, correlated BAI, or cost-aware acquisition in general.
-

@@ -18,4 +18,5 @@ These papers make “expected improvement per token,” “dynamic fidelity,”
 “optimal cascade,” and “cost-quality routing” unavailable as standalone
 Algorithm 2 contributions. A valid patchwork can still use their ideas as
 baselines, but its new object must be the row-level observation ledger and
-paired allocation under hidden final labels and endogenous retry reach.
+paired allocation under answer-key-blind runtime verification, post-run
+scoring of paid cells, and endogenous retry reach.

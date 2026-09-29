@@ -9,7 +9,8 @@ visible:
 2. later stages are censored by verifier outcomes and are not missing at
    random;
 3. each pull has a random realized solver/verifier charge; and
-4. final quality is hidden during profiling and certified on a held-out audit.
+4. final quality is scored after each paid profiling cell, while held-out
+   questions remain hidden until the row is frozen.
 
 The algorithm synchronizes question blocks across complete rows, estimates
 coordinate/path-stratum utility differences, allocates by uncertainty reduced
@@ -23,10 +24,9 @@ cover those ingredients. The proposed claim is their combination under the
 declared retry-row observation contract, with a theorem conditional on a
 low-dimensional structural model and an explicit failure fallback.
 
-Because gold labels are withheld during profiling, a theorem also needs an
-explicit verifier assumption. Either calibrate the deployment-visible
-verdict/path signal on a separate labeled set, with a stated false-accept and
-false-reject bound, or define the profiling target in terms of verifier utility
-and make held-out gold accuracy purely empirical. Without such a condition,
+The deployment verifier still cannot use gold labels. If a deployment-adaptive
+variant must choose without post-run benchmark scoring, it needs an explicit
+calibration assumption for its verdict/path signal, or it must target verifier
+utility and treat held-out gold accuracy as empirical. Without that condition,
 no method can guarantee a gold-optimal row from arbitrary verifier outputs;
 optimizing PASS rate would not be the same as optimizing accuracy.
