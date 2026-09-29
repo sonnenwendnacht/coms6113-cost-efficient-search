@@ -28,8 +28,8 @@ or scope boundaries.
   Dueling Feedback](https://arxiv.org/html/2504.15812v1) similarly chooses
   between absolute and pairwise feedback. A same-question hub comparison is
   related to their relative-feedback channel, but our two row outcomes are
-  correlated benchmark executions with hidden correctness and endogenous
-  verifier-gated costs; they are not independent duels with a fixed preference
+  correlated benchmark executions whose gold correctness is scored only after
+  each paid run, with endogenous verifier-gated costs; they are not independent duels with a fixed preference
   probability or a known generalized-linear feature map.
 * [Efficient Graph Bandit Learning with Side-Observations and Switching
   Constraints](https://ojs.aaai.org/index.php/AAAI/article/view/33854) and
@@ -47,7 +47,8 @@ that both rows actually ran. It uses that residual to select the next complete
 row action and then directly confirms the recommendation. A contextual router
 or graph BAI method that predicts an unpulled row from features is a useful
 baseline, but its prediction is not a deployment observation and cannot by
-itself certify the chosen row under hidden gold labels.
+itself certify the chosen row before the paid row has been scored. The runtime
+verifier still must not receive the answer key.
 
 The main ablations should consequently include: independent cost-aware BAI;
 PILOT/BaRP-style contextual routing; a relative-feedback or dueling baseline;

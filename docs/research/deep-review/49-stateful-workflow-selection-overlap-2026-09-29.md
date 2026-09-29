@@ -9,8 +9,8 @@ deployment.
   under a hard budget and deadline. It includes retry continuations and
   profiles success rates and lengths before offline simulation. This is close
   to a stateful executor, but it assumes those calibrated estimates and does
-  not solve sparse outer identification of one complete row with hidden final
-  correctness.
+  not solve sparse outer identification of one complete row with a post-run
+  correctness score and verifier-gated path cost.
 * [Aragog](https://arxiv.org/html/2511.20975) predicts accuracy-preserving
   end-to-end configurations and beam-schedules model upgrades under serving
   load. It uses monotonic upgrades, exhaustive/profiled accuracy information,
@@ -25,8 +25,8 @@ deployment.
 
 The remaining distinction is the evaluation layer: HAPR chooses a complete
 retry policy from a registered finite row set before deployment, sees only
-paid answer-key-blind cells, records the realized charge of each verifier-
-gated execution, and uses same-question paired residuals only to prioritize
+paid cells and their post-run scores (the runtime verifier remains answer-key
+blind), records the realized charge of each verifier-gated execution, and uses same-question paired residuals only to prioritize
 the next complete-row evaluation. MCPP/Aragog/EvoRoute can be compared as
 deployment-policy or oracle-informed baselines, but they do not replace a
 partial-observation identification baseline. Conversely, HAPR should not

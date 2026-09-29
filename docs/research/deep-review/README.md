@@ -85,6 +85,7 @@ prototype is novel or statistically certified:
 | [65: Structural BAI theorem target](65-structural-bai-theorem-target-2026-09-29.md) | States the conditional low-dimensional row-feature model, robust confidence radius, no-free-lunch limit, and falsifiable identity/permutation controls |
 | [66: Publication positioning](66-publication-positioning-censored-structural-bri-2026-09-29.md) | Names the narrow contribution as censored structural best-row identification and states the exact combination and fallback |
 | [67: Current selector implementation gap](67-current-selector-implementation-gap-2026-09-29.md) | Audits the replay code and separates its heuristic graph predictor from the ledger-backed, reservation, confidence, and confirmation requirements |
+| [68: Gold-visibility protocol correction](68-gold-visibility-protocol-correction-2026-09-29.md) | Separates answer-key-blind runtime verification from post-run benchmark scoring available for paid profiling cells and held-out evaluation |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.

@@ -29,7 +29,9 @@ the project later allows question-specific routing.
 
 The remaining HAPR/CAPR scope is an *outer profiling problem*: before
 deployment, use a finite budget to identify one complete retry row from a
-declared row set, with hidden correctness unavailable to the search policy.
+declared row set. The deployment verifier is answer-key blind, while a
+benchmark profiler may receive the post-run correctness score for a cell it
+paid; held-out questions remain unavailable until recommendation.
 The proposed mechanism is same-question paired evidence and a reusable
 complete-row hub without prefix materialization. Its advantage must be shown
 against a cached-incumbent row-search baseline and, where feasible, against a

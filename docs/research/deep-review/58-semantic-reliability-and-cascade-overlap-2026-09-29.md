@@ -25,7 +25,7 @@ HAPR must therefore avoid claiming that semantic similarity, a cost-quality
   Lagrangian, cascades, or retry escalation is novel. The remaining claim is
   narrower and testable: a sparse profiling procedure for a finite set of
   complete retry rows, with a paid-cell ledger, shared-question paired
-  residuals, path-dependent charge, hidden final labels, and direct held-out
+  residuals, path-dependent charge, post-run final labels for paid cells, and direct held-out
   row confirmation. The per-task methods are useful runtime baselines and
   stress tests for whether a globally selected row should be replaced by a
   future adaptive policy.

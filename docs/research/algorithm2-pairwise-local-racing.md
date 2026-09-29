@@ -17,8 +17,10 @@ exact cache hit or reuse a workflow prefix.
 
 Formally, each paid cell returns the pair `(Y(c, q), C(c, q))`: the final
 workflow outcome for question `q` and the realized input-token charge of every
-reached call. The search policy sees neither the answer key nor an unreached
-retry. It recommends one complete row after a profiling budget; deployment
+reached call. The runtime verifier sees neither the answer key nor an
+unreached retry. In benchmark profiling, the selector receives final
+correctness only after it has paid for the complete cell; held-out questions
+remain hidden. It recommends one complete row after a profiling budget; deployment
 quality and cold deployment cost are separate reported quantities. The full
 target and its assumptions are recorded in
 `docs/research/deep-review/06-cacr-audit.md`.
