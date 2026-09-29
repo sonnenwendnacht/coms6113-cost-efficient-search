@@ -77,6 +77,7 @@ prototype is novel or statistically certified:
 | [57: Retry-routing and benchmark overlap](57-retry-routing-and-benchmark-overlap-2026-09-29.md) | InflationAgent, RouterEval, LLMRouterBench, ThriftLLM, CAPS, and learned cascades broaden required runtime, matrix, ensemble, and verifier baselines |
 | [58: Semantic reliability and cascade overlap](58-semantic-reliability-and-cascade-overlap-2026-09-29.md) | Semantic-nearest-neighbor reliability, PromptWise/C2MAB-V, self-escalation, and CascadeDebate cover similarity, cost-aware allocation, and learned stopping |
 | [59: HAPR current protocol](59-hapr-current-protocol-2026-09-29.md) | Consolidates the registered ledger, hub, reach-aware confidence, reservation, allocation, stopping, confirmation, and baseline contract |
+| [60: Verifier blind spots and audit](60-verifier-blind-spot-and-independent-audit-2026-09-29.md) | Cheap verifier passes can hide large gold-label error; held-out correctness, false-accept/reject rates, and independent audit are mandatory |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
