@@ -34,13 +34,19 @@ These distinctions are our synthesis of the papers above. Keep saved observation
 
 ## A defensible candidate contribution
 
-Our proposed direction is **adaptive selection of the next useful continuation under a monetary profiling budget**, using already observed prefixes and failure-conditioned evidence. The acquisition decision should consider how much it can change the choice of the final configuration, how many candidates it informs, and how much new execution it actually requires. This is a research hypothesis, not a verified gap in all existing literature.
+Our current candidate is **structured correlated allocation over complete retry
+rows under a monetary profiling budget**. A paid action is one full
+`(configuration, question)` execution; the method does not buy workflow
+prefixes or partial continuations. A categorical row model can prioritize a
+new row or a same-question row pair, while a separate confidence procedure
+handles elimination and final certification. This is a research hypothesis,
+not a verified gap in all existing literature.
 
 To make that direction stronger than a collection of existing ingredients:
 
-- Specify the estimator and sampling rule jointly. Adaptive selection of failures, questions, or branches can bias simple averages. Define the target question distribution and provide valid uncertainty estimates under the chosen sampling procedure.
-- Use observed shared-prefix structure to predict marginal execution cost. Separate the known price per token from unknown output lengths, failure rates, and continuation lengths.
-- Test whether structured continuation selection adds value beyond ordinary paired evaluation, low-rank prediction, and a generic configuration surrogate. Include adversarial cases where one-model changes destroy similarity.
+- Specify the estimator and sampling rule jointly. Adaptive selection of questions or rows can bias simple averages. Define the target question distribution and provide valid uncertainty estimates under the chosen sampling procedure.
+- Model the realized charge of a complete row execution. Separate the known price coefficient from unknown input-token counts and retry reach.
+- Test whether structured complete-row allocation adds value beyond ordinary paired evaluation, low-rank prediction, a generic configuration surrogate, and cost-aware Gittins/KG baselines. Include adversarial cases where one-model changes destroy outcome similarity.
 - Give every search method the same legal checkpoint/cache access. Report a separate ablation with reuse disabled so savings from execution reuse and savings from better measurement choices can be distinguished.
 - Compare selected configurations on untouched questions at matched actual profiling dollars. Without a complete response matrix, claim improvement over the tested baselines with uncertainty, not distance to a global optimum. Use small exhaustive spaces only where an optimum or exact frontier is actually known.
 
@@ -72,3 +78,6 @@ Read the mentor's cost-aware paper first, then AgentOpt Sections 4.4–5 and Vin
 - [The Price of Knowledge: Optimal Algorithms for Costly Bandits](https://proceedings.mlr.press/v337/schur26a.html), Schur, Lago, and Fiez, UAI 2026, develops cost-adjusted information measures and correlated-action algorithms under heterogeneous observation costs. This is a close modern precedent for cost-aware structural allocation; our possible distinction remains the complete retry-row observation with a joint, realized reward/charge process and same-question paired outcomes.
 - [Constrained Best Arm Identification](https://proceedings.nips.cc/paper_files/paper/2025/hash/917373186cceb7efe90742ea8a51ca78-Abstract-Conference.html), Lardy, Katsimerou, and Koolen, NeurIPS 2025, studies joint reward/cost arm distributions with arbitrary dependence and identifies the highest-mean-reward arm under a mean-cost constraint with matching sample-complexity results. Therefore outcome-dependent retry cost is not itself a new constrained-BAI problem; our remaining distinction would have to come from same-question cross-row observations and complete-cascade execution semantics.
 - [The Knowledge-Gradient Policy for Correlated Normal Beliefs](https://people.orie.cornell.edu/pfrazier/pub/CorrelatedKG.pdf), Frazier, Powell, and Dayanik, INFORMS Journal on Computing 2009, explicitly uses a correlated multivariate-normal belief over alternative means and can recommend an alternative that has not yet been measured. A structured row predictor therefore is established Bayesian experimental design; our candidate must distinguish a retry-aware observation/cost model from ordinary correlated KG and must report direct confirmation of any predicted row.
+- [Hierarchical Knowledge Gradient](https://jmlr.csail.mit.edu/papers/v12/mes11a.html), Mes, Powell, and Frazier, JMLR 2011, transfers information across categorical and numeric alternative attributes through aggregate estimates. Feature-based similarity plus KG is therefore prior art; it cannot be the contribution by itself.
+- [PULSE](https://arxiv.org/html/2605.10405), Tolochinsky, Tenzer, and Romano, uses low-rank predictions with residual correction and martingale bounds for adaptively sampled model-by-example cells. A row posterior without a residual correction should be treated as a scheduling model, not a finite-sample certificate.
+- [Best-Arm Identification under Additive Transfer Bandits](https://arxiv.org/html/2112.04083), Neopane, Ramdas, and Singh, gives a formal transfer-BAI setting where a known additive mapping lets source confidence sequences bound target arms. Our learned categorical mapping is not known truth, so it belongs in the allocation layer unless separately calibrated.

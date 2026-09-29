@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 15:38 ET (research-only window complete).
+Updated: 2026-09-29 18:28 ET (research-only window resumed; no experiments launched).
 
 ## Research branch
 
@@ -9,13 +9,13 @@ Updated: 2026-09-29 15:38 ET (research-only window complete).
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is checked by the repository's offline CI.
+  is `5815d62`; source-audit commits after it add notes 19--22.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
 ## Research-only window
 
-- Through 2026-09-29 11:00 ET, no new experiments, replays, tests, or model/API
+- Through 2026-09-29 18:28 ET, no new experiments, replays, tests, or model/API
   calls were launched. The existing long trace was left untouched.
 - Source-audited notes now cover the validity limits of paired similarity,
   cost/reward dependence, robust structured pure exploration, categorical BO
@@ -35,14 +35,19 @@ Updated: 2026-09-29 15:38 ET (research-only window complete).
   the distinction between checker control and offline `final_correct` search
   reward. Note 16 gives one coherent structured correlated-KG candidate with
   217 categorical features, a residual, top-two pairing, and a cost model.
-- The current Algorithm 2 checkpoint is pushed as commit `513c8f7` on
+- Notes 17--22 audit covariance-adaptive stopping, cost-aware KG/Pandora,
+  hierarchical and transfer BAI, generative proxies, spectral graph BAI, and
+  common-random-number ranking. They narrow the defensible claim to complete
+  retry-row observations with same-question covariance and realized path cost;
+  generic similarity, KG-per-cost, or paired elimination are prior art.
+- The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
 ## Long local trace
 
 - Run ID: `exp1-nine-local-20260927-proper`.
-- Status observed at 2026-09-29 00:58 UTC: `110,700 / 291,600` cells
-  (`37.96%`), still running in PID `8763`.
+- Status observed at 2026-09-29 22:18 UTC: `235,400 / 291,600` cells
+  (`80.73%`), still running in PID `8763`.
 - Status file: `results/runs/exp1-nine-local-20260927-proper/status.json`.
 - The runner writes resumable JSONL checkpoints. If the machine is restarted,
   resume with the same command and add `--resume --run-id

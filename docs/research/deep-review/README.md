@@ -34,6 +34,13 @@ prototype is novel or statistically certified:
 | [14: Constrained-BAI audit](14-constrained-bai-audit-2026-09-29.md) | Why outcome-dependent cost alone is already covered by prior work |
 | [15: Inference corrections](15-inference-corrections-2026-09-29.md) | Corrections for cost intervals, optional stopping, finite-population streams, and search reward semantics |
 | [16: Structured correlated KG](16-structured-knowledge-gradient-2026-09-29.md) | One coherent model-based Algorithm 2 candidate using complete-row observations only |
+| [17: Correlated BAI and stopping](17-correlated-bai-and-stopping-2026-09-29.md) | Same-question covariance, pseudo-reward limits, and time-uniform stopping requirements |
+| [18: Cost-aware KG boundary](18-cost-aware-kg-boundary-2026-09-29.md) | Existing cost-aware KG/Pandora, hierarchical KG, proxy correction, and the narrower novelty boundary |
+| [19: Generative proxy boundary](19-generative-proxy-boundary-2026-09-29.md) | Why a learned row proxy needs paired calibration and residual correction |
+| [20: Transfer-BAI structural boundary](20-transfer-bai-structural-boundary-2026-09-29.md) | Why the 217-feature map is a working prior unless its transfer relation is certified |
+| [21: Spectral BAI prior art](21-spectral-bai-prior-art-2026-09-29.md) | Why a similarity graph and Track-and-Stop allocation are established baselines |
+| [22: Common-random-number ranking](22-common-random-number-ranking-2026-09-29.md) | Why same-question pairing is a CRN ranking-and-selection baseline |
+| [23: Contextual BAI boundary](23-contextual-bai-boundary-2026-09-29.md) | Why question difficulty makes the target either finite-population or contextual BAI |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
