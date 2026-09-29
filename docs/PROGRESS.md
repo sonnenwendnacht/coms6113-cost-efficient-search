@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-28 21:14 ET (research-only checkpoint).
+Updated: 2026-09-29 15:38 ET (research-only window complete).
 
 ## Research branch
 
@@ -16,7 +16,7 @@ Updated: 2026-09-28 21:14 ET (research-only checkpoint).
 ## Research-only window
 
 - Through 2026-09-29 11:00 ET, no new experiments, replays, tests, or model/API
-  calls are being launched. The existing long trace is left untouched.
+  calls were launched. The existing long trace was left untouched.
 - Source-audited notes now cover the validity limits of paired similarity,
   cost/reward dependence, robust structured pure exploration, categorical BO
   prior art, and a concrete falsification plan. The synthesis is in
@@ -28,6 +28,9 @@ Updated: 2026-09-28 21:14 ET (research-only checkpoint).
 - A candidate theory formulation for combining same-question covariance with
   outcome-dependent complete-row charges is in
   `docs/research/deep-review/13-correlated-resource-bai-theory-2026-09-29.md`.
+- The constrained-BAI overlap audit is in
+  `docs/research/deep-review/14-constrained-bai-audit-2026-09-29.md`; it rules
+  out outcome-dependent cost alone as the novelty claim.
 - The current Algorithm 2 checkpoint is pushed as commit `0d2d7d4` on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
