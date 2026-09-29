@@ -9,7 +9,7 @@ Updated: 2026-09-29 18:40 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `64f603f`; source-audit commits after it add notes 19--32.
+  is `69f2942`; source-audit commits after it add notes 19--33.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -46,6 +46,10 @@ Updated: 2026-09-29 18:40 ET (research-only window resumed; no experiments launc
   path cost; generic similarity, KG-per-cost, paired elimination, and silent
   switching between fixed-set and population targets are prior art or protocol
   errors.
+- Note 33 audits the replay contract: the current full trace supports a
+  leak-free counterfactual selector benchmark, but not a live shared-hub
+  ledger, strict equal-dollar caps, registered question streams, or direct
+  final confirmation for surrogate-row selectors.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
