@@ -43,6 +43,7 @@ prototype is novel or statistically certified:
 | [23: Contextual BAI boundary](23-contextual-bai-boundary-2026-09-29.md) | Why question difficulty makes the target either finite-population or contextual BAI |
 | [24: Finite-population confidence sequences](24-finite-population-confidence-sequences-2026-09-29.md) | Validity for registered MathQA permutations, paired streams, and adaptive opening |
 | [25: Offline-evidence bias boundary](25-offline-bias-boundary-2026-09-29.md) | Why prior traces and similarity models need a shift/bias assumption |
+| [26: Cost-performance BAI prior art](26-cost-performance-bai-prior-art-2026-09-29.md) | Why accuracy-versus-search-cost is already a formal BAI objective |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
