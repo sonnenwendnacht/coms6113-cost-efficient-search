@@ -46,6 +46,7 @@ prototype is novel or statistically certified:
 | [26: Cost-performance BAI prior art](26-cost-performance-bai-prior-art-2026-09-29.md) | Why accuracy-versus-search-cost is already a formal BAI objective |
 | [28: Retry cost semantics](28-retry-cost-semantics-audit-2026-09-29.md) | Verified distinction between known price coefficients and path-dependent cell charges |
 | [27: Cost-aware paired racing design](27-cost-aware-paired-racing-design-2026-09-29.md) | A transparent candidate combining paired CSs, finite MathQA streams, and realized charges |
+| [28: Hub-anchor paired racing](28-hub-anchor-paired-racing-2026-09-29.md) | Reusing already-paid cheap row cells for many paired comparisons |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
