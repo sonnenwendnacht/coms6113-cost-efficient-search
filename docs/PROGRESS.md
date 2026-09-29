@@ -9,7 +9,7 @@ Updated: 2026-09-29 18:28 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `62fa693`; source-audit commits after it add notes 19--29.
+  is `c646cf6`; source-audit commits after it add notes 19--30.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -35,11 +35,12 @@ Updated: 2026-09-29 18:28 ET (research-only window resumed; no experiments launc
   the distinction between checker control and offline `final_correct` search
   reward. Note 16 gives one coherent structured correlated-KG candidate with
   217 categorical features, a residual, top-two pairing, and a cost model.
-- Notes 17--29 audit covariance-adaptive stopping, cost-aware KG/Pandora,
+- Notes 17--30 audit covariance-adaptive stopping, cost-aware KG/Pandora,
   hierarchical and transfer BAI, generative proxies, spectral graph BAI,
   common-random-number ranking, contextual BAI, finite-population confidence
-  sequences, offline-evidence bias, paired-racing and hub-anchor designs, and
-  verified retry-cost semantics. They narrow the defensible claim to
+  sequences, offline-evidence bias, paired-racing and hub-anchor designs,
+  verified retry-cost semantics, and hub break-even/stream accounting. They
+  narrow the defensible claim to
   complete retry-row observations with same-question covariance and realized
   path cost; generic similarity, KG-per-cost, paired elimination, and silent
   switching between fixed-set and population targets are prior art or protocol
