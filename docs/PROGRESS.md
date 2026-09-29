@@ -31,7 +31,11 @@ Updated: 2026-09-29 15:38 ET (research-only window complete).
 - The constrained-BAI overlap audit is in
   `docs/research/deep-review/14-constrained-bai-audit-2026-09-29.md`; it rules
   out outcome-dependent cost alone as the novelty claim.
-- The current Algorithm 2 checkpoint is pushed as commit `0d2d7d4` on
+- Note 15 corrects cost-feasibility directions, optional-stopping claims, and
+  the distinction between checker control and offline `final_correct` search
+  reward. Note 16 gives one coherent structured correlated-KG candidate with
+  217 categorical features, a residual, top-two pairing, and a cost model.
+- The current Algorithm 2 checkpoint is pushed as commit `513c8f7` on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
 ## Long local trace
