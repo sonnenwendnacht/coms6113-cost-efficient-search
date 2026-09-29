@@ -9,7 +9,7 @@ Updated: 2026-09-29 19:22 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `c085706`; source-audit commits after it add notes 19--60.
+  is `cc7d25c`; source-audit commits after it add notes 19--61.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -134,6 +134,9 @@ Updated: 2026-09-29 19:22 ET (research-only window resumed; no experiments launc
 - Note 60 records verifier blind spots as a validity requirement: report
   answer-key-based held-out correctness and false-accept/reject rates separately
   from verifier PASS rates, and keep the audit independent of search decisions.
+- Note 61 synthesizes the claim matrix into execution-policy, query-router,
+  and outer-BAI/HPO families. It gives the manuscript a precise intersection
+  claim and lists the broad novelty wording to avoid.
 - The latest main-branch documentation checkpoints are `2aa67dd`,
   `e2c5960`, and `4ec01f5`; the algorithm branch is included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
