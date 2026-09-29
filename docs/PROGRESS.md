@@ -228,6 +228,10 @@ Updated: 2026-09-29 19:52 ET (research-only window resumed; no experiments launc
 - Note 85 freezes the current Algorithm 2 candidate, CW-CV-TT: pilot-frozen
   complete-row control variates, a conservative break-even gate, direct CW-PTT
   fallback, global confidence accounting, and independent final confirmation.
+- Note 86 audits covariance-adaptive BAI. It is a close prior for pairwise
+  residual elimination, but assumes joint subset queries; our distinction is
+  paid complete rows, endogenous verifier paths, and separate quality/cost
+  certification. It must be a baseline, not a novelty claim.
 - The latest main branch is `2a4f430` and the algorithm branch is
   `5b932bf`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
