@@ -31,6 +31,21 @@ spending those paired evaluations on cheap but already-separated rows. If the
 same-question covariance is weak or negative, the method should fall back toward
 independent row streams.
 
+### Stream bookkeeping
+
+Do not silently pool observations from a direct-row stream and several pair
+streams as if they were independent samples. The safe design gives each direct
+row and each pair its own precommitted question permutation. A pair uses the
+same permutation for its two complete rows; different streams may be dependent,
+but a union bound over separately valid confidence sequences does not require
+independence. Use pair confidence sequences for pairwise elimination and
+direct-row sequences for direct confirmation, or derive a joint design-based
+estimator before combining them. Opening a stream based on other stream
+outcomes is allowed only when its next opening is predictable and the stream's
+confidence sequence remains valid under the enlarged filtration. If that proof
+is not written, use disjoint registered blocks as a conservative cross-fitting
+scheme.
+
 This is not a new building block by itself. Covariance-adaptive BAI, CRN ranking,
 and cost-aware acquisition each predate it. A defensible contribution would have
 to show that this particular complete-retry-row protocol handles heterogeneous
@@ -38,4 +53,3 @@ realized path charges and answer-key-blind checker control better than those
 baselines at equal search cost, or prove a new instance-dependent complexity
 bound. Until then CAPR is a transparent baseline/design target rather than a
 claimed novel algorithm.
-
