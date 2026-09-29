@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 18:40 ET (research-only window resumed; no experiments launched).
+Updated: 2026-09-29 18:57 ET (research-only window resumed; no experiments launched).
 
 ## Research branch
 
@@ -9,7 +9,7 @@ Updated: 2026-09-29 18:40 ET (research-only window resumed; no experiments launc
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `f1762b4`; source-audit commits after it add notes 19--36.
+  is `114c7c2`; source-audit commits after it add notes 19--37.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
 
@@ -59,6 +59,13 @@ Updated: 2026-09-29 18:40 ET (research-only window resumed; no experiments launc
   configuration search, cost-aware LLM dueling, and budgeted multi-attribute
   verification. They narrow the claim to shared-question, complete-row,
   path-dependent retry charges.
+- Note 37 audits contextual-dueling overlap. Contextual or graph structure,
+  paired comparisons, and cost-aware allocation are established components;
+  any claim must require the complete retry-row arm, answer-key-blind
+  solver/verifier coupling, endogenous early stopping, and a matched
+  cached-incumbent comparison.
+- The latest main-branch documentation checkpoints are `c4a9a60` and
+  `f5fe2da`; the algorithm branch is included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
