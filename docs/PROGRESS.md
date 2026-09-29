@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 19:51 ET (research-only window resumed; no experiments launched).
+Updated: 2026-09-29 19:52 ET (research-only window resumed; no experiments launched).
 
 ## Research branch
 
@@ -228,8 +228,8 @@ Updated: 2026-09-29 19:51 ET (research-only window resumed; no experiments launc
 - Note 85 freezes the current Algorithm 2 candidate, CW-CV-TT: pilot-frozen
   complete-row control variates, a conservative break-even gate, direct CW-PTT
   fallback, global confidence accounting, and independent final confirmation.
-- The latest main branch is `4f6142c` and the algorithm branch is
-  `183a4ce`; both are pushed and included in PR #4.
+- The latest main branch is `2a4f430` and the algorithm branch is
+  `5b932bf`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
