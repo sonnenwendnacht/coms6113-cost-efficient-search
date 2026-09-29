@@ -51,6 +51,7 @@ prototype is novel or statistically certified:
 | [31: Hub-anchored Algorithm 2 protocol](31-hub-anchored-algorithm2-protocol-2026-09-29.md) | A complete-row, no-prefix protocol with reservations, fallback, and falsification gates |
 | [32: Hard-cap reservation](32-hard-cap-reservation-2026-09-29.md) | How bounded retries and tokenizers produce a defensible action charge bound |
 | [33: Replay protocol audit](33-replay-protocol-audit-2026-09-29.md) | Why the current full trace is a leak-free offline benchmark but not yet a live hub ledger or strict equal-dollar comparison |
+| [34: Ledger-backed hub specification](34-ledger-backed-hub-spec-2026-09-29.md) | Concrete oracle, manifest, reservation, confirmation, and reporting contract for Algorithm 2 |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
