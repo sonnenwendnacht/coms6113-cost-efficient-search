@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 19:39 ET (research-only window resumed; no experiments launched).
+Updated: 2026-09-29 19:46 ET (research-only window resumed; no experiments launched).
 
 ## Research branch
 
@@ -209,8 +209,8 @@ Updated: 2026-09-29 19:39 ET (research-only window resumed; no experiments launc
   reach and correctness, dollar-stopped runs need all-prefix confidence
   sequences; a fixed-sample interval is valid only for a pre-registered,
   nonadaptive confirmation block.
-- The latest main branch is `02ba91f` and the algorithm branch is
-  `200bbed`; both are pushed and included in PR #4.
+- The latest main branch is `c31c823` and the algorithm branch is
+  `0c89b4a`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
