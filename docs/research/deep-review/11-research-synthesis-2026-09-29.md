@@ -4,6 +4,12 @@ Prepared 2026-09-29 during the no-experiment research window. This memo
 turns the source audit into a decision for the project. It is not a result
 report and does not claim that the proposed method is new.
 
+Editorial correction: the conservative protocol below asks for direct
+confirmation before deployment, but a structured Bayesian selector may rank
+an unmeasured row by model-based prediction. That prediction is not an
+observed cell or an exact cache hit. See [the inference corrections](15-inference-corrections-2026-09-29.md)
+and the structured KG candidate for the distinction.
+
 ## The problem statement to freeze
 
 A configuration is a **complete row**: the model assigned to every solver,

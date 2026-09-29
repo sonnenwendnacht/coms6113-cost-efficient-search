@@ -59,6 +59,12 @@ constraints:
   ([NeurIPS 2024](https://proceedings.neurips.cc/paper_files/paper/2024/file/d14c355d5e88cff437a6303d2d716252-Abstract-Conference.html)).
   A cost-divided acquisition is therefore a baseline or engineering heuristic,
   not a theoretical contribution by itself.
+- **BOCVS** chooses and pays for a subset of variables while the remaining
+  variables are randomly sampled, explicitly modeling cost-varying partial
+  queries ([Tay et al., NeurIPS 2023](https://papers.neurips.cc/paper_files/paper/2023/file/090b23d52bc2722eef2fbf79c5ebf9ec-Paper-Conference.pdf)).
+  This is a close boundary for any proposal that claims value from measuring
+  only part of a configuration. The present designs avoid that overlap by
+  measuring complete retry rows only.
 - ParamILS/FocusedILS already use one-change local moves and racing, and SySRs
   already use matched-question model comparisons. CACR/SCCR in this repository
   already use paired rows, realized costs, and a safety gate.
