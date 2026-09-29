@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 19:52 ET (research-only window resumed; no experiments launched).
+Updated: 2026-09-29 19:58 ET (research-only window resumed; no experiments launched).
 
 ## Research branch
 
@@ -259,8 +259,12 @@ Updated: 2026-09-29 19:52 ET (research-only window resumed; no experiments launc
   model choices or intermediate-stage structure is not novel by itself; the
   remaining scope is complete retry-row identification with verifier censoring
   and path-dependent cost.
-- The latest main branch is `2a4f430` and the algorithm branch is
-  `5b932bf`; both are pushed and included in PR #4.
+- Note 95 audits delayed-feedback and cascading BAI. Early verifier stopping
+  and partial feedback are established; the remaining boundary must include
+  complete-row identification, same-question configuration covariance, and
+  realized path-cost accounting.
+- The latest main branch is `210c43d` and the algorithm branch is
+  `19edec0`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
