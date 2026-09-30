@@ -300,8 +300,8 @@ Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
 - Note 105 defines the Algorithm 2 state machine and identifies the current
   CACR/SCCR replay gap: heuristic radii, realized overshoot, and matrix-fixture
   access are debugging behavior, not confidence-certified online selection.
-- The latest substantive main note is `991c40c` and the algorithm note is
-  `9def339`; both are pushed and included in PR #4.
+- The latest substantive main note is `5f12060` and the algorithm note is
+  `2c1f7a9`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
