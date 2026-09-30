@@ -12,8 +12,11 @@ adaptation target, not a claim that the combination is novel or correct.
   graph over row slots. Graph edges are hypotheses, not free observations.
 * A pre-shuffled search-question permutation split into fixed blocks. The audit
   questions are never used by the selector.
-* A complete-cell executor returning terminal reward (Y_{v,q}in[0,1]), the
-  full retry-call ledger, and realized charge (C_{v,q}).
+* A complete-cell executor returning a declared terminal reward (Y_{v,q} in
+  [0,1]), the full retry-call ledger, and realized charge (C_{v,q}). In
+  deployment-faithful mode, Y is the verifier-visible PASS/RETRY proxy; in an
+  offline gold-visible diagnostic, Y may be answer-key correctness, but that
+  diagnostic cannot be presented as an online selector.
 * A profiling objective: identify an epsilon-best row for the finite-bank mean
   (mu_v=N^{-1}sum_q Y_{v,q}) under a declared soft realized-dollar target
   or a hard cap with deterministic cell reservations.
@@ -31,9 +34,12 @@ D_{e,q}=Y_{v,q}-Y_{u,q},
 the disjoint calibration and elimination blocks, a conservative residual
 interval, and the edge's realized endpoint charge. A path estimate is allowed
 only when all of its node/edge intervals are still valid and its edge gates
-have passed. Exact cached cells may be reused only with matching row,
-question, model snapshot, prompt version, stopping rule, and reward contract;
-this is cell reuse, never workflow-prefix reuse.
+have passed. Exact cached cells may be reused only with matching row, question,
+model snapshot, prompt version, stopping rule, reward contract, and the edge's
+pre-registered question block. A byte-for-byte cache match from an
+outcome-adaptive block is not eligible for an edge residual stream; use a fresh
+post-admission certification block instead. This is cell reuse, never
+workflow-prefix reuse.
 
 ## Protocol
 
@@ -43,8 +49,10 @@ this is cell reuse, never workflow-prefix reuse.
    rule, such as lowest certified incremental charge with deterministic ties.
    If no anchor is sufficiently precise, continue direct racing.
 3. Open only one-coordinate edges whose endpoints have a common fresh block or
-   an exact cached cell match. Fit the paired residual on the calibration
-   block, then test its stability on a disjoint block. An edge that fails the
+   an eligible cached cell match. Fit the paired residual on the calibration
+   block, then test its stability on a disjoint block. An edge that passes gets
+   a fresh certification stream with its own preallocated confidence share;
+   only that stream supplies an elimination interval. An edge that fails the
    gate is marked unavailable until a fresh calibration design is registered.
 4. For each candidate (v), form direct and graph-supported intervals. A path
    (P) from the anchor gives a conservative interval with radius equal to the
@@ -74,9 +82,9 @@ this is cell reuse, never workflow-prefix reuse.
 The score must not divide by a cost estimate learned from only cheap questions,
 open an edge because its observed rewards look favorable, or treat a skipped
 retry as a zero reward. A verifier PASS is a deployment-visible proxy; the
-answer-key correctness label remains audit-only. Every terminal failure or
-timeout is a complete cell with an explicit quality status and all charges
-incurred.
+answer-key correctness label remains audit-only in deployment-faithful mode.
+Every terminal failure or timeout is a complete cell with an explicit quality
+status and all charges incurred.
 
 ## Correctness target and limits
 
