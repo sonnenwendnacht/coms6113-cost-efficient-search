@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
+Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
 
 ## Research branch
 
@@ -322,8 +322,9 @@ Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
   passes the validated map, and tests cover valid and duplicate maps. Only
   syntax/diff checks were run in the research-only window; unit tests and
   replay remain pending.
-- The latest substantive main note is `9c01811` and the algorithm note is
-  `191aa8b`; both are pushed and included in PR #4.
+- The latest source-and-research checkpoint is `2120b5a` on the main branch
+  and `d4f3464` on the algorithm branch; both are pushed and included in PR
+  #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
