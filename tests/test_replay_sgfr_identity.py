@@ -32,6 +32,17 @@ class ReplaySgfrIdentityTests(unittest.TestCase):
                                 new_identity["sgfr_source_sha256"])
             self.assertNotEqual(old_identity, new_identity)
 
+    def test_resume_identity_changes_when_seed_or_budget_grid_changes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            trace = Path(directory)
+            (trace / "traces.json").write_text("[]\n")
+            (trace / "metadata.json").write_text("{}\n")
+            first = _MODULE.replay_identity(trace, "final_correct", seeds=[1], settings=[.1])
+            second = _MODULE.replay_identity(trace, "final_correct", seeds=[2], settings=[.1])
+            third = _MODULE.replay_identity(trace, "final_correct", seeds=[1], settings=[.2])
+            self.assertNotEqual(first, second)
+            self.assertNotEqual(first, third)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -7,8 +7,11 @@ slots remain accessible through a direct exploration reserve.  The final
 recommendation uses a fresh, reserved question block.
 
 The fold bounds below are heuristic uncertainty scores, not certified
-confidence intervals.  This minimal version has no additive outcome model and
-makes no cross-context interaction or fixed-confidence guarantee.
+confidence intervals. This minimal version has no additive outcome model and
+makes no cross-context interaction or fixed-confidence guarantee. The current
+implementation is a bookkeeping-corrected exploratory racer; it is not the
+cross-fitted residual-transfer design in deep-review note 147 and must not be
+used as confirmatory evidence for a similarity saving.
 """
 from __future__ import annotations
 

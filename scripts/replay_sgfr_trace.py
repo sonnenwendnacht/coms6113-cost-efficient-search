@@ -23,7 +23,14 @@ from retry_search.slot_gated_factorial_racing import run_sgfr  # noqa: E402
 REPLAY = __import__("replay_experiment1_nine_model", fromlist=["validate_trace_rectangle", "selector_reward", "_digest", "load_completed_runs", "append_completed_run", "output_directory_lock"])
 
 
-def replay_identity(trace_dir: Path, selector_reward: str, *, sgfr_source: Path | None = None) -> dict[str, str]:
+def replay_identity(
+    trace_dir: Path,
+    selector_reward: str,
+    *,
+    seeds: list[int] | None = None,
+    settings: list[float] | None = None,
+    sgfr_source: Path | None = None,
+) -> dict[str, object]:
     """Return the immutable inputs that define an SGFR replay.
 
     The selector implementation is part of replay provenance.  Without its
@@ -39,6 +46,8 @@ def replay_identity(trace_dir: Path, selector_reward: str, *, sgfr_source: Path 
         "selector_reward": selector_reward,
         "runner_sha256": REPLAY._digest(Path(__file__)),
         "sgfr_source_sha256": REPLAY._digest(source),
+        "seeds": list(seeds or [6113, 6114, 6115, 6116, 6117, 6118, 6119, 6120]),
+        "settings": list(settings or [0.01, 0.025, 0.05, 0.1, 0.2, 0.3, 0.5]),
     }
 
 
@@ -73,7 +82,8 @@ def main() -> int:
     seeds = args.seed or metadata.get("seeds", [6113, 6114, 6115, 6116, 6117, 6118, 6119, 6120])
     settings = [0.01, 0.025, 0.05, 0.1, 0.2, 0.3, 0.5]
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    identity = replay_identity(args.trace_dir, args.selector_reward)
+    identity = replay_identity(args.trace_dir, args.selector_reward,
+                                seeds=[int(seed) for seed in seeds], settings=settings)
     manifest = args.output_dir / "replay-identity.json"
     checkpoint = args.output_dir / "selector-checkpoint.jsonl"
     with REPLAY.output_directory_lock(args.output_dir):
