@@ -376,6 +376,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   simultaneous confidence, cross-fitted gates, and safe cost reservations. It
   separates this correctness claim from any empirical dollar savings or
   verifier-to-gold transfer claim.
+- Note 125 records three counterexamples where reward similarity does not save
+  profiling dollars: unequal retry paths, easy/expensive question groups, and
+  cost disagreement under identical rewards. EGCR needs separate quality-gain
+  and cost-gain gates.
 - The latest source-and-research checkpoint is `2120b5a` on the main branch
   and `d4f3464` on the algorithm branch; both are pushed and included in PR
   #4.
