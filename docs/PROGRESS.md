@@ -266,6 +266,10 @@ Updated: 2026-09-29 20:02 ET (research-only window; no experiments launched).
 - Note 96 audits CABAI and cost-aware LLM dueling. Cost-aware proportions and
   fixed-confidence dueling are direct baselines; the possible gap is only their
   extension to complete retry rows with outcome-linked path costs.
+- Note 97 audits resource-constrained BAI, multi-fidelity BAI, and TRIPLE prompt
+  similarity. A hard cap, cheap fidelity, or generic similarity transfer is not
+  novel; the defensible boundary is complete retry rows with realized,
+  verifier-gated outcome-linked charges and blind held-out evaluation.
 - The latest main branch is `f32666b` and the algorithm branch is
   `be8c619`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
