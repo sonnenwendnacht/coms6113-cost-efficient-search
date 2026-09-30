@@ -145,6 +145,7 @@ prototype is novel or statistically certified:
 | [126: Cost-SySRs prototype](126-cost-sysrs-prototype-2026-09-29.md) | Adds an unexecuted synchronized successive-rejects baseline for complete retry cells with explicit realized-cost overshoot diagnostics |
 | [127: Resource-constrained BAI boundary](127-resource-constrained-bai-boundary-2026-09-29.md) | Separates a soft realized-spend comparison from a strict resource cap and records the SH-RR prior-art boundary |
 | [128: Graph-gated residual racing design](128-graph-gated-residual-racing-design-2026-09-29.md) | Proposes a cross-fitted, gated paired-residual design and narrows its novelty claim against spectral BAI, graph feedback, SySRs, and resource-constrained BAI |
+| [129: CAET prior art and context/cost gap](129-caet-prior-art-and-context-gap-2026-09-29.md) | Audits cost-aware pairwise pure exploration and narrows Algorithm 2 to context-indexed rows with execution-dependent retry costs |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.

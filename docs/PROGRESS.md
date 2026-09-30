@@ -392,6 +392,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   with similarity used for allocation/elimination rather than free neighbor
   feedback. It treats graph smoothness, paired BAI, and resource-rationed BAI
   as prior art and keeps the novelty claim conditional.
+- Note 129 audits Wu et al.'s CAET (2025), which already covers cost-aware
+  pairwise pure exploration. It narrows Algorithm 2's possible contribution
+  to context-indexed complete rows with execution-dependent retry costs, and
+  requires CAET-style allocation as a future baseline.
 - The latest source-and-research checkpoint is `2120b5a` on the main branch
   and `d4f3464` on the algorithm branch; both are pushed and included in PR
   #4.
