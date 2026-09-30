@@ -367,6 +367,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   `final_correct`. Replay now has an explicit `--selector-reward` contract;
   deployment-faithful claims require verifier-visible selection followed by a
   gold held-out audit.
+- Note 123 audits SCOPE. Its conformal pairwise-judge guarantee requires
+  labeled calibration and exchangeability, and does not transfer directly to a
+  verifier whose PASS/RETRY action changes the retry path and charge. Treat it
+  as a calibration control, not as outer-search novelty.
 - The latest source-and-research checkpoint is `2120b5a` on the main branch
   and `d4f3464` on the algorithm branch; both are pushed and included in PR
   #4.
