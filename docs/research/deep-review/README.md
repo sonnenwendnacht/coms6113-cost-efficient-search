@@ -150,6 +150,7 @@ prototype is novel or statistically certified:
 | [131: Pre-registered question blocks](131-preregistered-question-blocks-2026-09-29.md) | Defines an outcome-independent question-block schedule for adaptive edge opening and exact-cell reuse |
 | [132: PROBE proxy-BAI boundary](132-probe-proxy-bai-boundary-2026-09-29.md) | Audits proxy-assisted BAI and narrows row-residual novelty to unknown paid anchors with endogenous retry costs |
 | [133: Contextual BAI boundary](133-contextual-bai-boundary-2026-09-29.md) | Separates generic context-aware arm allocation from paired finite-question rows with response-dependent retry costs |
+| [134: CG-RTE algorithm specification](134-cg-rte-algorithm-spec-2026-09-29.md) | Specifies the candidate protocol, state, gates, budget modes, stopping rule, and required controls without claiming validation |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.

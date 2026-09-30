@@ -412,6 +412,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
 - Note 133 audits contextual BAI. It requires a context-aware allocation
   baseline and narrows the structural distinction to paired finite-question
   rows whose verifier-controlled retry paths create response-dependent costs.
+- Note 134 specifies CG-RTE end to end: fixed question blocks, complete-cell
+  ledgers, cross-fitted edge gates, cost-per-information allocation, fail-closed
+  partial blocks, and fresh direct confirmation. It remains an adaptation
+  hypothesis with explicit falsification controls.
 - The latest source-and-research checkpoint is `da5fd12` on the main branch
   and `cd6cf1a` on the algorithm branch; both are pushed and included in PR
   #4.
