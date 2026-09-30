@@ -409,6 +409,9 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   conservative residual-variance certificate and one-round calibration lag as
   conceptual baselines, and narrows any possible novelty to unknown paid
   anchors with question-dependent retry costs.
+- Note 133 audits contextual BAI. It requires a context-aware allocation
+  baseline and narrows the structural distinction to paired finite-question
+  rows whose verifier-controlled retry paths create response-dependent costs.
 - The latest source-and-research checkpoint is `da5fd12` on the main branch
   and `cd6cf1a` on the algorithm branch; both are pushed and included in PR
   #4.
