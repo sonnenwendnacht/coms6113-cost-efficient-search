@@ -371,6 +371,11 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   labeled calibration and exchangeability, and does not transfer directly to a
   verifier whose PASS/RETRY action changes the retry path and charge. Treat it
   as a calibration control, not as outer-search novelty.
+- Note 124 states the conditional theorem target for the Cost-SySRs/EGCR
+  hybrid: an epsilon-best observed row over a registered finite bank under
+  simultaneous confidence, cross-fitted gates, and safe cost reservations. It
+  separates this correctness claim from any empirical dollar savings or
+  verifier-to-gold transfer claim.
 - The latest source-and-research checkpoint is `2120b5a` on the main branch
   and `d4f3464` on the algorithm branch; both are pushed and included in PR
   #4.

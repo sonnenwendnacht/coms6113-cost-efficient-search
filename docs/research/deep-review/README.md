@@ -140,6 +140,7 @@ prototype is novel or statistically certified:
 | [121: Cost-SySRs to EGCR hybrid](121-cost-sysrs-egcr-hybrid-2026-09-29.md) | Specifies the current Algorithm 2 candidate: global synchronized elimination followed by cost-gated complete-row races when unequal path costs make full synchronization inefficient |
 | [122: Reward-visibility contract](122-reward-visibility-contract-2026-09-29.md) | Separates deployment-visible verifier passes from evaluator-only final correctness and adds an explicit replay reward selector |
 | [123: SCOPE verifier-calibration boundary](123-scope-verifier-calibration-boundary-2026-09-29.md) | Audits SCOPE's conformal accepted-set guarantee and explains why a single retry verifier needs labeled calibration and path-aware cost analysis |
+| [124: Conditional hybrid correctness target](124-conditional-hybrid-correctness-target-2026-09-29.md) | States the finite-bank epsilon-best theorem target, confidence/cost assumptions, and the empirical claims that remain unproved |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
