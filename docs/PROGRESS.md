@@ -281,6 +281,10 @@ Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
   successive rejects with phase targets based on realized or safely reserved
   retry cost. Synchronized pairing is prior art; the retry-cost extension stays
   conditional pending equal-dollar controls and valid adaptive confidence.
+- Note 101 specifies the Cost-SySR confidence contract. The local trace is
+  deterministic (`do_sample=False`) and targets a finite search bank; valid
+  adaptive elimination additionally needs complete synchronized blocks, no late
+  admission, and an anytime or pre-sized simultaneous confidence rule.
 - The latest substantive main note is `4059e10` and the algorithm note is
   `5356838`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
