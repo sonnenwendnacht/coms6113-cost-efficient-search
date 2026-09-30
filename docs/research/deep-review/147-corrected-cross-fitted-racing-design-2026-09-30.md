@@ -21,6 +21,8 @@ Call the corrected candidate **cross-fitted reach-aware pair racing (CRPR)** unt
 
 A cost-normalized acquisition score can be based on predicted reduction in the incumbent/challenger interval divided by the expected charge of the next complete cell. Expected charge is estimated from observed strata and must be charged with a conservative reservation; a known per-token coefficient does not make a complete retry-path charge known.
 
+Because the allocator can inspect many edges, retry strata, and checkpoints, per-edge nominal intervals are not enough. Register the finite edge set and use one simultaneous error budget across quality, reach, and charge gates (or pay a fresh certification block for every adaptively opened edge). Record the maximum number of looks and turn off residual transfer after a predeclared calibration-versus-race drift check fails.
+
 ## Why this is different from the withdrawn code
 
 The withdrawn implementation measured every candidate endpoint on the entire race block and then ranked direct means, so it was a row sampler. CRPR uses calibration residuals only across disjoint blocks and can leave a challenger race cell unopened. It must record every imputed recommendation as provisional and may never report an unconfirmed row as the winner.

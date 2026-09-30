@@ -51,6 +51,12 @@ def replay_identity(
     }
 
 
+def validate_replay_identity(recorded: dict[str, object], current: dict[str, object]) -> None:
+    """Reject a resume whose immutable replay inputs differ."""
+    if recorded != current:
+        raise SystemExit("trace, reward, runner, SGFR source, seeds, or budget grid changed; use a new output directory")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("trace_dir", type=Path)
@@ -91,8 +97,7 @@ def main() -> int:
             if not args.resume:
                 raise SystemExit("output already initialized; use --resume")
             old = json.loads(manifest.read_text())
-            if old != identity:
-                raise SystemExit("trace, reward, or runner changed; use a new output directory")
+            validate_replay_identity(old, identity)
         else:
             if checkpoint.exists():
                 raise SystemExit("checkpoint without identity manifest")

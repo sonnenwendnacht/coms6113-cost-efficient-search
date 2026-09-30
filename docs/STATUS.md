@@ -2,9 +2,9 @@
 
 - The complete local nine-model trace is `exp1-nine-local-20260927-proper`: 729 rows, 200 search questions, and 200 disjoint audit questions (291,600 cells). It is a fixed local proxy trace, not an API result.
 - Gold-labeled selector replay is under `results/runs/exp1-nine-local-20260930/full-gold/`; verifier-proxy replay is under `.../proxy-similarity/`. The gold graph-residual high-budget settings are partial and clearly marked in the research note.
-- SGFR is implemented in `src/retry_search/slot_gated_factorial_racing.py`, with checkpointed exploratory replays under `.../sgfr-gold/` and `.../sgfr-proxy/`. Its gates are heuristic diagnostics, not confidence bounds.
-- The latest offline suite has 67 passing tests. No API calls or purchases were made.
-- Current interpretation and limits: [deep-review note 143](research/deep-review/143-exp1-results-and-algorithm2-next-step-2026-09-30.md), [prior-art boundary note 144](research/deep-review/144-sgfr-prior-art-and-falsification-2026-09-30.md), and [Experiment 2 protocol](../experiments/experiment2-sgfr.md).
+- The first SGFR curves are withdrawn as evidence: source audit found an empty racing phase and same-block residuals that reduce to direct candidate means. The old files remain preserved as exploratory row-sampling artifacts. The corrected next candidate is CRPR, specified in [deep-review note 147](research/deep-review/147-corrected-cross-fitted-racing-design-2026-09-30.md), but it has not been implemented or run.
+- The latest offline suite has 72 passing tests. Replay identities now bind the trace, reward, runner, SGFR source, seed list, and budget grid, so a changed implementation cannot silently resume an old checkpoint. No API calls or purchases were made.
+- Current interpretation and limits: [deep-review note 143](research/deep-review/143-exp1-results-and-algorithm2-next-step-2026-09-30.md), [prior-art boundary note 144](research/deep-review/144-sgfr-prior-art-and-falsification-2026-09-30.md), [withdrawal/design note 146](research/deep-review/146-withdraw-sgfr-curve-and-freeze-e2-2026-09-30.md), [CRPR note 147](research/deep-review/147-corrected-cross-fitted-racing-design-2026-09-30.md), and [Experiment 2 protocol](../experiments/experiment2-sgfr.md).
 
 # Project status
 

@@ -43,6 +43,16 @@ class ReplaySgfrIdentityTests(unittest.TestCase):
             self.assertNotEqual(first, second)
             self.assertNotEqual(first, third)
 
+    def test_resume_validator_rejects_changed_source_identity(self):
+        with tempfile.TemporaryDirectory() as directory:
+            trace = Path(directory)
+            (trace / "traces.json").write_text("[]\n")
+            (trace / "metadata.json").write_text("{}\n")
+            old = _MODULE.replay_identity(trace, "final_correct", seeds=[1], settings=[.1])
+            new = dict(old, sgfr_source_sha256="changed")
+            with self.assertRaises(SystemExit):
+                _MODULE.validate_replay_identity(old, new)
+
 
 if __name__ == "__main__":
     unittest.main()
