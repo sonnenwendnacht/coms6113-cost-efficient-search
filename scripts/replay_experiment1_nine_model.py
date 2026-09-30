@@ -262,7 +262,7 @@ def main() -> int:
             raise SystemExit("checkpoint without identity manifest; use a new output directory")
         manifest_path.write_text(json.dumps(identity, indent=2) + "\n")
     completed = load_completed_runs(checkpoint_path)
-    selector_runs = []
+    selector_runs = list(completed.values()) if args.report_only else []
 
     def execute(setting: dict, seed: int, callback) -> None:
         key_record = {**setting, "seed": int(seed)}
