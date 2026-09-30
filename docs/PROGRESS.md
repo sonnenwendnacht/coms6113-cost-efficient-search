@@ -359,6 +359,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   baseline should be Cost-SySR with realized-dollar accounting. Algorithm 2's
   remaining conditional scope is unequal path-cost allocation, cross-fitted
   gating, and independent complete-row audit.
+- Note 121 gives the current Algorithm 2 design: Phase A Cost-SySRs for global
+  protection, then Phase B EGCR for a small active set or sharply unequal row
+  charges. The switch must be predeclared/cross-fitted, and all claims remain
+  conditional on equal-dollar controls.
 - The latest source-and-research checkpoint is `2120b5a` on the main branch
   and `d4f3464` on the algorithm branch; both are pushed and included in PR
   #4.

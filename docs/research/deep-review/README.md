@@ -137,6 +137,7 @@ prototype is novel or statistically certified:
 | [118: Known coefficient versus realized cell cost](118-known-coefficient-realized-cell-cost-2026-09-29.md) | Audits the runner's token billing and clarifies why known model coefficients do not imply a known complete retry-cell charge or hard dollar cap |
 | [119: Budget-basis audit](119-budget-basis-audit-2026-09-29.md) | Audits the legacy selector sweep's row/cell/parameter budget units and records an explicit budget-basis field before equal-dollar comparisons |
 | [120: SySRs primary-paper audit](120-sysrs-primary-audit-2026-09-29.md) | Pins the ICML 2026 synchronized-successive-rejects baseline and narrows Algorithm 2 to unequal path-cost allocation, gated row similarity, and independent audit |
+| [121: Cost-SySRs to EGCR hybrid](121-cost-sysrs-egcr-hybrid-2026-09-29.md) | Specifies the current Algorithm 2 candidate: global synchronized elimination followed by cost-gated complete-row races when unequal path costs make full synchronization inefficient |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
