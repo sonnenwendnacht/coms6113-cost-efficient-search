@@ -270,6 +270,10 @@ Updated: 2026-09-29 20:05 ET (research-only window; no experiments launched).
   similarity. A hard cap, cheap fidelity, or generic similarity transfer is not
   novel; the defensible boundary is complete retry rows with realized,
   verifier-gated outcome-linked charges and blind held-out evaluation.
+- Note 98 separates the current realized-spend replay from a safe hard-cap
+  protocol. A true cap requires a deterministic upper bound on each complete
+  row/question charge and a reservation before launch; mean-cost estimates are
+  not enough.
 - The latest main branch is `828a1b9` and the algorithm branch is
   `71bd477`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on

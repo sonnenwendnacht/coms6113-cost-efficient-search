@@ -114,6 +114,7 @@ prototype is novel or statistically certified:
 | [95: Cascade and delayed-feedback overlap](95-cascade-and-delayed-feedback-overlap-2026-09-29.md) | Audits partial-feedback and cascading BAI priors and narrows early-stopping novelty |
 | [96: Cost-aware BAI and dueling overlap](96-cost-aware-bai-and-dueling-overlap-2026-09-29.md) | Audits CABAI and cost-aware LLM dueling and requires them as direct baselines |
 | [97: Cost resources, multi-fidelity, and similarity boundary](97-cost-resource-and-similarity-boundary-2026-09-29.md) | Audits resource-constrained BAI, multi-fidelity BAI, and TRIPLE prompt similarity; narrows Algorithm 2 to complete retry rows with realized outcome-linked charges |
+| [98: Hard-cap and realized-cost protocol](98-hard-cap-and-realized-cost-protocol-2026-09-29.md) | Separates the current overshooting realized-spend replay from a safe hard-cap wrapper with complete-row charge reservations |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
