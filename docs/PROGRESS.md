@@ -307,8 +307,8 @@ Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
   quality, and cold deployment cost are separate. The primary table should use
   best accuracy at fixed search spend, with cost-constrained/Pareto analyses
   registered separately.
-- The latest substantive main note is `2d8b033` and the algorithm note is
-  `5c02300`; both are pushed and included in PR #4.
+- The latest substantive main note is `2d1145d` and the algorithm note is
+  `ba256c4`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
