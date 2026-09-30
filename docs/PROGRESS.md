@@ -439,6 +439,11 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   observation methods. It rules out generic correlated-arm or cost-aware
   pairwise novelty and narrows the gap to question-indexed paired cells with
   response-dependent retry charges.
+- Note 141 freezes the next replay protocol. It separates valid labeled
+  offline profiling from deployment-faithful verifier-proxy profiling,
+  requires cost/graph/question permutation controls, and states that the
+  current trace's 99.93% verifier acceptance and 2.4% retry reach are a major
+  confound for any retry-aware claim.
 - The latest source-and-research checkpoint is `2d90776` on the main branch
   and `3e3735b` on the algorithm branch; both are pushed and included in PR
   #4. Note 140 is being checkpointed now.
