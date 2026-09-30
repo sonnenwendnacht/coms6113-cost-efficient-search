@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 20:05 ET (research-only window; no experiments launched).
+Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
 
 ## Research branch
 
@@ -9,7 +9,7 @@ Updated: 2026-09-29 20:05 ET (research-only window; no experiments launched).
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `71bd477`; source-audit commits after the earlier implementation
+  is `7d94ca5`; source-audit commits after the earlier implementation
   checkpoint add notes 19--71.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
@@ -274,8 +274,8 @@ Updated: 2026-09-29 20:05 ET (research-only window; no experiments launched).
   protocol. A true cap requires a deterministic upper bound on each complete
   row/question charge and a reservation before launch; mean-cost estimates are
   not enough.
-- The latest main branch is `828a1b9` and the algorithm branch is
-  `71bd477`; both are pushed and included in PR #4.
+- The latest main branch is `e96f694` and the algorithm branch is
+  `7d94ca5`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
