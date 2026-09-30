@@ -263,6 +263,9 @@ Updated: 2026-09-29 19:58 ET (research-only window resumed; no experiments launc
   and partial feedback are established; the remaining boundary must include
   complete-row identification, same-question configuration covariance, and
   realized path-cost accounting.
+- Note 96 audits CABAI and cost-aware LLM dueling. Cost-aware proportions and
+  fixed-confidence dueling are direct baselines; the possible gap is only their
+  extension to complete retry rows with outcome-linked path costs.
 - The latest main branch is `210c43d` and the algorithm branch is
   `19edec0`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on

@@ -112,6 +112,7 @@ prototype is novel or statistically certified:
 | [93: LLM surrogate-reward overlap](93-llm-surrogate-reward-overlap-2026-09-29.md) | Audits MLA-UCB's LLM model-selection surrogate and rules out cheap-proxy control variates as new |
 | [94: Structured-row bandit overlap](94-structured-row-bandit-overlap-2026-09-29.md) | Audits factored-reward and multi-agent vector-action BAI and narrows configuration-vector novelty |
 | [95: Cascade and delayed-feedback overlap](95-cascade-and-delayed-feedback-overlap-2026-09-29.md) | Audits partial-feedback and cascading BAI priors and narrows early-stopping novelty |
+| [96: Cost-aware BAI and dueling overlap](96-cost-aware-bai-and-dueling-overlap-2026-09-29.md) | Audits CABAI and cost-aware LLM dueling and requires them as direct baselines |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
