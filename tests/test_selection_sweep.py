@@ -174,6 +174,44 @@ class ExactBayesianOptimizationTests(unittest.TestCase):
                     self.assertEqual(seen, expected_seen)
                     self.assertEqual(observed, expected)
 
+    def test_similarity_disagreement_cache_matches_full_scan(self):
+        rng = random.Random(51)
+        samples = {}
+        for question in range(5):
+            samples[question] = {}
+            for arm in rng.sample(range(27), 9):
+                samples[question][arm] = (rng.random(), 1.0)
+        expected = sweep._similarity_weights(samples, 27)
+        cached = sweep._SlotDisagreements(27)
+        for question in range(5):
+            revealed = {}
+            for arm, value in samples[question].items():
+                cached.add(arm, value[0], revealed)
+                revealed[arm] = value
+        expected_counts = [0, 0, 0]
+        for question_samples in samples.values():
+            for arm in question_samples:
+                for neighbor in sweep._hamming_neighbor_tuple(arm, 27):
+                    if neighbor > arm and neighbor in question_samples:
+                        slot = sweep._changed_slot(arm, neighbor, 27)
+                        if slot is not None:
+                            expected_counts[slot] += 1
+        self.assertEqual(cached.counts, expected_counts)
+        for got, want in zip(cached.weights(), expected):
+            self.assertAlmostEqual(got, want, places=12)
+
+    def test_similarity_vector_batch_matches_scalar_prediction(self):
+        rng = random.Random(52)
+        samples = {3: {arm: (rng.random(), 1.0) for arm in rng.sample(range(27), 11)}}
+        slot_weights = (0.7, 1.3, 2.0)
+        batch = sweep._SimilarityPredictions(27).predict(
+            [0, 1, 3, 8, 26], 3, samples, 1.0, slot_weights, 0.5,
+        )
+        for arm, got in zip([0, 1, 3, 8, 26], batch):
+            want = sweep._weighted_prediction(arm, 3, samples, 27, 1.0, slot_weights, 0.5)
+            for value, expected in zip(got, want):
+                self.assertAlmostEqual(value, expected, places=12)
+
     def test_one_row_budget_needs_no_posterior(self):
         with patch.object(sweep, "_CategoricalPosterior", side_effect=AssertionError("unnecessary posterior")):
             observed, seen = {}, set()
