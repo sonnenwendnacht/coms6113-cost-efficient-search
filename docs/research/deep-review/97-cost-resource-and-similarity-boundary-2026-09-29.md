@@ -6,18 +6,23 @@
   Resource Constraints*, [arXiv:2602.24146](https://arxiv.org/html/2602.24146).
   BAIwRC gives each arm a reward and one or more random resource consumptions,
   permits arbitrary reward--consumption correlation, and proposes Sequential
-  Halving with Resource Rationing (SH-RR). It is a direct baseline for a hard
-  profiling cap when a row's realized charge is random.
+  Halving with Resource Rationing (SH-RR). Its model has an unknown arm
+  distribution over `(R,D_1,...,D_L)`, a bounded/sub-Gaussian reward, bounded
+  resource consumptions, a unique best arm, non-anticipatory stopping, and a
+  cumulative resource constraint that must hold with certainty. It is a direct
+  baseline for a hard profiling cap when a row's realized charge is random.
 - Poiani et al., *Optimal Multi-Fidelity Best-Arm Identification*,
   [arXiv:2406.03033](https://arxiv.org/abs/2406.03033). Multi-fidelity BAI
-  allocates cheaper lower-fidelity observations under a fidelity-bias model and
-  derives cost-aware identification rules. Treating an early retry as a
-  ``cheap fidelity'' is therefore not automatically novel.
+  allocates cheaper lower-fidelity observations under known fidelity costs and
+  a known uniform bias bound to a target fidelity, with canonical
+  exponential-family rewards. Treating an early retry as a ``cheap fidelity''
+  is therefore not automatically novel.
 - Shi et al., *Efficient Prompt Optimization Through the Lens of Best Arm
-  Identification* (TRIPLE), [conference PDF](https://www.proceedings.com/content/079/079017-3161open.pdf).
-  TRIPLE formulates black-box prompt selection as fixed-budget BAI and uses
-  embeddings through clustering or function approximation to share information
-  among candidate prompts.
+  Identification* (TRIPLE), [official NeurIPS page](https://proceedings.neurips.cc/paper_files/paper/2024/file/b46bc1449205888e1883f692aff1a252-Abstract-Conference.html)
+  ([PDF](https://www.proceedings.com/content/079/079017-3161open.pdf)). TRIPLE
+  formulates black-box prompt selection as fixed-budget BAI and uses embeddings
+  through clustering or a learned reward map to share information among
+  candidate prompts under a fixed number-of-trials budget.
 
 ## What this rules out
 
@@ -39,7 +44,8 @@ solver and verifier call. Thus the charge is random and can be correlated with
 the final correctness through verifier reach; an unexecuted later attempt is a
 missing continuation, not a zero or a cheap fidelity measurement. The selector
 must recommend a complete row, and held-out questions remain untouched until
-after recommendation.
+after recommendation. Unlike TRIPLE's trial count, the search ledger must
+charge realized input tokens and reached calls.
 
 This differs from ordinary multi-fidelity BAI in two ways that matter for a
 claim: an early stopping prefix is not a controlled, biased approximation to a
