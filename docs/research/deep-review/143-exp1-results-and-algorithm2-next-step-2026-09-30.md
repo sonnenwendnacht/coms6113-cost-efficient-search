@@ -66,3 +66,14 @@ The candidate Algorithm 2 is **slot-gated factorial racing (SGFR)**:
 A dependency-free research prototype is now implemented as `src/retry_search/slot_gated_factorial_racing.py` with tests in `tests/test_slot_gated_factorial_racing.py`. It is intentionally a heuristic: its gate diagnostics are not confidence intervals and it has no fixed-confidence guarantee. This is a testable hypothesis, not yet a novelty claim. Neighbor similarity, Hamming graphs, paired comparisons, adaptive racing, cost-normalized acquisition, and factorized configuration search all have prior art. The defensible intersection is the combination of a complete retry row, question-indexed paired outcomes, verifier-censored retry reach, response-dependent realized charge, and a finite search bank under a matched cached-incumbent ledger.
 
 The required baselines are random, uniform allocation, Matrix UCB-E, Bayesian optimization, arm elimination, hill climbing, Cost-SySR or another similarity baseline, and a cost-aware stopping baseline. Report search spend, held-out accuracy, realized path cost, verifier pass rate, retry reach, and false-pass/false-reject rates separately. Do not use a pointwise full-matrix oracle as a deployment claim.
+
+## First SGFR replay (exploratory)
+
+The checkpointed replay script is `scripts/replay_sgfr_trace.py`. It ran all seven budget fractions and eight seeds on both selector rewards:
+
+- Gold-labeled profiling: `results/runs/exp1-nine-local-20260930/sgfr-gold/selector-table.md`.
+- Verifier-proxy profiling: `results/runs/exp1-nine-local-20260930/sgfr-proxy/selector-table.md`.
+
+On gold labels, SGFR reached the 38.5% exhaustive-audit accuracy at fraction 0.20 with mean search cost $0.25185, a 96.9% saving in this local proxy ledger. At fraction 0.05 it reached 35.25% for $0.11178. This is a promising fixed-trace observation, not a significance claim: the same trace is first-slot dominated and the SGFR budget fractions are caps, so actual paid cells are lower than the cap after confirmation.
+
+On the verifier proxy, SGFR reached 20.31% at fraction 0.01, 20.56% at 0.10, and 18.50% at 0.30 and 0.50; the exhaustive verifier-proxy reference is 18.50%. The proxy and gold curves are therefore different objectives, and the gold-labeled result cannot be presented as deployment-faithful. A real next experiment must add a calibrated verifier or a positive-probability gold confirmation block before making an accuracy claim.
