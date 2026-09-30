@@ -117,6 +117,7 @@ prototype is novel or statistically certified:
 | [98: Hard-cap and realized-cost protocol](98-hard-cap-and-realized-cost-protocol-2026-09-29.md) | Separates the current overshooting realized-spend replay from a safe hard-cap wrapper with complete-row charge reservations |
 | [99: Factorized row-model boundary](99-factorized-row-model-boundary-2026-09-29.md) | Audits linear and factor-graph BAI; treats factorial sharing as a guarded baseline unless complete-row calibration passes |
 | [100: Cost-synchronized successive rejects](100-cost-synchronized-successive-rejects-2026-09-29.md) | Derives a complete-row, cost-aware SySRs adaptation and separates established synchronized pairing from the retry-cost hypothesis |
+| [101: Confidence contract for Cost-SySR](101-confidence-contract-for-cost-sysr-2026-09-29.md) | Specifies finite-bank, block, admission, and anytime-confidence conditions needed for valid synchronized elimination with random retry charges |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
