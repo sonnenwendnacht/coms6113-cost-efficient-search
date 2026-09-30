@@ -2,7 +2,7 @@
 
 Updated: 2026-09-30 14:36 ET (Experiment 1 replay/reporting and Algorithm 2 follow-up).
 
-- Experiment 1 results and the SGFR next-step hypothesis are recorded in `docs/research/deep-review/143-exp1-results-and-algorithm2-next-step-2026-09-30.md`. Gold-labeled replay tables and plots are under `results/runs/exp1-nine-local-20260930/full-gold/`; verifier-proxy replay is complete under `results/runs/exp1-nine-local-20260930/proxy-similarity/`; the gold graph-residual high-budget settings remain intentionally partial.
+- Experiment 1 results and the SGFR next-step hypothesis are recorded in `docs/research/deep-review/143-exp1-results-and-algorithm2-next-step-2026-09-30.md`. Gold-labeled replay tables and plots are under `results/runs/exp1-nine-local-20260930/full-gold/`; verifier-proxy replay is complete under `results/runs/exp1-nine-local-20260930/proxy-similarity/`; its checkpoint recovery and single-writer lock are recorded in deep-review note 145. The gold graph-residual high-budget settings remain intentionally partial.
 
 ## Research branch
 
