@@ -396,6 +396,11 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   pairwise pure exploration. It narrows Algorithm 2's possible contribution
   to context-indexed complete rows with execution-dependent retry costs, and
   requires CAET-style allocation as a future baseline.
+- Note 130 records the amortization condition: a paired edge pays both complete
+  endpoints, so similarity can save money only when an already-paid anchor is
+  reused across candidates or residual variance materially reduces the needed
+  cells. The design is now framed as transductive allocation with direct
+  fallback, not a free graph estimator.
 - The latest source-and-research checkpoint is `2120b5a` on the main branch
   and `d4f3464` on the algorithm branch; both are pushed and included in PR
   #4.
