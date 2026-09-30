@@ -1,20 +1,20 @@
 # Experiment 2: slot-gated factorial racing
 
-Status: protocol and offline prototype ready; no live/API run is authorized by this record.
+Status: protocol only until the SGFR implementation audit is corrected; no live/API run is authorized by this record.
 
 SGFR is a candidate allocator for complete ordered retry rows. It never treats a retry suffix as a separate arm and never reuses model output or a workflow prefix. A paid cell is one complete row on one question. The prototype maintains separate diagnostics for correctness, whether a retry was reached, and realized charge. It reserves direct row exploration and confirms the finalists on questions held out from calibration and racing.
 
 The implementation is `src/retry_search/slot_gated_factorial_racing.py`; its unit tests are `tests/test_slot_gated_factorial_racing.py`. The fixed-trace replay is `scripts/replay_sgfr_trace.py`.
 
-## Current exploratory result
+## Withdrawn exploratory artifact
 
-On `exp1-nine-local-20260927-proper`, with the same 729 rows and 200/200 search/audit split:
+The first SGFR source had an empty racing candidate list and a direct-mean recommendation path. The outputs below are preserved only as a row-sampling/confirmation artifact, not as an SGFR result. On `exp1-nine-local-20260927-proper`, with the same 729 rows and 200/200 search/audit split:
 
 - Gold-labeled profiling reaches the exhaustive audit accuracy of 38.5% at mean proxy search cost $0.25185 (budget cap fraction 0.20), but this is a fixed-trace offline label result.
 - Verifier-proxy profiling reaches 20.31% at fraction 0.01 and 18.50% at fractions 0.30 and 0.50; the proxy exhaustive reference is 18.50%.
 - The verifier accepted 99.93% of cells and only 2.4% reached a second attempt, so these results do not establish retry-aware superiority.
 
-Tables and plots are under `results/runs/exp1-nine-local-20260930/sgfr-gold/` and `sgfr-proxy/`. The full interpretation and prior-art boundary are in deep-review notes 143 and 144.
+Tables and plots are under `results/runs/exp1-nine-local-20260930/sgfr-gold/` and `sgfr-proxy/`. The correction and valid confirmatory design are in deep-review note 146; prior-art boundaries are in notes 143 and 144.
 
 ## Required confirmatory design
 

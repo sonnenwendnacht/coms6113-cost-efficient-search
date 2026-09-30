@@ -1,8 +1,8 @@
 # Resumable checkpoint
 
-Updated: 2026-09-30 14:36 ET (Experiment 1 replay/reporting and Algorithm 2 follow-up).
+Updated: 2026-09-30 17:42 ET (SGFR audit and Experiment 2 protocol correction).
 
-- Experiment 1 results and the SGFR next-step hypothesis are recorded in `docs/research/deep-review/143-exp1-results-and-algorithm2-next-step-2026-09-30.md`. Gold-labeled replay tables and plots are under `results/runs/exp1-nine-local-20260930/full-gold/`; verifier-proxy replay is complete under `results/runs/exp1-nine-local-20260930/proxy-similarity/`; its checkpoint recovery and single-writer lock are recorded in deep-review note 145. The gold graph-residual high-budget settings remain intentionally partial. SGFR is implemented as a dependency-free prototype with complete-row calibration, reach/charge diagnostics, direct reserve, and fresh confirmation; its exploratory gold/proxy replay tables are under `results/runs/exp1-nine-local-20260930/sgfr-gold/` and `sgfr-proxy/`; 67 offline tests pass.
+- Experiment 1 results and the SGFR next-step hypothesis are recorded in `docs/research/deep-review/143-exp1-results-and-algorithm2-next-step-2026-09-30.md`. Gold-labeled replay tables and plots are under `results/runs/exp1-nine-local-20260930/full-gold/`; verifier-proxy replay is complete under `results/runs/exp1-nine-local-20260930/proxy-similarity/`; its checkpoint recovery and single-writer lock are recorded in deep-review note 145. The gold graph-residual high-budget settings remain intentionally partial. SGFR’s first implementation was audited and its replay curves are withdrawn as a gate/racing result; preserved artifacts are exploratory row-sampling outputs. A corrected implementation is pending. Experiment 2 now requires calibration, fresh selection confirmation, and a never-exposed final audit, plus natural and forced-retry strata.
 
 ## Research branch
 
