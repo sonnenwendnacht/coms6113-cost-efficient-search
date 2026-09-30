@@ -311,6 +311,10 @@ Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
   post-hoc audit split, but structured caps use a full-matrix cost denominator
   while standard selectors use cell fractions; equal-dollar curves require a
   common ledger/oracle wrapper.
+- Note 109 defines the realized-dollar curve protocol: ordered complete-cell
+  ledgers, fixed cumulative-dollar checkpoints, no credit for a block crossing a
+  checkpoint, and separate reporting of overshoot, held-out quality, and cold
+  deployment cost.
 - The latest substantive main note is `8ae5c16` and the algorithm note is
   `0b3da35`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
