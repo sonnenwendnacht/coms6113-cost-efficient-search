@@ -125,6 +125,7 @@ prototype is novel or statistically certified:
 | [106: No-free-lunch for unmeasured rows](106-no-free-lunch-for-unmeasured-rows-2026-09-29.md) | Proves why Hamming similarity and observed covariance cannot certify an unobserved row without a structural bias bound |
 | [107: Multiobjective complete-row recommendation](107-multiobjective-complete-row-recommendation-2026-09-29.md) | Separates profiling spend, held-out quality, deployment cost, and Pareto/constraint targets |
 | [108: Replay oracle and budget normalization audit](108-replay-oracle-and-budget-normalization-audit-2026-09-29.md) | Distinguishes post-hoc full-matrix replay from an online cell oracle and flags mixed cell-versus-dollar budget curves |
+| [109: Realized-dollar curve protocol](109-realized-dollar-curve-protocol-2026-09-29.md) | Defines event ledgers, checkpoint reconstruction, overshoot handling, and parameter-pair reporting at common profiling dollars |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
