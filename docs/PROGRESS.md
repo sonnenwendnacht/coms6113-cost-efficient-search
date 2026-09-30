@@ -354,6 +354,11 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   fractions, and parameter-only settings, while structured selectors use
   realized cost fractions. The sweep now records `budget_basis`; equal-dollar
   checkpointing remains required for the main comparison.
+- Note 120 audits the primary SySRs paper. Synchronized same-question blocks
+  and correlation-aware successive rejects are established; the direct retry
+  baseline should be Cost-SySR with realized-dollar accounting. Algorithm 2's
+  remaining conditional scope is unequal path-cost allocation, cross-fitted
+  gating, and independent complete-row audit.
 - The latest source-and-research checkpoint is `2120b5a` on the main branch
   and `d4f3464` on the algorithm branch; both are pushed and included in PR
   #4.
