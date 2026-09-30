@@ -285,6 +285,10 @@ Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
   deterministic (`do_sample=False`) and targets a finite search bank; valid
   adaptive elimination additionally needs complete synchronized blocks, no late
   admission, and an anytime or pre-sized simultaneous confidence rule.
+- Note 102 defines similarity as measured paired residual variance, not Hamming
+  distance. It requires registered edge streams, fixed question permutations or
+  cross-fitting, and warns that cost-based question selection changes the
+  estimand when charge and correctness are correlated.
 - The latest substantive main note is `528767f` and the algorithm note is
   `02f0d73`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
