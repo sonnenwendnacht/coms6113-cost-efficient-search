@@ -35,6 +35,28 @@ class SlotGatedFactorialRacingTests(unittest.TestCase):
         self.assertFalse(result["reach_gate_enabled"])
         self.assertTrue(all(g["reach"]["state"] == "disabled" for g in result["slot_gates"]))
 
+    def test_post_calibration_racing_phase_executes(self):
+        result = run_sgfr(
+            self.rewards, self.costs, self.ids, attempts=self.attempts,
+            budget_fraction=.75, calibration_fraction=.25,
+            reserve_fraction=.15, seed=42,
+        )
+        self.assertGreater(result["racing_pair_count"], 0)
+
+    def test_calibration_round_robin_covers_each_slot_when_budget_allows(self):
+        n = 80
+        rewards = [[float((row + question) % 5 == 0) for question in range(n)]
+                   for row in range(8)]
+        costs = [[1.0] * n for _ in range(8)]
+        attempts = [[1] * n for _ in range(8)]
+        result = run_sgfr(
+            rewards, costs, [f"row-{row}" for row in range(8)], attempts=attempts,
+            budget_fraction=.95, calibration_fraction=.75,
+            confirmation_fraction=.10, reserve_fraction=.01, seed=42,
+        )
+        observed_slots = {pair["slot"] for pair in result["calibration_pairs"][:3]}
+        self.assertEqual(observed_slots, {0, 1, 2})
+
     def test_rejects_partial_complete_row_budget(self):
         with self.assertRaises(ValueError):
             run_sgfr(self.rewards, self.costs, self.ids, cell_budget=7)

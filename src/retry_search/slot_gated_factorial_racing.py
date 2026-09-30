@@ -150,6 +150,7 @@ def run_sgfr(
     confirmation_cells = 0
     paired_questions = 0
     pair_records: list[dict[str, Any]] = []
+    racing_pair_count = 0
     gate_values = [{"quality": [], "reach": [], "charge": []} for _ in range(dimensions)]
 
     def spent() -> float:
@@ -201,7 +202,11 @@ def run_sgfr(
             "paired_questions": paired_questions, "slot_gates": diagnostics,
             "complete_rows": len(complete_rows),
             "reach_gate_enabled": attempts is not None,
+            # ``calibration_pair_count`` is retained for compatibility with
+            # the exploratory artifact; the explicit race count makes it
+            # possible to verify that post-calibration acquisition occurred.
             "calibration_pair_count": len(pair_records),
+            "racing_pair_count": racing_pair_count,
         }
 
     if cell_budget == k * n:
@@ -222,12 +227,17 @@ def run_sgfr(
                 edges_by_slot[differences[0]].append((left, right))
     for edges in edges_by_slot:
         rng.shuffle(edges)
-    calibration_pairs = [
-        (slot, edges_by_slot[slot][index])
-        for index in range(max(map(len, edges_by_slot), default=0))
-        for slot in range(dimensions) if index < len(edges_by_slot[slot])
-    ]
-    rng.shuffle(calibration_pairs)
+    # Keep the first calibration rounds round-robin across slots.  A global
+    # shuffle can spend the entire small calibration block on one coordinate,
+    # leaving the other gates permanently unresolved.  Randomise the slot
+    # order once, then take one edge from each available slot per round.
+    slot_order = list(range(dimensions))
+    rng.shuffle(slot_order)
+    calibration_pairs = []
+    for index in range(max(map(len, edges_by_slot), default=0)):
+        for slot in slot_order:
+            if index < len(edges_by_slot[slot]):
+                calibration_pairs.append((slot, edges_by_slot[slot][index]))
 
     def row_complete(row: int, qset: Sequence[int], limit: float) -> bool:
         missing = [q for q in qset if (row, q) not in cells]
@@ -301,8 +311,12 @@ def run_sgfr(
 
     # Reserve a random direct sample of rows so a bad anchor or a quiet gate
     # cannot trap the search in one corner of the factorial grid.
-    reserve_target = (int(budget * reserve_fraction) if cell_budget is not None
-                      else float(budget) * reserve_fraction)
+    # The reserve is a second, cumulative slice after calibration.  Using only
+    # budget*reserve_fraction here makes the reserve target smaller than the
+    # already-spent calibration target in the common case.
+    reserve_target = (int(budget * (calibration_fraction + reserve_fraction))
+                      if cell_budget is not None
+                      else float(budget) * (calibration_fraction + reserve_fraction))
     reserve_rows = list(range(k))
     rng.shuffle(reserve_rows)
     for row in reserve_rows:
@@ -321,7 +335,8 @@ def run_sgfr(
     # Race a random sequence of one-slot edges.  Once all three gates for a
     # slot are quiet, use the signed paired residual as a local estimate. A
     # failed or unresolved gate always uses the candidate's direct mean.
-    observed_pairs = {(left, right) for _, (left, right) in calibration_pairs}
+    observed_pairs = {(tuple(record["rows"])[0], tuple(record["rows"])[1])
+                      for record in pair_records}
     candidates = [(slot, edge) for slot, edges in enumerate(edges_by_slot)
                   for edge in edges if edge not in observed_pairs]
     rng.shuffle(candidates)
@@ -349,6 +364,7 @@ def run_sgfr(
         paired_questions += len(quality)
         pair_records.append({"slot": slot, "rows": [left, right],
                              "gates": gates_for(slot), "questions": len(quality)})
+        racing_pair_count += 1
         if incumbent is None:
             incumbent = left
         gates = gates_for(slot)
