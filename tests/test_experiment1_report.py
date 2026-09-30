@@ -78,6 +78,9 @@ class Experiment1ReportTests(unittest.TestCase):
         self.assertIsNone(empty_row["mean_accuracy"])
         self.assertIsNone(empty_row["std_accuracy"])
         self.assertIn("1/1", render_markdown([empty_row]))
+        missing_label = dict(runs[1])
+        del missing_label["heldout_accuracy"]
+        self.assertIsNone(aggregate_runs([missing_label], exhaustive_search_cost=8)[0]["mean_accuracy"])
 
     def test_rejects_accuracy_without_recommendation_and_nonfinite_cost(self):
         for record in (self.run_record(selected_config_id=None), self.run_record(search_cost=float("nan"))):
