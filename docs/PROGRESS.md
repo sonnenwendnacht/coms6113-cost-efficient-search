@@ -326,6 +326,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   Similarity can order paid row comparisons, but a row pull does not reveal a
   neighbor; direct paired evidence, fail-closed gating, and a random-graph
   control remain required.
+- Note 113 specifies Edge-Gated Complete-Row Racing (EGCR): cross-fitted
+  residual screening, reserved-dollar gating, paid paired challenger races,
+  direct-evidence stopping, and an independent audit. It is a conditional
+  protocol proposal, not a demonstrated result or novelty claim.
 - The latest source-and-research checkpoint is `2120b5a` on the main branch
   and `d4f3464` on the algorithm branch; both are pushed and included in PR
   #4.
