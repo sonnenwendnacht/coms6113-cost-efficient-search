@@ -274,6 +274,9 @@ Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
   protocol. A true cap requires a deterministic upper bound on each complete
   row/question charge and a reservation before launch; mean-cost estimates are
   not enough.
+- Note 99 audits linear and factor-graph BAI. Shared slot effects can be a
+  useful AFGR baseline, but only complete-row cross-fitting and coverage checks
+  can justify using it; factorization is not itself novel.
 - The latest substantive main note is `e96f694` and the algorithm note is
   `7d94ca5`; metadata refresh commits `163cf1f` and `8403897` are pushed and
   included in PR #4.
