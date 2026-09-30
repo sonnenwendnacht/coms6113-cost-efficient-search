@@ -37,6 +37,8 @@ The primary comparison is paired final-audit correctness at matched realized sea
 
 The result that would support CRPR is a lower number of paid challenger cells and lower search spend than direct paired racing, with a non-inferior final-audit correctness interval and no under-reporting of realized charge. If the interval or the cost ledger fails, the useful paper result is a negative one: direct paired racing is safer.
 
+The prior-art boundary is strict. F-Race already evaluates configurations on common instances and eliminates losers with uncertainty bounds ([Hoos' survey](https://www.cs.ubc.ca/~hoos/Publ/Hoos12b-preprint.pdf), pp. 4–8). Best-arm work already studies side observations and adaptive elimination ([Shahrampour et al.](https://arxiv.org/abs/1609.02606)); correlation-aware arm identification also exists ([Liu and Bubeck](https://proceedings.mlr.press/v35/liu14.html)). CRPR can only claim a narrower empirical intersection: complete retry rows, cross-fitted question-block residuals, verifier-censored reach, response-dependent whole-row charge, and direct confirmation under a finite profiling bank.
+
 ## CRPR protocol, without prefix reuse
 
 1. Split questions before looking at outcomes into calibration, race, confirmation, and final-audit blocks. Stratify each block by difficulty and keep the split fixed for every method.
