@@ -277,6 +277,10 @@ Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
 - Note 99 audits linear and factor-graph BAI. Shared slot effects can be a
   useful AFGR baseline, but only complete-row cross-fitting and coverage checks
   can justify using it; factorization is not itself novel.
+- Note 100 derives Cost-SySR, a direct complete-row adaptation of synchronized
+  successive rejects with phase targets based on realized or safely reserved
+  retry cost. Synchronized pairing is prior art; the retry-cost extension stays
+  conditional pending equal-dollar controls and valid adaptive confidence.
 - The latest substantive main note is `5a51b3d` and the algorithm note is
   `ea28538`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
