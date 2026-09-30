@@ -129,6 +129,7 @@ prototype is novel or statistically certified:
 | [110: Explicit slot audit for structured replay](110-explicit-slot-audit-for-structured-replay-2026-09-29.md) | Finds CW-PLR still infers Hamming neighbors from numeric row order and requires an explicit row-slot map before structured claims |
 | [111: Explicit slot fix and regression gate](111-explicit-slot-fix-and-regression-gate-2026-09-29.md) | Records the CW-PLR/replay repair, its syntax-only verification, and the remaining equal-dollar and permutation-control gate |
 | [112: Graph-similarity prior-art boundary](112-graph-similarity-prior-art-boundary-2026-09-29.md) | Audits graph-feedback, clustered-BAI, and structured-BAI overlap and restricts Algorithm 2 to paid paired evidence with graph-guided challenger ordering |
+| [113: Edge-gated complete-row racing](113-edge-gated-complete-row-racing-2026-09-29.md) | Specifies the five-stage Algorithm 2 candidate: cross-fitted edge screen, cost gate, paid paired racing, direct stop, and independent audit |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
