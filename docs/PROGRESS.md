@@ -435,9 +435,13 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   widest unresolved comparison divided by new eligible cell charge, with a
   direct/random reserve and conservative fallback when covariance coverage is
   unavailable.
-- The latest source-and-research checkpoint is `12330a7` on the main branch
-  and `d75988f` on the algorithm branch; both are pushed and included in PR
-  #4.
+- Note 140 audits covariance-adaptive and correlated-arm BAI plus costly
+  observation methods. It rules out generic correlated-arm or cost-aware
+  pairwise novelty and narrows the gap to question-indexed paired cells with
+  response-dependent retry charges.
+- The latest source-and-research checkpoint is `2d90776` on the main branch
+  and `3e3735b` on the algorithm branch; both are pushed and included in PR
+  #4. Note 140 is being checkpointed now.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 

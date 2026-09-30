@@ -156,6 +156,7 @@ prototype is novel or statistically certified:
 | [137: Combinatorial configuration prior art](137-combinatorial-configuration-prior-art-2026-09-29.md) | Audits AC-Band and combinatorial pure exploration so product-space structure is not claimed as new |
 | [138: Transductive probe-design boundary](138-transductive-probe-design-boundary-2026-09-30.md) | Maps complete row/question and paired probes to transductive BAI and requires an XY/RAGE-style control |
 | [139: Costed difference-probe rule](139-costed-difference-probe-rule-2026-09-30.md) | Gives a concrete RAGE-style reduction-per-new-charge allocation heuristic with cached-anchor accounting and conservative fallback |
+| [140: Correlated-arm and costly-observation boundary](140-correlated-arm-cost-boundary-2026-09-30.md) | Audits covariance-adaptive BAI, correlated-arm BAI, and costly-observation methods; narrows the gap to question-indexed paired cells with response-dependent retry charges |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
