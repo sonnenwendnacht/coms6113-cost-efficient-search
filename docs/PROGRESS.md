@@ -416,6 +416,14 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   ledgers, cross-fitted edge gates, cost-per-information allocation, fail-closed
   partial blocks, and fresh direct confirmation. It remains an adaptation
   hypothesis with explicit falsification controls.
+- Note 135 states the conditional safety target: simultaneous direct and edge
+  confidence sequences imply safe epsilon-elimination on a common question
+  distribution. It explicitly separates that quality event from hard-dollar
+  reservations and from any workload-dependent savings claim.
+- Note 136 fixes two proof prerequisites: the selector must declare either a
+  verifier-proxy or offline gold-visible reward contract, and adaptively
+  opened edges need fresh certification blocks or a global union over every
+  registered edge and prefix.
 - The latest source-and-research checkpoint is `da5fd12` on the main branch
   and `cd6cf1a` on the algorithm branch; both are pushed and included in PR
   #4.

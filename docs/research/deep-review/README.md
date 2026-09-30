@@ -151,6 +151,8 @@ prototype is novel or statistically certified:
 | [132: PROBE proxy-BAI boundary](132-probe-proxy-bai-boundary-2026-09-29.md) | Audits proxy-assisted BAI and narrows row-residual novelty to unknown paid anchors with endogenous retry costs |
 | [133: Contextual BAI boundary](133-contextual-bai-boundary-2026-09-29.md) | Separates generic context-aware arm allocation from paired finite-question rows with response-dependent retry costs |
 | [134: CG-RTE algorithm specification](134-cg-rte-algorithm-spec-2026-09-29.md) | Specifies the candidate protocol, state, gates, budget modes, stopping rule, and required controls without claiming validation |
+| [135: Conditional CG-RTE safety target](135-conditional-cg-rte-safety-target-2026-09-29.md) | States the finite-bank simultaneous-interval elimination target and separates quality safety from hard-budget safety and savings |
+| [136: Reward contract and edge certification](136-reward-contract-and-adaptive-edge-certification-2026-09-29.md) | Separates verifier-proxy versus gold-visible search and requires fresh certification data for adaptively opened edges |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
