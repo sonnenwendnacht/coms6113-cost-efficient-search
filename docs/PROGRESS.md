@@ -431,6 +431,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
 - Note 138 audits transductive linear BAI and reframes the measurement unit as
   a complete row/question cell or paired endpoint probe with unique realized
   cost. It requires an XY/RAGE-style target-difference allocation control.
+- Note 139 gives the concrete costed difference-probe score: reduction in the
+  widest unresolved comparison divided by new eligible cell charge, with a
+  direct/random reserve and conservative fallback when covariance coverage is
+  unavailable.
 - The latest source-and-research checkpoint is `12330a7` on the main branch
   and `d75988f` on the algorithm branch; both are pushed and included in PR
   #4.

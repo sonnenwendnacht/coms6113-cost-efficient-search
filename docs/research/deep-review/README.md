@@ -155,6 +155,7 @@ prototype is novel or statistically certified:
 | [136: Reward contract and edge certification](136-reward-contract-and-adaptive-edge-certification-2026-09-29.md) | Separates verifier-proxy versus gold-visible search and requires fresh certification data for adaptively opened edges |
 | [137: Combinatorial configuration prior art](137-combinatorial-configuration-prior-art-2026-09-29.md) | Audits AC-Band and combinatorial pure exploration so product-space structure is not claimed as new |
 | [138: Transductive probe-design boundary](138-transductive-probe-design-boundary-2026-09-30.md) | Maps complete row/question and paired probes to transductive BAI and requires an XY/RAGE-style control |
+| [139: Costed difference-probe rule](139-costed-difference-probe-rule-2026-09-30.md) | Gives a concrete RAGE-style reduction-per-new-charge allocation heuristic with cached-anchor accounting and conservative fallback |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
