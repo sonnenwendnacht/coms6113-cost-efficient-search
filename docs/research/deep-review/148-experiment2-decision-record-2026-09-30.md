@@ -48,6 +48,8 @@ The result that would support CRPR is a lower number of paid challenger cells an
 
 The first implementation should use a stratum mean residual and a bounded confidence sequence, not a learned neural surrogate. Because many pairs, strata, slots, and checkpoints may be screened adaptively, predeclare the finite edge set and spend one global error budget across all quality, reach, and charge gates (for example, a Bonferroni boundary or a simultaneous bootstrap/confidence-sequence construction). Record the maximum number of looks. A no-transfer version with the same reserve is mandatory: if cross-fitting does not beat it at equal realized dollars, stop adding structure. Disable residual transfer when a predeclared calibration-versus-race drift check fails.
 
+With deterministic decoding on a finite MathQA bank, these intervals quantify uncertainty over question sampling or a registered finite-bank target, not hidden model randomness. Any safety statement is conditional on the stated exchangeability and strata. Population claims require independent question banks or explicitly repeated stochastic replicas.
+
 ## Sample-size and reporting rule
 
 Two hundred final questions are adequate for a pilot but not a precise superiority claim: around 38.5% accuracy, a simple 95% binomial interval has a half-width near 6.9 percentage points. For a paired comparison, if the discordant-pair rate is `d`, a rough normal approximation for a two-sided 5% test with 80% power and target gap `delta` is
