@@ -13,6 +13,7 @@ import json
 import os
 import sys
 import time
+from contextlib import contextmanager
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -188,6 +189,27 @@ def append_completed_run(path: Path, run: dict) -> None:
         os.fsync(handle.fileno())
 
 
+@contextmanager
+def output_directory_lock(directory: Path):
+    """One writer per report directory; the OS releases the lock on exit/crash."""
+    import fcntl
+
+    directory.mkdir(parents=True, exist_ok=True)
+    with (directory / ".replay.lock").open("a+") as handle:
+        try:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as exc:
+            raise RuntimeError(f"another replay owns {directory}") from exc
+        try:
+            handle.seek(0)
+            handle.truncate()
+            handle.write(str(os.getpid()) + "\n")
+            handle.flush()
+            yield
+        finally:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("trace_dir", type=Path, help="completed run directory under results/runs")
@@ -204,6 +226,15 @@ def main() -> int:
     ap.add_argument("--include-structured", action="store_true",
                     help="also replay CW-PLR, CACR, and SCCR at realized-cost fractions")
     args = ap.parse_args()
+    output_dir = args.output_dir or (args.trace_dir / "selector-report")
+    try:
+        with output_directory_lock(output_dir):
+            return replay(args)
+    except RuntimeError as exc:
+        raise SystemExit(str(exc)) from exc
+
+
+def replay(args: argparse.Namespace) -> int:
     trace_dir = args.trace_dir
     traces = json.loads((trace_dir / "traces.json").read_text(encoding="utf-8"))
     if not traces:
@@ -255,7 +286,15 @@ def main() -> int:
     if manifest_path.exists():
         if not args.resume:
             raise SystemExit("output already initialized; use --resume or a new output directory")
-        if json.loads(manifest_path.read_text()) != identity:
+        recorded_identity = json.loads(manifest_path.read_text())
+        if args.report_only:
+            # Re-rendering cannot reveal new search cells. Preserve the original
+            # selector provenance while requiring exactly the same data/objective.
+            for key in ("trace_sha256", "metadata_sha256", "selector_reward"):
+                if recorded_identity.get(key) != identity[key]:
+                    raise SystemExit("report data or reward changed; use a new output directory")
+            identity = recorded_identity
+        elif recorded_identity != identity:
             raise SystemExit("trace, reward contract, or selector source changed; use a new output directory")
     else:
         if checkpoint_path.exists():
@@ -322,6 +361,7 @@ def main() -> int:
                   "selector_reward": args.selector_reward,
                   "exhaustive_reference_heldout_mean_cost": sum(evaluation_cost_by_config[oracle]) / evaluation_n,
                   "replay_identity": identity,
+                  "report_renderer_sha256": _digest(ROOT / "src/retry_search/experiment1_report.py"),
                   "exhaustive_reference_config": oracle, "exhaustive_search_cost": exhaustive_cost},
     )
     summary = {"output": paths, "configs": len(configs), "search_questions": search_n,

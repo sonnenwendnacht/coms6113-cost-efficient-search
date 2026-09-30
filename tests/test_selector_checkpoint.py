@@ -2,6 +2,7 @@ import importlib.util
 import json
 import tempfile
 import unittest
+import os
 from pathlib import Path
 
 
@@ -12,6 +13,20 @@ SPEC.loader.exec_module(REPLAY)
 
 
 class SelectorCheckpointTests(unittest.TestCase):
+    @unittest.skipUnless(os.name == "posix", "replay runner uses a POSIX process lock")
+    def test_output_lock_excludes_second_writer_and_releases_after_exception(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp)
+            with self.assertRaisesRegex(ValueError, "interrupted"):
+                with REPLAY.output_directory_lock(directory):
+                    with self.assertRaisesRegex(RuntimeError, "another replay"):
+                        with REPLAY.output_directory_lock(directory):
+                            self.fail("two writers acquired the same directory")
+                    raise ValueError("interrupted")
+            # A surviving lock file must not prevent resumption.
+            with REPLAY.output_directory_lock(directory):
+                self.assertTrue((directory / ".replay.lock").exists())
+
     def test_resume_retains_complete_result_and_discards_only_torn_write(self):
         record = {"algorithm": "random", "parameter_name": "fraction",
                   "parameter_value": 0.1, "seed": 6113,
