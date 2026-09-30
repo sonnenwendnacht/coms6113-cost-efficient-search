@@ -307,6 +307,10 @@ Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
   quality, and cold deployment cost are separate. The primary table should use
   best accuracy at fixed search spend, with cost-constrained/Pareto analyses
   registered separately.
+- Note 108 audits replay fairness. The fixture validates the full rectangle and
+  post-hoc audit split, but structured caps use a full-matrix cost denominator
+  while standard selectors use cell fractions; equal-dollar curves require a
+  common ledger/oracle wrapper.
 - The latest substantive main note is `2d1145d` and the algorithm note is
   `ba256c4`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on

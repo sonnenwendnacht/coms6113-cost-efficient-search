@@ -124,6 +124,7 @@ prototype is novel or statistically certified:
 | [105: Algorithm 2 state machine and prototype gap](105-algorithm2-state-machine-and-prototype-gap-2026-09-29.md) | Separates the heuristic matrix replay from a ledger-backed, gated, confidence-aware complete-row algorithm |
 | [106: No-free-lunch for unmeasured rows](106-no-free-lunch-for-unmeasured-rows-2026-09-29.md) | Proves why Hamming similarity and observed covariance cannot certify an unobserved row without a structural bias bound |
 | [107: Multiobjective complete-row recommendation](107-multiobjective-complete-row-recommendation-2026-09-29.md) | Separates profiling spend, held-out quality, deployment cost, and Pareto/constraint targets |
+| [108: Replay oracle and budget normalization audit](108-replay-oracle-and-budget-normalization-audit-2026-09-29.md) | Distinguishes post-hoc full-matrix replay from an online cell oracle and flags mixed cell-versus-dollar budget curves |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
