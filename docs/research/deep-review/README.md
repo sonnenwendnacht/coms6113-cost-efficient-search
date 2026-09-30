@@ -153,6 +153,7 @@ prototype is novel or statistically certified:
 | [134: CG-RTE algorithm specification](134-cg-rte-algorithm-spec-2026-09-29.md) | Specifies the candidate protocol, state, gates, budget modes, stopping rule, and required controls without claiming validation |
 | [135: Conditional CG-RTE safety target](135-conditional-cg-rte-safety-target-2026-09-29.md) | States the finite-bank simultaneous-interval elimination target and separates quality safety from hard-budget safety and savings |
 | [136: Reward contract and edge certification](136-reward-contract-and-adaptive-edge-certification-2026-09-29.md) | Separates verifier-proxy versus gold-visible search and requires fresh certification data for adaptively opened edges |
+| [137: Combinatorial configuration prior art](137-combinatorial-configuration-prior-art-2026-09-29.md) | Audits AC-Band and combinatorial pure exploration so product-space structure is not claimed as new |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
