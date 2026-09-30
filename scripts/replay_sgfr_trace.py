@@ -19,7 +19,6 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from retry_search.experiment1_report import write_report  # noqa: E402
 from retry_search.slot_gated_factorial_racing import run_sgfr  # noqa: E402
-from retry_search.selection_sweep import row_slots_from_config_ids  # noqa: E402
 
 REPLAY = __import__("replay_experiment1_nine_model", fromlist=["validate_trace_rectangle", "selector_reward", "_digest", "load_completed_runs", "append_completed_run", "output_directory_lock"])
 
@@ -74,7 +73,7 @@ def main() -> int:
             manifest.write_text(json.dumps(identity, indent=2) + "\n")
         completed = REPLAY.load_completed_runs(checkpoint)
         runs = []
-        row_slots = row_slots_from_config_ids(configs)
+        row_slots = REPLAY.row_slots_from_config_ids(configs)
         for fraction in settings:
             for seed in seeds:
                 setting = {"algorithm": "sgfr", "parameter_name": "budget_fraction",
