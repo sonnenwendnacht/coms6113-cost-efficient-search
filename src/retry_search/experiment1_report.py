@@ -62,11 +62,12 @@ explicit. A missing budget basis is recorded as ``unspecified``.
     groups: dict[tuple[str, str, str, str], list[Mapping[str, Any]]] = defaultdict(list)
     for run in runs:
         missing = [key for key in (
-            "algorithm", "parameter_name", "parameter_value", "heldout_accuracy",
-            "search_evaluations", "search_cost",
+            "algorithm", "parameter_name", "parameter_value", "search_evaluations", "search_cost",
         ) if key not in run]
         if missing:
             raise ValueError(f"run is missing fields: {missing}")
+        if "heldout_accuracy" not in run and run.get("selected_config_id") is not None:
+            raise ValueError("a run with a recommendation must have heldout_accuracy")
         basis = str(run.get("budget_basis", "unspecified"))
         key = (str(run["algorithm"]), str(run["parameter_name"]),
                repr(run["parameter_value"]), basis)
@@ -78,7 +79,7 @@ explicit. A missing budget basis is recorded as ``unspecified``.
         deployment_cost: list[float] = []
         runtimes: list[float] = []
         for run in values:
-            measured_accuracy = run["heldout_accuracy"]
+            measured_accuracy = run.get("heldout_accuracy")
             if "selected_config_id" in run and run["selected_config_id"] is None and measured_accuracy is not None:
                 raise ValueError("a run without a selected_config_id cannot have heldout_accuracy")
             if measured_accuracy is not None:
