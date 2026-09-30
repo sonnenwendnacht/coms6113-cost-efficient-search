@@ -48,6 +48,7 @@ def run_cw_plr(
     initial_block: int = 2,
     margin: float = 0.0,
     confidence_delta: float = 0.05,
+    row_slots: Sequence[Sequence[int]] | None = None,
 ) -> dict[str, Any]:
     """Run a budgeted pairwise local-racing selector on a search matrix.
 
@@ -64,6 +65,17 @@ def run_cw_plr(
         raise ValueError("rewards and costs must have the same shape")
     if len(config_ids) != k or len(set(str(x) for x in config_ids)) != k:
         raise ValueError("config_ids must be unique and match the matrix")
+    if row_slots is not None:
+        if len(row_slots) != k or any(len(slot) == 0 for slot in row_slots):
+            raise ValueError("row_slots must have one nonempty slot tuple per row")
+        slots = [tuple(int(value) for value in slot) for slot in row_slots]
+        if len(set(slots)) != k:
+            raise ValueError("row_slots must be unique")
+        width = len(slots[0])
+        if any(len(slot) != width for slot in slots):
+            raise ValueError("row_slots must have consistent widths")
+    else:
+        slots = None
     if (cell_budget is None) == (cost_budget is None):
         raise ValueError("provide exactly one of cell_budget or cost_budget")
     if cell_budget is not None and cell_budget < 1:
@@ -109,6 +121,15 @@ def run_cw_plr(
             return sum(values) / len(values)
         all_values = [cost for _, cost in observed.values()]
         return sum(all_values) / len(all_values) if all_values else 1.0
+
+    def candidate_neighbors(arm: int) -> list[int]:
+        if slots is None:
+            return [row for row in _hamming_neighbors(arm, k) if row != arm]
+        target = slots[arm]
+        return [
+            row for row, slot in enumerate(slots)
+            if row != arm and sum(left != right for left, right in zip(target, slot)) == 1
+        ]
 
     def race(incumbent: int, challenger: int) -> tuple[str, float, float, int]:
         """Run one paired race; return decision, mean, radius, sample count."""
@@ -181,7 +202,7 @@ def run_cw_plr(
     races = 0
     accepted = 0
     while not budget_reached() and races < max_races:
-        neighbors = [row for row in _hamming_neighbors(incumbent, k) if row != incumbent]
+        neighbors = candidate_neighbors(incumbent)
         explore = rng.random() < max(restart_floor, 0.35 * (1.0 - races / max_races))
         candidates = list(range(k)) if explore else neighbors
         candidates = [row for row in candidates if row != incumbent]
