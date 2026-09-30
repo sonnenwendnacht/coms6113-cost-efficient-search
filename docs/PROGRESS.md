@@ -289,8 +289,8 @@ Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
   distance. It requires registered edge streams, fixed question permutations or
   cross-fitting, and warns that cost-based question selection changes the
   estimand when charge and correctness are correlated.
-- The latest substantive main note is `528767f` and the algorithm note is
-  `02f0d73`; both are pushed and included in PR #4.
+- The latest substantive main note is `88ede4c` and the algorithm note is
+  `ce21787`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
