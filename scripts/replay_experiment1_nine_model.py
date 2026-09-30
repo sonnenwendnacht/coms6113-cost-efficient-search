@@ -196,6 +196,8 @@ def main() -> int:
     ap.add_argument("--algorithm", action="append", choices=sorted({s["algorithm"] for s in default_settings()}),
                     help="limit to named standard selectors (repeatable); omitted means all")
     ap.add_argument("--resume", action="store_true", help="reuse validated completed selector runs")
+    ap.add_argument("--report-only", action="store_true",
+                    help="render a report from checkpointed results without running missing settings")
     ap.add_argument("--selector-reward", choices=("final_correct", "verifier_pass"),
                     default="final_correct",
                     help="final_correct: labeled offline profiling; verifier_pass: label-free proxy profiling")
@@ -280,11 +282,12 @@ def main() -> int:
                   f"{result['search_cost']:.6f} proxy USD, {result['selection_time_seconds']:.2f}s", flush=True)
         selector_runs.append(dict(result))
 
-    for setting in settings:
-        for seed in seeds:
-            execute(setting, seed, lambda setting=setting, seed=seed:
-                    run_sweep(rewards, costs, configs, settings=[setting], seeds=[seed])[0])
-    if args.include_structured:
+    if not args.report_only:
+        for setting in settings:
+            for seed in seeds:
+                execute(setting, seed, lambda setting=setting, seed=seed:
+                        run_sweep(rewards, costs, configs, settings=[setting], seeds=[seed])[0])
+    if args.include_structured and not args.report_only:
         # These are explicit cost-budget settings, analogous to the budget
         # rows in AgentOpt's Table 7.  The methods see only search cells; the
         # held-out matrix is attached below after each recommendation.
@@ -313,6 +316,9 @@ def main() -> int:
         exhaustive_accuracy=exhaustive_accuracy,
         metadata={"trace_dir": str(trace_dir), "search_n": search_n, "evaluation_n": evaluation_n,
                   "configs": len(configs), "settings": len(settings), "seeds": list(seeds),
+                  "checkpoint_completed_runs": len(selector_runs),
+                  "checkpoint_expected_standard_runs": len(settings) * len(seeds),
+                  "replay_complete": len(selector_runs) >= len(settings) * len(seeds),
                   "selector_reward": args.selector_reward,
                   "exhaustive_reference_heldout_mean_cost": sum(evaluation_cost_by_config[oracle]) / evaluation_n,
                   "replay_identity": identity,
