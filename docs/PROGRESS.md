@@ -405,8 +405,8 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   edges, so edge opening cannot choose easy or cheap questions after seeing
   outcomes. It also requires exact cell identity for any cache reuse and joint
   covariance handling when paths share a block.
-- The latest source-and-research checkpoint is `2120b5a` on the main branch
-  and `d4f3464` on the algorithm branch; both are pushed and included in PR
+- The latest source-and-research checkpoint is `da5fd12` on the main branch
+  and `cd6cf1a` on the algorithm branch; both are pushed and included in PR
   #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
