@@ -60,3 +60,7 @@ retry-aware superiority claim. A follow-up workflow must increase retry reach
 or deliberately stratify questions/checker behavior so the suffix is observed.
 No model/API calls are required for this candidate; it is a replay and design
 hypothesis.
+
+## Prototype implementation
+
+The branch prototype is `src/retry_search/slot_gated_factorial_racing.py`, exposed as `run_sgfr`. It accepts quality, realized charge, and optional reached-attempt matrices, plus a cell fraction, cell count, or realized-charge budget. Calibration and race units are complete search rows; a reserved question block is used for a final two-row confirmation. No partial row or unobserved cell is imputed, and cost-budget overshoot is reported. The accompanying unit tests cover deterministic replay, exhaustive direct selection, missing reach-channel handling, and invalid row/budget shapes. This implementation is an allocation prototype for the next replay, not a result or guarantee.
