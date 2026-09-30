@@ -1,6 +1,6 @@
 # Resumable checkpoint
 
-Updated: 2026-09-29 20:02 ET (research-only window; no experiments launched).
+Updated: 2026-09-29 20:05 ET (research-only window; no experiments launched).
 
 ## Research branch
 
@@ -9,7 +9,7 @@ Updated: 2026-09-29 20:02 ET (research-only window; no experiments launched).
 - The algorithm branch contains CW-PLR, CACR, and the gated SCCR prototype,
   synthetic iid/smooth/permuted controls, the pilot trace-locality diagnostic,
   and the expanded related-work boundary. The latest pushed algorithm commit
-  is `be8c619`; source-audit commits after the earlier implementation
+  is `71bd477`; source-audit commits after the earlier implementation
   checkpoint add notes 19--71.
 - Run `python -m unittest discover -s tests -q` for the current offline test
   suite (38 tests).
@@ -270,16 +270,16 @@ Updated: 2026-09-29 20:02 ET (research-only window; no experiments launched).
   similarity. A hard cap, cheap fidelity, or generic similarity transfer is not
   novel; the defensible boundary is complete retry rows with realized,
   verifier-gated outcome-linked charges and blind held-out evaluation.
-- The latest main branch is `f32666b` and the algorithm branch is
-  `be8c619`; both are pushed and included in PR #4.
+- The latest main branch is `828a1b9` and the algorithm branch is
+  `71bd477`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
 ## Long local trace
 
 - Run ID: `exp1-nine-local-20260927-proper`.
-- Status observed at 2026-09-29 23:57 UTC: `242,700 / 291,600` cells
-  (`83.23%`), still running in PID `8763`.
+- Status observed at 2026-09-30 00:01 UTC: `243,400 / 291,600` cells
+  (`83.47%`), still running in PID `8763`.
 - Status file: `results/runs/exp1-nine-local-20260927-proper/status.json`.
 - The runner writes resumable JSONL checkpoints. If the machine is restarted,
   resume with the same command and add `--resume --run-id
