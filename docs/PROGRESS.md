@@ -322,6 +322,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   passes the validated map, and tests cover valid and duplicate maps. Only
   syntax/diff checks were run in the research-only window; unit tests and
   replay remain pending.
+- Note 112 audits graph-feedback, clustered-BAI, and structured-BAI prior art.
+  Similarity can order paid row comparisons, but a row pull does not reveal a
+  neighbor; direct paired evidence, fail-closed gating, and a random-graph
+  control remain required.
 - The latest source-and-research checkpoint is `2120b5a` on the main branch
   and `d4f3464` on the algorithm branch; both are pushed and included in PR
   #4.
