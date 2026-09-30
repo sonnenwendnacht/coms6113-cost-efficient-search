@@ -338,6 +338,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   residual variance with independent row variance, shuffle one row's question
   labels as a negative control, and require both a cross-fitted gain bound and
   a reserved-cost advantage. This remains a protocol proposal pending tests.
+- Note 116 audits covariance-adaptive BAI. Difference-variance racing is
+  established when multiple arms can be queried together; the remaining
+  conditional boundary is endpoint-specific realized retry cost, finite-bank
+  question pairing, verifier paths, and independent gold audit.
 - The latest source-and-research checkpoint is `2120b5a` on the main branch
   and `d4f3464` on the algorithm branch; both are pushed and included in PR
   #4.
