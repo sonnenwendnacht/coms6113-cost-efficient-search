@@ -277,9 +277,8 @@ Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
 - Note 99 audits linear and factor-graph BAI. Shared slot effects can be a
   useful AFGR baseline, but only complete-row cross-fitting and coverage checks
   can justify using it; factorization is not itself novel.
-- The latest substantive main note is `e96f694` and the algorithm note is
-  `7d94ca5`; metadata refresh commits `163cf1f` and `8403897` are pushed and
-  included in PR #4.
+- The latest substantive main note is `5a51b3d` and the algorithm note is
+  `ea28538`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
