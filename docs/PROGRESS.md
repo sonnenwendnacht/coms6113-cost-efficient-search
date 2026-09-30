@@ -424,6 +424,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   verifier-proxy or offline gold-visible reward contract, and adaptively
   opened edges need fresh certification blocks or a global union over every
   registered edge and prefix.
+- Note 137 audits AC-Band and combinatorial pure exploration. It rules out
+  product-space factorization as novelty and requires interaction-aware,
+  cross-validated residuals because retry slots see earlier outputs and
+  verifier feedback.
 - The latest source-and-research checkpoint is `da5fd12` on the main branch
   and `cd6cf1a` on the algorithm branch; both are pushed and included in PR
   #4.
