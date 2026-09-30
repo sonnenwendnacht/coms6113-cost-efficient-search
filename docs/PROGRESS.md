@@ -350,6 +350,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   verifier/retry prompt lengths and retry reach make the complete cell charge
   realized only after execution. The current replay can claim equal realized
   spend with overshoot reporting, not a strict hard dollar cap.
+- Note 119 audits budget units. Legacy selectors mix row fractions, cell
+  fractions, and parameter-only settings, while structured selectors use
+  realized cost fractions. The sweep now records `budget_basis`; equal-dollar
+  checkpointing remains required for the main comparison.
 - The latest source-and-research checkpoint is `2120b5a` on the main branch
   and `d4f3464` on the algorithm branch; both are pushed and included in PR
   #4.

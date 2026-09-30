@@ -181,7 +181,8 @@ def main() -> int:
                 )
                 for algorithm, result in structured:
                     result.update({"algorithm": algorithm, "parameter_name": "cost_fraction",
-                                   "parameter_value": fraction, "seed": int(seed)})
+                                   "parameter_value": fraction, "budget_basis": "realized_cost_fraction",
+                                   "seed": int(seed)})
                     selector_runs.append(result)
     for run in selector_runs:
         selected = str(run["selected_config_id"])
