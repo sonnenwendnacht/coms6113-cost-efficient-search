@@ -428,6 +428,9 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   product-space factorization as novelty and requires interaction-aware,
   cross-validated residuals because retry slots see earlier outputs and
   verifier feedback.
+- Note 138 audits transductive linear BAI and reframes the measurement unit as
+  a complete row/question cell or paired endpoint probe with unique realized
+  cost. It requires an XY/RAGE-style target-difference allocation control.
 - The latest source-and-research checkpoint is `12330a7` on the main branch
   and `d75988f` on the algorithm branch; both are pushed and included in PR
   #4.
