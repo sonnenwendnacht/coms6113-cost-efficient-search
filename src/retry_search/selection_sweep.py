@@ -705,6 +705,18 @@ def _bayesian_opt(
     fraction: Any, k: int, n: int, rng: random.Random, rewards: Any, costs: Any,
     observed: dict[int, list[tuple[float, float]]], seen: set[tuple[int, int]],
 ) -> str:
+    """Run the categorical kernel baseline with a bounded inducing set.
+
+    The old implementation solved a dense covariance system once for every
+    unobserved row.  At the nine-model scale this became cubic in the number
+    of completed rows and could dominate the entire replay, even though the
+    selector's declared budget was unchanged.  Keep a deterministic,
+    evenly-spaced subset of observed rows as inducing points.  This preserves
+    the intended AgentOpt-inspired categorical-kernel comparison while making
+    its computational overhead finite and reportable.  The cap is part of the
+    baseline definition, not a hidden data-dependent stopping rule.
+    """
+    max_inducing = 32
     target = _row_count(fraction, k)
     q_order = list(range(n))
     rng.shuffle(q_order)
@@ -715,6 +727,15 @@ def _bayesian_opt(
             arm = candidates.pop()
         else:
             observed_arms = sorted(observed)
+            if len(observed_arms) > max_inducing:
+                # Preserve the first/last observed arm and deterministic
+                # evenly spaced interior points.  This avoids making the
+                # kernel result depend on hash or dictionary iteration order.
+                positions = [
+                    round(i * (len(observed_arms) - 1) / (max_inducing - 1))
+                    for i in range(max_inducing)
+                ]
+                observed_arms = [observed_arms[position] for position in positions]
             y = [_safe_mean([x[0] for x in observed[a]]) for a in observed_arms]
             noise = 0.12
             kernel = [
