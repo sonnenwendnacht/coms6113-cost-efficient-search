@@ -293,8 +293,8 @@ Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
   answer-key blind, while offline traces reveal `final_correct` only after a
   paid complete cell; verifier-only search can certify only the verifier proxy,
   with gold accuracy reserved for held-out audit.
-- The latest substantive main note is `88ede4c` and the algorithm note is
-  `ce21787`; both are pushed and included in PR #4.
+- The latest substantive main note is `f3e9894` and the algorithm note is
+  `ab01ba9`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
