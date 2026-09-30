@@ -334,6 +334,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   in the race, so its gate is not cross-fitted. SCCR remains a heuristic
   ablation until disjoint pilot/race/confirmation folds and multiplicity-aware
   edge bounds are added.
+- Note 115 proposes a permutation-controlled pairing gate: compare paired
+  residual variance with independent row variance, shuffle one row's question
+  labels as a negative control, and require both a cross-fitted gain bound and
+  a reserved-cost advantage. This remains a protocol proposal pending tests.
 - The latest source-and-research checkpoint is `2120b5a` on the main branch
   and `d4f3464` on the algorithm branch; both are pushed and included in PR
   #4.

@@ -131,6 +131,7 @@ prototype is novel or statistically certified:
 | [112: Graph-similarity prior-art boundary](112-graph-similarity-prior-art-boundary-2026-09-29.md) | Audits graph-feedback, clustered-BAI, and structured-BAI overlap and restricts Algorithm 2 to paid paired evidence with graph-guided challenger ordering |
 | [113: Edge-gated complete-row racing](113-edge-gated-complete-row-racing-2026-09-29.md) | Specifies the five-stage Algorithm 2 candidate: cross-fitted edge screen, cost gate, paid paired racing, direct stop, and independent audit |
 | [114: Cross-fitted edge-gate gap](114-cross-fitted-edge-gate-gap-2026-09-29.md) | Finds that SCCR reuses calibration observations in its race, so it is a heuristic ablation until disjoint pilot/race/confirmation folds are implemented |
+| [115: Permutation-controlled pairing gate](115-permutation-controlled-pairing-gate-2026-09-29.md) | Defines a finite-bank variance-gain statistic, shuffled-question negative control, cost gate, and failure cases for trusting same-question pairing |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
