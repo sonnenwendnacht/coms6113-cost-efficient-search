@@ -1,4 +1,9 @@
+import math
+import random
 import unittest
+from unittest.mock import patch
+
+import retry_search.selection_sweep as sweep
 
 from retry_search.selection_sweep import run_sweep
 
@@ -92,6 +97,101 @@ class SelectionSweepTests(unittest.TestCase):
         )
         self.assertEqual([row["search_evaluations"] for row in rows], [20, 20])
         self.assertTrue(all(row["selection_basis"] == "paired_residual_graph" for row in rows))
+
+
+class ExactBayesianOptimizationTests(unittest.TestCase):
+    @staticmethod
+    def dense_score(k, observed, arm):
+        """Original uncapped posterior, independently solved for each row."""
+        arms = sorted(observed)
+        kernel = [
+            [math.exp(-sweep._hamming_distance(a, b, k)) + (0.12 if i == j else 0.0)
+             for j, b in enumerate(arms)]
+            for i, a in enumerate(arms)
+        ]
+        y = [sum(reward for reward, _ in observed[a]) / len(observed[a]) for a in arms]
+        alpha = sweep._solve_linear(kernel, y)
+        cov = [math.exp(-sweep._hamming_distance(arm, a, k)) for a in arms]
+        solved = sweep._solve_linear(kernel, cov)
+        mean = sum(c * value for c, value in zip(cov, alpha))
+        variance = max(0.01, 1.0 - sum(c * value for c, value in zip(cov, solved)))
+        return mean + 1.5 * math.sqrt(variance)
+
+    @classmethod
+    def dense_bo(cls, rewards, costs, fraction, seed):
+        """Legacy row schedule and score tie break, with no inducing cap."""
+        k, n = len(rewards), len(rewards[0])
+        rng = random.Random(seed)
+        questions = list(range(n))
+        rng.shuffle(questions)
+        candidates = list(range(k))
+        rng.shuffle(candidates)
+        observed, seen = {}, set()
+        while len(observed) < sweep._row_count(fraction, k):
+            if not observed:
+                arm = candidates.pop()
+            else:
+                arm = max(candidates, key=lambda a: (cls.dense_score(k, observed, a), -a))
+                candidates.remove(arm)
+            sweep._pull_row(arm, questions, rewards, costs, observed, seen)
+        return observed, seen
+
+    def test_incremental_scores_equal_dense_with_more_than_32_observations(self):
+        numpy = sweep._optional_numpy()
+        for backend in (None, numpy) if numpy is not None else (None,):
+            with self.subTest(backend="numpy" if backend is not None else "stdlib"):
+                with patch.object(sweep, "_optional_numpy", return_value=backend):
+                    posterior = sweep._CategoricalPosterior(64)
+                rng = random.Random(739)
+                order = rng.sample(range(64), 45)
+                observed = {}
+                for index, arm in enumerate(order):
+                    reward = rng.random()
+                    observed[arm] = [(reward, 1.0)]
+                    posterior.update(arm, reward)
+                    if index in (0, 7, 31, 44):
+                        for candidate in (0, 7, 19, 31, 45, 63):
+                            self.assertAlmostEqual(
+                                posterior.score(candidate), self.dense_score(64, observed, candidate),
+                                places=11,
+                            )
+
+    def test_uncapped_bo_matches_legacy_observations_and_spending(self):
+        rng = random.Random(102)
+        rewards = [[rng.random() for _ in range(7)] for _ in range(27)]
+        costs = [[0.1 + rng.random() for _ in range(7)] for _ in range(27)]
+        for seed in (3, 4, 6113):
+            expected, expected_seen = self.dense_bo(rewards, costs, 0.75, seed)
+            for backend in (None, sweep._optional_numpy()):
+                with self.subTest(seed=seed, backend="numpy" if backend is not None else "stdlib"):
+                    observed, seen = {}, set()
+                    with patch.object(sweep, "_optional_numpy", return_value=backend):
+                        result = sweep._bayesian_opt(
+                            0.75, 27, 7, random.Random(seed), rewards, costs, observed, seen,
+                        )
+                    self.assertEqual(result, "fraction_rows_evaluated")
+                    self.assertEqual(list(observed), list(expected))
+                    self.assertEqual(seen, expected_seen)
+                    self.assertEqual(observed, expected)
+
+    def test_one_row_budget_needs_no_posterior(self):
+        with patch.object(sweep, "_CategoricalPosterior", side_effect=AssertionError("unnecessary posterior")):
+            observed, seen = {}, set()
+            sweep._bayesian_opt(
+                0.01, 2, 2, random.Random(0), [[0, 1], [1, 0]],
+                [[1, 1], [2, 2]], observed, seen,
+            )
+        self.assertEqual(len(observed), 1)
+        self.assertEqual(len(seen), 2)
+
+    def test_exact_score_ties_keep_lower_index(self):
+        with patch.object(sweep._CategoricalPosterior, "score", return_value=0.5):
+            observed, seen = {}, set()
+            sweep._bayesian_opt(
+                1.0, 8, 1, random.Random(91), [[0.5]] * 8,
+                [[1.0]] * 8, observed, seen,
+            )
+        self.assertEqual(list(observed)[1:], sorted(list(observed)[1:]))
 
 
 if __name__ == "__main__":
