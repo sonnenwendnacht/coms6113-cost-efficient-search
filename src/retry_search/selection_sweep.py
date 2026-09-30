@@ -745,6 +745,31 @@ def _setting_copy(setting: Mapping[str, Any]) -> dict[str, Any]:
     return {str(k): v for k, v in setting.items()}
 
 
+def _budget_basis(algorithm: str) -> str:
+    """Describe the unit controlled by a selector's parameter.
+
+    The legacy sweep predates the common-dollar protocol.  Recording its
+    basis prevents a report from presenting row, cell, and parameter-only
+    settings as if they shared one budget scale.
+    """
+
+    if algorithm in {"random", "bayesian_opt", "bayesian_optimization", "kernel_bayes_ucb"}:
+        return "row_fraction"
+    if algorithm in {
+        "uniform",
+        "matrix_ucb_e",
+        "matrix_ucb",
+        "similarity_annealed_ucb",
+        "graph_similarity_ucb",
+        "graph_residual_racing",
+        "gr_cabai",
+    }:
+        return "cell_fraction"
+    if algorithm in {"arm_elimination", "successive_elimination", "hill_climb", "hill_climbing"}:
+        return "parameter_only"
+    return "unknown"
+
+
 def run_sweep(
     rewards: Any,
     costs: Any,
@@ -819,6 +844,7 @@ def run_sweep(
                 "algorithm": algorithm,
                 "parameter_name": parameter_name,
                 "parameter_value": parameter_value,
+                "budget_basis": _budget_basis(algorithm),
                 "seed": seed,
                 "selected_config_id": str(config_ids[selected]),
                 "selected_config_index": selected,
