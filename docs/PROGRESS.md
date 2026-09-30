@@ -405,6 +405,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   edges, so edge opening cannot choose easy or cheap questions after seeing
   outcomes. It also requires exact cell identity for any cache reuse and joint
   covariance handling when paths share a block.
+- Note 132 audits PROBE's proxy-assisted BAI design. It requires a PROBE-style
+  conservative residual-variance certificate and one-round calibration lag as
+  conceptual baselines, and narrows any possible novelty to unknown paid
+  anchors with question-dependent retry costs.
 - The latest source-and-research checkpoint is `da5fd12` on the main branch
   and `cd6cf1a` on the algorithm branch; both are pushed and included in PR
   #4.
