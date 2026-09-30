@@ -401,6 +401,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   reused across candidates or residual variance materially reduces the needed
   cells. The design is now framed as transductive allocation with direct
   fallback, not a free graph estimator.
+- Note 131 specifies pre-registered random question blocks for adaptive graph
+  edges, so edge opening cannot choose easy or cheap questions after seeing
+  outcomes. It also requires exact cell identity for any cache reuse and joint
+  covariance handling when paths share a block.
 - The latest source-and-research checkpoint is `2120b5a` on the main branch
   and `d4f3464` on the algorithm branch; both are pushed and included in PR
   #4.
