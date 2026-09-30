@@ -147,6 +147,7 @@ prototype is novel or statistically certified:
 | [128: Graph-gated residual racing design](128-graph-gated-residual-racing-design-2026-09-29.md) | Proposes a cross-fitted, gated paired-residual design and narrows its novelty claim against spectral BAI, graph feedback, SySRs, and resource-constrained BAI |
 | [129: CAET prior art and context/cost gap](129-caet-prior-art-and-context-gap-2026-09-29.md) | Audits cost-aware pairwise pure exploration and narrows Algorithm 2 to context-indexed rows with execution-dependent retry costs |
 | [130: Similarity amortization condition](130-similarity-amortization-condition-2026-09-29.md) | Shows why complete-row edge measurements need anchor reuse or residual-variance gains before they can save dollars |
+| [131: Pre-registered question blocks](131-preregistered-question-blocks-2026-09-29.md) | Defines an outcome-independent question-block schedule for adaptive edge opening and exact-cell reuse |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
