@@ -315,3 +315,4 @@ The questions worth taking back to the mentor are specific:
 No messages have been sent to the mentor or teammates. These are prepared discussion points, not external requests.
 
 The current recommendation is to pursue the partial-execution allocation hypothesis through the small falsifiable pilot. If it does not beat cached paired evaluation, revise the claim before building a larger system. If it does, the next theoretical target is an instance-dependent description of when a purchased prefix or continuation resolves many plausible candidates cheaply—not an assumption that all one-edit neighbors are similar.
+| [143: Experiment 1 results and Algorithm 2 next step](143-exp1-results-and-algorithm2-next-step-2026-09-30.md) | Records measured gold/proxy replay results, the verifier confound, and SGFR as a falsifiable next-step hypothesis |

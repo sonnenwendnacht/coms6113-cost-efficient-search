@@ -13,8 +13,8 @@ Updated: 2026-09-30 14:36 ET (Experiment 1 replay/reporting and Algorithm 2 foll
   and the expanded related-work boundary. The latest substantive algorithm note is `7d94ca5`; checkpoint metadata is
   refreshed by `8403897`. Source-audit commits after the earlier implementation
   checkpoint add notes 19--71.
-- Run `python -m unittest discover -s tests -q` for the current offline test
-  suite (38 tests).
+- Run `PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python3 -m unittest discover -s tests -v` for the current offline test
+  suite (61 tests passed on 2026-09-30).
 
 ## Research-only window
 
