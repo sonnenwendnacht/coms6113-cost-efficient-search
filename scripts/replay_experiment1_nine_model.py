@@ -1,0 +1,331 @@
+#!/usr/bin/env python3
+"""Replay a completed nine-model trace and write Table-7-style artifacts.
+
+Search policies see only the first 200 questions.  The second 200 questions
+are used only after a row has been selected, to attach held-out accuracy.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+import sys
+import time
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+from retry_search.experiment1_report import write_report  # noqa: E402
+from retry_search.selection_sweep import default_settings, run_sweep  # noqa: E402
+from retry_search.pairwise_local_racing import run_cw_plr  # noqa: E402
+from retry_search.cost_aware_correlated_racing import run_cacr  # noqa: E402
+from retry_search.safe_correlated_racing import run_sccr  # noqa: E402
+
+
+def _question_id(value: object, *, source: str) -> int:
+    """Return a real integer question id, rejecting booleans and strings.
+
+    JSON booleans are subclasses of ``int`` in Python.  Treating ``true`` as
+    question 1 would make a malformed checkpoint look like a complete
+    rectangle, so replay validates the on-disk type explicitly.
+    """
+
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise ValueError(f"{source}: question_id must be an integer")
+    return value
+
+
+def validate_trace_rectangle(
+    traces: list[dict],
+    metadata: dict,
+    *,
+    search_n: int,
+    evaluation_n: int,
+) -> tuple[list[str], list[dict], list[dict]]:
+    """Validate the complete config/question rectangle before replay.
+
+    A length check alone is unsafe: one duplicate cell can replace a missing
+    cell while preserving the expected number of records.  This validator
+    checks the full key set for both partitions, rejects unknown rows and
+    question ids, and keeps search/evaluation questions disjoint.
+    """
+
+    if search_n <= 0 or evaluation_n <= 0:
+        raise ValueError("search_n and evaluation_n must be positive")
+    configs = sorted({str(row.get("config_id")) for row in traces if isinstance(row, dict)})
+    if not configs or any(not isinstance(row, dict) for row in traces):
+        raise ValueError("trace records must be nonempty JSON objects")
+    declared_rows = metadata.get("rows")
+    if declared_rows is not None:
+        if isinstance(declared_rows, bool) or not isinstance(declared_rows, int) or declared_rows <= 0:
+            raise ValueError("metadata.rows must be a positive integer")
+        if declared_rows != len(configs):
+            raise ValueError(
+                f"metadata declares {declared_rows} rows but trace contains {len(configs)} config ids"
+            )
+
+    config_set = set(configs)
+    total_questions = search_n + evaluation_n
+    expected = {(config_id, question_id)
+                for config_id in configs for question_id in range(total_questions)}
+    seen: set[tuple[str, int]] = set()
+    for index, row in enumerate(traces):
+        config_id = row.get("config_id")
+        if not isinstance(config_id, str) or config_id not in config_set:
+            raise ValueError(f"trace record {index}: unknown config_id")
+        question_id = _question_id(row.get("question_id"), source=f"trace record {index}")
+        if not 0 <= question_id < total_questions:
+            raise ValueError(f"trace record {index}: question_id outside declared split")
+        key = (config_id, question_id)
+        if key in seen:
+            raise ValueError(f"duplicate trace cell: config_id={config_id!r}, question_id={question_id}")
+        seen.add(key)
+    missing = expected - seen
+    unexpected = seen - expected
+    if unexpected or missing or len(seen) != len(expected):
+        raise ValueError(
+            "trace does not contain exactly one cell for every config/question pair "
+            f"(missing={sorted(missing)[:3]}, unexpected={sorted(unexpected)[:3]})"
+        )
+
+    search = [row for row in traces if _question_id(row["question_id"], source="search split") < search_n]
+    evaluation = [row for row in traces if _question_id(row["question_id"], source="evaluation split") >= search_n]
+    expected_search = len(configs) * search_n
+    expected_evaluation = len(configs) * evaluation_n
+    if len(search) != expected_search or len(evaluation) != expected_evaluation:
+        raise ValueError("trace search/evaluation split is not a complete disjoint rectangle")
+    return configs, search, evaluation
+
+
+def selector_reward(row: dict, field: str) -> float:
+    """Return the reward visible to a selector under an explicit contract.
+
+    ``final_correct`` is gold feedback on revealed search cells for labeled
+    offline profiling. It is never supplied to the workflow verifier.
+    ``verifier_pass`` is the deployment-visible proxy: it is
+    true when the recorded answer-key-blind verifier accepted an attempt.
+    Keeping the choice explicit prevents a gold label from silently entering a
+    deployment-faithful search replay.
+    """
+
+    if field == "final_correct":
+        return float(row["final_correct"])
+    if field == "verifier_pass":
+        attempts = row.get("attempts")
+        if not isinstance(attempts, list):
+            raise ValueError("verifier_pass requires a recorded attempts list")
+        return float(any(bool(attempt.get("verifier_pass")) for attempt in attempts
+                         if isinstance(attempt, dict)))
+    raise ValueError(f"unsupported selector reward field: {field}")
+
+
+def row_slots_from_config_ids(config_ids: list[str]) -> list[tuple[int, ...]]:
+    """Decode slash-separated complete rows into explicit Hamming slots.
+
+    Structured selectors must receive these slots instead of relying on row
+    list order.  The mapping is deterministic per slot position and preserves
+    adjacency even when config ids are shuffled or lexicographically sorted.
+    """
+
+    parts = [config_id.split("/") for config_id in config_ids]
+    if any(len(values) < 2 or any(not value for value in values) for values in parts):
+        raise ValueError("structured replay requires slash-separated config ids")
+    width = len(parts[0])
+    if any(len(values) != width for values in parts):
+        raise ValueError("all config ids must have the same number of slash-separated slots")
+    levels = [{values[position] for values in parts} for position in range(width)]
+    indexes = [{value: index for index, value in enumerate(sorted(values))}
+               for values in levels]
+    slots = [tuple(indexes[position][values[position]] for position in range(width))
+             for values in parts]
+    if len(set(slots)) != len(config_ids):
+        raise ValueError("config ids map to duplicate row slots")
+    return slots
+
+
+def _digest(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def _run_key(run: dict) -> tuple:
+    return (run["algorithm"], run["parameter_name"],
+            json.dumps(run["parameter_value"], sort_keys=True), int(run["seed"]))
+
+
+def load_completed_runs(path: Path) -> dict[tuple, dict]:
+    """Recover only newline-committed selector results, rejecting duplicates."""
+    runs = {}
+    if not path.exists():
+        return runs
+    committed = 0
+    with path.open("rb") as handle:
+        for line in handle:
+            if not line.endswith(b"\n"):
+                break
+            run = json.loads(line)
+            key = _run_key(run)
+            if key in runs:
+                raise ValueError(f"duplicate checkpoint result: {key}")
+            runs[key] = run
+            committed += len(line)
+    if path.stat().st_size != committed:
+        with path.open("r+b") as handle:
+            handle.truncate(committed)
+    return runs
+
+
+def append_completed_run(path: Path, run: dict) -> None:
+    with path.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(run, allow_nan=False) + "\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("trace_dir", type=Path, help="completed run directory under results/runs")
+    ap.add_argument("--output-dir", type=Path, default=None)
+    ap.add_argument("--seed", action="append", type=int, default=None)
+    ap.add_argument("--algorithm", action="append", choices=sorted({s["algorithm"] for s in default_settings()}),
+                    help="limit to named standard selectors (repeatable); omitted means all")
+    ap.add_argument("--resume", action="store_true", help="reuse validated completed selector runs")
+    ap.add_argument("--selector-reward", choices=("final_correct", "verifier_pass"),
+                    default="final_correct",
+                    help="final_correct: labeled offline profiling; verifier_pass: label-free proxy profiling")
+    ap.add_argument("--include-structured", action="store_true",
+                    help="also replay CW-PLR, CACR, and SCCR at realized-cost fractions")
+    args = ap.parse_args()
+    trace_dir = args.trace_dir
+    traces = json.loads((trace_dir / "traces.json").read_text(encoding="utf-8"))
+    if not traces:
+        raise SystemExit("traces.json is empty")
+    metadata = json.loads((trace_dir / "metadata.json").read_text(encoding="utf-8"))
+    search_n = int(metadata.get("search_n", 200))
+    evaluation_n = int(metadata.get("evaluation_n", 200))
+    try:
+        configs, search, evaluation = validate_trace_rectangle(
+            traces, metadata, search_n=search_n, evaluation_n=evaluation_n
+        )
+    except ValueError as exc:
+        raise SystemExit(f"invalid completed trace: {exc}") from exc
+    if args.include_structured:
+        try:
+            row_slots = row_slots_from_config_ids(configs)
+        except ValueError as exc:
+            raise SystemExit(str(exc)) from exc
+    else:
+        row_slots = None
+    config_index = {name: i for i, name in enumerate(configs)}
+    search.sort(key=lambda row: (config_index[str(row["config_id"])], int(row["question_id"])))
+    rewards = [[selector_reward(row, args.selector_reward)
+                for row in search[i * search_n:(i + 1) * search_n]]
+               for i in range(len(configs))]
+    costs = [[float(row["cost_usd"]) for row in search[i * search_n:(i + 1) * search_n]]
+             for i in range(len(configs))]
+    evaluation_by_config: dict[str, list[float]] = {name: [] for name in configs}
+    evaluation_cost_by_config: dict[str, list[float]] = {name: [] for name in configs}
+    for row in evaluation:
+        name = str(row["config_id"])
+        evaluation_by_config[name].append(float(row["final_correct"]))
+        evaluation_cost_by_config[name].append(float(row["cost_usd"]))
+    exhaustive_cost = sum(sum(row) for row in costs)
+    seeds = args.seed if args.seed is not None else metadata.get("seeds", [6113, 6114, 6115, 6116, 6117, 6118, 6119, 6120])
+    settings = [s for s in default_settings() if args.algorithm is None or s["algorithm"] in args.algorithm]
+    output_dir = args.output_dir or (trace_dir / "selector-report")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    identity = {
+        "trace_sha256": _digest(trace_dir / "traces.json"),
+        "metadata_sha256": _digest(trace_dir / "metadata.json"),
+        "selector_reward": args.selector_reward,
+        "replay_sha256": _digest(Path(__file__)),
+        "selector_sources": {p.name: _digest(p) for p in sorted((ROOT / "src/retry_search").glob("*.py"))
+                             if p.name != "experiment1_report.py"},
+    }
+    manifest_path = output_dir / "replay-identity.json"
+    checkpoint_path = output_dir / "selector-checkpoint.jsonl"
+    if manifest_path.exists():
+        if not args.resume:
+            raise SystemExit("output already initialized; use --resume or a new output directory")
+        if json.loads(manifest_path.read_text()) != identity:
+            raise SystemExit("trace, reward contract, or selector source changed; use a new output directory")
+    else:
+        if checkpoint_path.exists():
+            raise SystemExit("checkpoint without identity manifest; use a new output directory")
+        manifest_path.write_text(json.dumps(identity, indent=2) + "\n")
+    completed = load_completed_runs(checkpoint_path)
+    selector_runs = []
+
+    def execute(setting: dict, seed: int, callback) -> None:
+        key_record = {**setting, "seed": int(seed)}
+        key = _run_key(key_record)
+        if key in completed:
+            result = completed[key]
+            print(f"cached {key}", flush=True)
+        else:
+            print(f"starting {key}", flush=True)
+            started = time.perf_counter()
+            result = {**callback(), **key_record}
+            result["selection_time_seconds"] = time.perf_counter() - started
+            # Commit the recommendation before consulting the audit split.
+            append_completed_run(checkpoint_path, result)
+            completed[key] = result
+            print(f"completed {key}: {result['search_evaluations']} cells, "
+                  f"{result['search_cost']:.6f} proxy USD, {result['selection_time_seconds']:.2f}s", flush=True)
+        selector_runs.append(dict(result))
+
+    for setting in settings:
+        for seed in seeds:
+            execute(setting, seed, lambda setting=setting, seed=seed:
+                    run_sweep(rewards, costs, configs, settings=[setting], seeds=[seed])[0])
+    if args.include_structured:
+        # These are explicit cost-budget settings, analogous to the budget
+        # rows in AgentOpt's Table 7.  The methods see only search cells; the
+        # held-out matrix is attached below after each recommendation.
+        for fraction in (0.10, 0.20, 0.40, 0.60, 0.80, 1.00):
+            budget = exhaustive_cost * fraction
+            for seed in seeds:
+                for algorithm, function in (("cw_plr", run_cw_plr), ("cacr", run_cacr), ("sccr", run_sccr)):
+                    setting = {"algorithm": algorithm, "parameter_name": "cost_fraction",
+                               "parameter_value": fraction, "budget_basis": "realized_cost_fraction"}
+                    execute(setting, seed, lambda function=function, seed=seed, budget=budget:
+                            function(rewards, costs, configs, cost_budget=budget, seed=int(seed), row_slots=row_slots))
+    for run in selector_runs:
+        selected = str(run["selected_config_id"])
+        run["heldout_accuracy"] = sum(evaluation_by_config[selected]) / len(evaluation_by_config[selected])
+        run["heldout_mean_cost"] = sum(evaluation_cost_by_config[selected]) / len(evaluation_cost_by_config[selected])
+    oracle = max(configs, key=lambda name: (
+        sum(rewards[config_index[name]]) / search_n,
+        -sum(costs[config_index[name]]),
+        name,
+    ))
+    exhaustive_accuracy = sum(evaluation_by_config[oracle]) / len(evaluation_by_config[oracle])
+    paths = write_report(
+        selector_runs,
+        exhaustive_search_cost=exhaustive_cost,
+        output_dir=output_dir,
+        exhaustive_accuracy=exhaustive_accuracy,
+        metadata={"trace_dir": str(trace_dir), "search_n": search_n, "evaluation_n": evaluation_n,
+                  "configs": len(configs), "settings": len(settings), "seeds": list(seeds),
+                  "selector_reward": args.selector_reward,
+                  "exhaustive_reference_heldout_mean_cost": sum(evaluation_cost_by_config[oracle]) / evaluation_n,
+                  "replay_identity": identity,
+                  "exhaustive_reference_config": oracle, "exhaustive_search_cost": exhaustive_cost},
+    )
+    summary = {"output": paths, "configs": len(configs), "search_questions": search_n,
+               "evaluation_questions": evaluation_n, "selector_runs": len(selector_runs),
+               "exhaustive_search_cost": exhaustive_cost, "exhaustive_reference_config": oracle,
+               "exhaustive_heldout_accuracy": exhaustive_accuracy,
+               "selector_reward": args.selector_reward}
+    print(json.dumps(summary, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

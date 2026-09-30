@@ -1,0 +1,96 @@
+{
+  "kind": "exact calculations on invented populations; not empirical LLM results",
+  "random_trials": 0,
+  "model_api_calls": 0,
+  "shared_prefix": {
+    "questions": 100,
+    "reached_questions": 10,
+    "checker_stops": 90,
+    "correct_stopped_answers": 80,
+    "score_a": 0.82,
+    "score_b": 0.88,
+    "conditional_score_difference_b_minus_a": 0.6,
+    "overall_score_difference_b_minus_a": 0.06,
+    "bound_on_absolute_score_difference": 0.1,
+    "paired_difference_variance": 0.0564,
+    "independent_difference_variance": 0.2532,
+    "variance_ratio_independent_over_paired": 4.48936170212766,
+    "shared_pair_search_cost": 3.2,
+    "separate_pair_search_cost": 5.2,
+    "cold_deployment_cost_a": 2.5,
+    "cold_deployment_cost_b": 2.7,
+    "cost_unit": "invented unit, not USD"
+  },
+  "subtree_bounds": {
+    "enumerated_completions": 1024,
+    "exact_finite_population_interval": [
+      0.8,
+      0.9
+    ],
+    "known_incumbent_score": 0.93,
+    "all_completions_quality_dominated": true,
+    "caveat": "Dominance here assumes equal feasibility; real sample bounds need uncertainty."
+  },
+  "failure_conditioning": {
+    "standalone_retry_score": 0.74,
+    "retry_score_after_a_failure": 0.1,
+    "retry_score_after_b_failure": 0.9,
+    "initial_score_both": 0.8,
+    "actual_final_a": 0.82,
+    "actual_final_b": 0.98,
+    "naive_independence_estimate_both": 0.948
+  },
+  "selected_suffix_bias": {
+    "true_overall_difference": 0.06,
+    "cherry_picked_two_positive_estimate": 0.1,
+    "uniform_two_sample_design_expectation": 0.06,
+    "enumerated_uniform_subsets": 45
+  },
+  "partial_revelation": {
+    "exact_finite_row_interval": [
+      0.82,
+      0.9
+    ],
+    "true_score_b": 0.88,
+    "enumerated_remaining_completions": 256,
+    "caveat": "The interval is conservative, not an imputed point estimate."
+  },
+  "hamming_counterexample": {
+    "differing_slots": 1,
+    "possible_score_gap": 1.0
+  },
+  "rare_expensive_suffix": {
+    "reach_probability": 0.01,
+    "quality_gap_upper_bound": 0.01,
+    "extra_conditional_cost": 1000,
+    "extra_expected_cost": 10.0,
+    "cost_unit": "invented unit, not USD"
+  },
+  "zero_reaches_uncertainty": {
+    "iid_parent_samples": 100,
+    "observed_reaches": 0,
+    "fixed_sample_one_sided_confidence": 0.95,
+    "exact_binomial_upper_reach_bound": 0.029513049607039932,
+    "caveat": "Single fixed-n bound, not simultaneous or valid for arbitrary optional stopping."
+  },
+  "two_mean_allocation": {
+    "variances": [
+      1,
+      1
+    ],
+    "costs": [
+      1,
+      9
+    ],
+    "budget": 90,
+    "optimal_integer_sample_counts": [
+      27,
+      7
+    ],
+    "optimal_estimated_difference_variance": 0.17989417989417988,
+    "equal_count_difference_variance": 0.2222222222222222,
+    "equal_dollar_difference_variance": 0.2222222222222222,
+    "continuous_optimum_sample_ratio_n1_over_n2": 3,
+    "caveat": "Fixed two-mean estimation example, not a theorem for full adaptive search."
+  }
+}

@@ -1,6 +1,8 @@
 # Reading note: GittinsEval
 
-Read on 2026-09-23. Primary source: Qian Xie, Yueli He, and Nairen Cao, *Efficient Cost-Aware LLM Evaluation via Bayesian Bandit Gittins Indices*, [arXiv:2609.25645v1](https://arxiv.org/abs/2609.25645v1), submitted 2026-09-22. [Official PDF](https://arxiv.org/pdf/2609.25645v1); [local PDF](../../papers/pdf/xie-2026-gittinseval-2609.25645v1.pdf). Page references below count PDF pages from 1.
+Read on 2026-09-23. Primary source: Qian Xie, Yueli He, and Nairen Cao, *Efficient Cost-Aware LLM Evaluation via Bayesian Bandit Gittins Indices*, [arXiv:2609.25645v1](https://arxiv.org/abs/2609.25645v1), submitted 2026-09-22. [Official PDF](https://arxiv.org/pdf/2609.25645v1); [local PDF](<../../papers/pdf/Efficient Cost-Aware LLM Evaluation via Bayesian Bandit Gittins Indices.pdf>). Page references below count PDF pages from 1.
+
+Follow-up: the [full paper/code audit](deep-review/01-gittinseval-audit.md) refines this initial note, derives the finite-benchmark posterior, identifies exact pricing units, and distinguishes manuscript choices from pinned public defaults.
 
 ## Verified findings from the paper
 
