@@ -346,6 +346,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   allocation is an explicit baseline; the experiment must declare whether cell
   prices are deterministic, bounded random, or only realized, and report
   profiling spend, held-out quality, and cold deployment cost separately.
+- Note 118 audits the runner's billing path. Model coefficients are known, but
+  verifier/retry prompt lengths and retry reach make the complete cell charge
+  realized only after execution. The current replay can claim equal realized
+  spend with overshoot reporting, not a strict hard dollar cap.
 - The latest source-and-research checkpoint is `2120b5a` on the main branch
   and `d4f3464` on the algorithm branch; both are pushed and included in PR
   #4.
