@@ -17,6 +17,7 @@ import math
 import random
 import time
 from collections.abc import Mapping, Sequence
+from functools import lru_cache
 from typing import Any
 
 
@@ -235,12 +236,13 @@ def _arm_elimination(
     return "one_arm_remains" if len(active) == 1 else "all_questions_reached"
 
 
-def _hamming_neighbors(arm: int, k: int) -> list[int]:
+@lru_cache(maxsize=8192)
+def _hamming_neighbor_tuple(arm: int, k: int) -> tuple[int, ...]:
     """Neighbors for ordered triples of model indices when K is a cube."""
 
     side = round(k ** (1.0 / 3.0))
     if side ** 3 != k or side < 2:
-        return [j for j in range(k) if j != arm]
+        return tuple(j for j in range(k) if j != arm)
     digits = [(arm // (side * side)) % side, (arm // side) % side, arm % side]
     out: list[int] = []
     for position in range(3):
@@ -250,7 +252,13 @@ def _hamming_neighbors(arm: int, k: int) -> list[int]:
             new = list(digits)
             new[position] = value
             out.append(new[0] * side * side + new[1] * side + new[2])
-    return out
+    return tuple(out)
+
+
+def _hamming_neighbors(arm: int, k: int) -> list[int]:
+    """Return a fresh list so callers cannot mutate the cached graph."""
+
+    return list(_hamming_neighbor_tuple(arm, k))
 
 
 def _hill_climb(
@@ -317,6 +325,7 @@ def _hamming_distance(a: int, b: int, k: int) -> int:
     return sum(x != y for x, y in zip(da, db))
 
 
+@lru_cache(maxsize=8192)
 def _arm_digits(arm: int, k: int) -> tuple[int, int, int] | None:
     """Decode a cube-indexed row into its three model-choice slots."""
 
@@ -326,6 +335,7 @@ def _arm_digits(arm: int, k: int) -> tuple[int, int, int] | None:
     return ((arm // (side * side)) % side, (arm // side) % side, arm % side)
 
 
+@lru_cache(maxsize=65536)
 def _changed_slot(a: int, b: int, k: int) -> int | None:
     first, second = _arm_digits(a, k), _arm_digits(b, k)
     if first is None or second is None:
@@ -343,7 +353,7 @@ def _similarity_weights(
     counts = [0, 0, 0]
     for samples in samples_by_question.values():
         for arm, (reward, _) in samples.items():
-            for neighbor in _hamming_neighbors(arm, k):
+            for neighbor in _hamming_neighbor_tuple(arm, k):
                 if neighbor <= arm or neighbor not in samples:
                     continue
                 slot = _changed_slot(arm, neighbor, k)
@@ -394,6 +404,100 @@ def _weighted_prediction(
     return mean, uncertainty, effective_n
 
 
+class _SlotDisagreements:
+    """Count each revealed same-question edge once, when its second cell arrives."""
+
+    def __init__(self, k: int) -> None:
+        self.k = k
+        self.disagreement = [0.0] * 3
+        self.counts = [0] * 3
+
+    def add(self, arm: int, reward: float, previous: Mapping[int, tuple[float, float]]) -> None:
+        for neighbor in _hamming_neighbor_tuple(arm, self.k):
+            if neighbor not in previous:
+                continue
+            slot = _changed_slot(arm, neighbor, self.k)
+            if slot is not None:
+                self.disagreement[slot] += abs(reward - previous[neighbor][0])
+                self.counts[slot] += 1
+
+    def weights(self) -> tuple[float, float, float]:
+        return tuple(
+            min(3.0, max(0.5, 0.5 + 2.0 * self.disagreement[i] / self.counts[i]))
+            if self.counts[i] else 1.0 for i in range(3)
+        )
+
+
+class _SimilarityPredictions:
+    """Batch the existing kernel formula without changing its acquisition.
+
+    Eight bit masks encode which of three slots differ.  Recompute their
+    eight weights when slot trust changes, then use array arithmetic on only
+    the observed same-question rewards.  This is not an inducing/subsampling
+    approximation.  The reference scalar formula remains the stdlib fallback.
+    """
+
+    def __init__(self, k: int) -> None:
+        self.k = k
+        self.np = _optional_numpy()
+        self.weight_key: Any = None
+        self.lookup: Any = None
+        if self.np is not None:
+            np = self.np
+            arms = np.arange(k)
+            side = round(k ** (1.0 / 3.0))
+            self.cube = side ** 3 == k and side >= 2
+            if self.cube:
+                digits = np.asarray([_arm_digits(arm, k) for arm in range(k)])
+                self.masks = np.zeros((k, k), dtype=np.uint8)
+                for slot in range(3):
+                    self.masks |= ((digits[:, slot, None] != digits[None, :, slot]) << slot).astype(np.uint8)
+            else:
+                self.masks = (arms[:, None] != arms[None, :]).astype(np.uint8)
+
+    def predict(
+        self, arms: Sequence[int], question: int,
+        samples_by_question: Mapping[int, Mapping[int, tuple[float, float]]],
+        bandwidth: float, slot_weights: Sequence[float], global_mean: float,
+    ) -> list[tuple[float, float, float]]:
+        if self.np is None:
+            return [
+                _weighted_prediction(arm, question, samples_by_question, self.k,
+                                     bandwidth, slot_weights, global_mean)
+                for arm in arms
+            ]
+        samples = samples_by_question.get(question, {})
+        if not samples:
+            return [(global_mean, 1.0, 0.0)] * len(arms)
+        np = self.np
+        key = (bandwidth, tuple(slot_weights))
+        if key != self.weight_key:
+            if self.cube:
+                distances = [sum(slot_weights[i] for i in range(3) if mask & (1 << i))
+                             for mask in range(8)]
+            else:
+                distances = [0.0, 1.0]
+            self.lookup = np.asarray([math.exp(-distance / max(1e-6, bandwidth)) for distance in distances])
+            self.weight_key = key
+        other_arms = list(samples)
+        rewards = np.asarray([samples[arm][0] for arm in other_arms])
+        weights = self.lookup[self.masks[np.ix_(arms, other_arms)]]
+        totals = weights.sum(axis=1)
+        # An arbitrarily narrow bandwidth may underflow every distant weight.
+        valid = totals > 0.0
+        safe_totals = np.where(valid, totals, 1.0)
+        means = (weights * rewards).sum(axis=1) / safe_totals
+        squared = (weights * weights).sum(axis=1)
+        effective = totals * totals / np.where(squared > 0.0, squared, 1.0)
+        disagreement = (weights * np.abs(rewards - means[:, None])).sum(axis=1) / safe_totals
+        uncertainty = np.minimum(1.0, np.sqrt(0.25 / (effective + 1.0)) + 0.5 * disagreement)
+        return [
+            (float(means[i]), float(uncertainty[i]), float(effective[i]))
+            if valid[i] else (global_mean, 1.0, 0.0)
+            for i in range(len(arms))
+        ]
+
+
 def _similarity_annealed_ucb(
     fraction: Any, k: int, n: int, rng: random.Random, rewards: Any, costs: Any,
     observed: dict[int, list[tuple[float, float]]], seen: set[tuple[int, int]],
@@ -411,6 +515,9 @@ def _similarity_annealed_ucb(
     q_order = list(range(n))
     rng.shuffle(q_order)
     samples_by_question: dict[int, dict[int, tuple[float, float]]] = {}
+    disagreements = _SlotDisagreements(k)
+    predictions = _SimilarityPredictions(k)
+    row_cost_means: dict[int, float] = {}
     slot_weights = (1.0, 1.0, 1.0)
     global_mean = 0.5
     global_cost = 1.0
@@ -423,13 +530,13 @@ def _similarity_annealed_ucb(
             global_mean = sum(rewards_seen) / len(rewards_seen)
         if costs_seen:
             global_cost = max(1e-12, sum(costs_seen) / len(costs_seen))
-        slot_weights = _similarity_weights(samples_by_question, k)
+        slot_weights = disagreements.weights()
 
     def candidate_arms(question: int) -> list[int]:
         samples = samples_by_question.get(question, {})
         candidates = set(samples)
         for arm in samples:
-            candidates.update(_hamming_neighbors(arm, k))
+            candidates.update(_hamming_neighbor_tuple(arm, k))
         # Keep a small global exploration reserve so disconnected graph
         # regions are eventually visited even when the current elite is wrong.
         reserve = list(range(k))
@@ -454,15 +561,11 @@ def _similarity_annealed_ucb(
         if not candidates:
             break
         scored: list[tuple[int, float]] = []
-        for arm in candidates:
-            mean, uncertainty, _ = _weighted_prediction(
-                arm, question, samples_by_question, k, bandwidth, slot_weights, global_mean
-            )
-            cost_est = (
-                sum(cost for _, cost in observed[arm]) / len(observed[arm])
-                if arm in observed else global_cost
-            )
-            beta = 0.7 + 0.2 * math.sqrt(math.log(step + 2.0))
+        predicted = predictions.predict(candidates, question, samples_by_question,
+                                        bandwidth, slot_weights, global_mean)
+        beta = 0.7 + 0.2 * math.sqrt(math.log(step + 2.0))
+        for arm, (mean, uncertainty, _) in zip(candidates, predicted):
+            cost_est = row_cost_means.get(arm, global_cost)
             ucb = min(1.5, mean + beta * uncertainty)
             # Cost is known only after a cell is pulled.  This estimate uses
             # observed calls for the row and never reads an unpulled cost.
@@ -473,15 +576,22 @@ def _similarity_annealed_ucb(
         weights = [math.exp(min(50.0, (score - best_score) / temperature)) for _, score in scored]
         arm = rng.choices([arm for arm, _ in scored], weights=weights, k=1)[0]
         cost = _pick_cell(arm, question, rewards, costs, observed, seen)
-        samples_by_question.setdefault(question, {})[arm] = (observed[arm][-1][0], cost)
+        question_samples = samples_by_question.setdefault(question, {})
+        reward = observed[arm][-1][0]
+        disagreements.add(arm, reward, question_samples)
+        question_samples[arm] = (reward, cost)
+        row_cost_means[arm] = sum(value for _, value in observed[arm]) / len(observed[arm])
 
     refresh_statistics()
+    # Preserve question-order summation for every row while batching formulas.
+    final_predictions = [
+        predictions.predict(list(range(k)), question, samples_by_question,
+                            bandwidth, slot_weights, global_mean)
+        for question in range(n)
+    ]
     recommendations: list[tuple[float, float, str, int]] = []
     for arm in range(k):
-        predicted = [
-            _weighted_prediction(arm, question, samples_by_question, k, bandwidth, slot_weights, global_mean)[0]
-            for question in range(n)
-        ]
+        predicted = [values[arm][0] for values in final_predictions]
         mean = sum(predicted) / len(predicted) if predicted else global_mean
         cost_est = (
             sum(cost for _, cost in observed[arm]) / len(observed[arm])
