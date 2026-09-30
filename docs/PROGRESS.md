@@ -293,6 +293,10 @@ Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
   answer-key blind, while offline traces reveal `final_correct` only after a
   paid complete cell; verifier-only search can certify only the verifier proxy,
   with gold accuracy reserved for held-out audit.
+- Note 104 recommends a cross-fitted, fail-closed portfolio: use a hub only
+  when measured covariance and amortization beat direct cost-aware racing;
+  otherwise use Cost-SySR or direct paired racing. The mode choice itself must
+  be frozen before execution-fold selection.
 - The latest substantive main note is `f3e9894` and the algorithm note is
   `ab01ba9`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
