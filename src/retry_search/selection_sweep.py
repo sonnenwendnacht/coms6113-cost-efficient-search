@@ -188,11 +188,12 @@ def _matrix_ucb_e(
         if not candidates:
             break
         t = max(2, used + 1)
+        exploration = 2.0 * math.log(t)
 
         def score(arm: int) -> tuple[float, int]:
             if pulls[arm] == 0:
                 return (float("inf"), -arm)
-            return (means[arm] + math.sqrt(max(0.0, 2.0 * math.log(t) / pulls[arm])), -arm)
+            return (means[arm] + math.sqrt(max(0.0, exploration / pulls[arm])), -arm)
 
         arm = max(candidates, key=score)
         q = q_order[next_q[arm]]
@@ -701,57 +702,85 @@ def _graph_residual_racing(
     return "paired_residual_completed", max(estimates, key=lambda arm: (estimates[arm], -arm))
 
 
+def _optional_numpy() -> Any:
+    """Use an installed NumPy for arithmetic only; it is not required."""
+
+    try:
+        import numpy
+    except ImportError:
+        return None
+    return numpy
+
+
+class _CategoricalPosterior:
+    """Exact Gaussian conditioning on every observed row, with fixed noise.
+
+    Rank-one conditioning updates all candidate means and covariances in
+    O(K**2) per completed row, instead of solving the same dense system for
+    each candidate.  The prior kernel, noise, and acquisition are unchanged.
+    Only row coordinates initialize the kernel; no reward/cost cell is read.
+    NumPy is optional; the standard-library path performs the same update.
+    """
+
+    def __init__(self, k: int) -> None:
+        self.np = _optional_numpy()
+        self.mean: Any = [0.0] * k
+        self.cov: Any = [
+            [math.exp(-_hamming_distance(a, b, k)) for b in range(k)]
+            for a in range(k)
+        ]
+        if self.np is not None:
+            self.mean = self.np.asarray(self.mean, dtype=float)
+            self.cov = self.np.asarray(self.cov, dtype=float)
+
+    def update(self, arm: int, reward: float) -> None:
+        denominator = float(self.cov[arm][arm]) + 0.12
+        innovation = (reward - float(self.mean[arm])) / denominator
+        if self.np is not None:
+            column = self.cov[:, arm].copy()
+            self.mean += column * innovation
+            self.cov -= self.np.outer(column, column) / denominator
+        else:
+            column = [row[arm] for row in self.cov]
+            for i, value in enumerate(column):
+                self.mean[i] += value * innovation
+                for j in range(i + 1):
+                    updated = self.cov[i][j] - value * column[j] / denominator
+                    self.cov[i][j] = updated
+                    self.cov[j][i] = updated
+
+    def score(self, arm: int) -> float:
+        variance = max(0.01, float(self.cov[arm][arm]))
+        return float(self.mean[arm]) + 1.5 * math.sqrt(variance)
+
+
 def _bayesian_opt(
     fraction: Any, k: int, n: int, rng: random.Random, rewards: Any, costs: Any,
     observed: dict[int, list[tuple[float, float]]], seen: set[tuple[int, int]],
 ) -> str:
-    """Run the categorical kernel baseline with a bounded inducing set.
+    """Run the uncapped categorical-kernel baseline using exact updates.
 
-    The old implementation solved a dense covariance system once for every
-    unobserved row.  At the nine-model scale this became cubic in the number
-    of completed rows and could dominate the entire replay, even though the
-    selector's declared budget was unchanged.  Keep a deterministic,
-    evenly-spaced subset of observed rows as inducing points.  This preserves
-    the intended AgentOpt-inspired categorical-kernel comparison while making
-    its computational overhead finite and reportable.  The cap is part of the
-    baseline definition, not a hidden data-dependent stopping rule.
+    Every observed row conditions the posterior.  The row budget, shuffled
+    first row/questions, UCB acquisition, variance floor, and exact-score
+    lower-index tie break match the original dense implementation.  Algebraic
+    updates can differ at floating-point roundoff from repeated Gaussian
+    solves, especially on symmetric ties; no inducing approximation is used.
     """
-    max_inducing = 32
+
     target = _row_count(fraction, k)
     q_order = list(range(n))
     rng.shuffle(q_order)
     candidates = list(range(k))
     rng.shuffle(candidates)
+    posterior = _CategoricalPosterior(k) if target > 1 else None
     while len(observed) < target:
         if not observed:
             arm = candidates.pop()
         else:
-            observed_arms = sorted(observed)
-            if len(observed_arms) > max_inducing:
-                # Preserve the first/last observed arm and deterministic
-                # evenly spaced interior points.  This avoids making the
-                # kernel result depend on hash or dictionary iteration order.
-                positions = [
-                    round(i * (len(observed_arms) - 1) / (max_inducing - 1))
-                    for i in range(max_inducing)
-                ]
-                observed_arms = [observed_arms[position] for position in positions]
-            y = [_safe_mean([x[0] for x in observed[a]]) for a in observed_arms]
-            noise = 0.12
-            kernel = [
-                [math.exp(-_hamming_distance(a, b, k)) + (noise if i == j else 0.0)
-                 for j, b in enumerate(observed_arms)]
-                for i, a in enumerate(observed_arms)
-            ]
-            alpha = _solve_linear(kernel, y)
             best = None
             best_score = float("-inf")
             for arm in candidates:
-                cov = [math.exp(-_hamming_distance(arm, b, k)) for b in observed_arms]
-                mean = sum(c * a for c, a in zip(cov, alpha))
-                solve_cov = _solve_linear(kernel, cov)
-                variance = max(0.01, 1.0 - sum(c * z for c, z in zip(cov, solve_cov)))
-                score = mean + 1.5 * math.sqrt(variance)
+                score = posterior.score(arm)
                 if score > best_score or (score == best_score and arm < (best if best is not None else arm)):
                     best, best_score = arm, score
             if best is None:
@@ -759,6 +788,8 @@ def _bayesian_opt(
             arm = best
             candidates.remove(arm)
         _pull_row(arm, q_order, rewards, costs, observed, seen)
+        if len(observed) < target:
+            posterior.update(arm, _safe_mean([x[0] for x in observed[arm]]))
     return "fraction_rows_evaluated"
 
 
