@@ -134,6 +134,7 @@ prototype is novel or statistically certified:
 | [115: Permutation-controlled pairing gate](115-permutation-controlled-pairing-gate-2026-09-29.md) | Defines a finite-bank variance-gain statistic, shuffled-question negative control, cost gate, and failure cases for trusting same-question pairing |
 | [116: Covariance-adaptive BAI overlap](116-covariance-adaptive-bai-overlap-2026-09-29.md) | Audits direct covariance-aware BAI prior art and restricts the remaining claim to cost-aware complete retry rows, finite-bank pairing, and gold audit |
 | [117: Cost-aware BAI baseline](117-cost-aware-bai-baseline-2026-09-29.md) | Audits CABAI, separates deterministic/upper-bounded/realized retry charges, and fixes the three-cost quantities that must be reported separately |
+| [118: Known coefficient versus realized cell cost](118-known-coefficient-realized-cell-cost-2026-09-29.md) | Audits the runner's token billing and clarifies why known model coefficients do not imply a known complete retry-cell charge or hard dollar cap |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
