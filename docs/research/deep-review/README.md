@@ -133,6 +133,7 @@ prototype is novel or statistically certified:
 | [114: Cross-fitted edge-gate gap](114-cross-fitted-edge-gate-gap-2026-09-29.md) | Finds that SCCR reuses calibration observations in its race, so it is a heuristic ablation until disjoint pilot/race/confirmation folds are implemented |
 | [115: Permutation-controlled pairing gate](115-permutation-controlled-pairing-gate-2026-09-29.md) | Defines a finite-bank variance-gain statistic, shuffled-question negative control, cost gate, and failure cases for trusting same-question pairing |
 | [116: Covariance-adaptive BAI overlap](116-covariance-adaptive-bai-overlap-2026-09-29.md) | Audits direct covariance-aware BAI prior art and restricts the remaining claim to cost-aware complete retry rows, finite-bank pairing, and gold audit |
+| [117: Cost-aware BAI baseline](117-cost-aware-bai-baseline-2026-09-29.md) | Audits CABAI, separates deterministic/upper-bounded/realized retry charges, and fixes the three-cost quantities that must be reported separately |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
