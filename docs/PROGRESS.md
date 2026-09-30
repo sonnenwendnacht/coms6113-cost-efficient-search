@@ -363,6 +363,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   protection, then Phase B EGCR for a small active set or sharply unequal row
   charges. The switch must be predeclared/cross-fitted, and all claims remain
   conditional on equal-dollar controls.
+- Note 122 separates selector-visible verifier passes from evaluator-only
+  `final_correct`. Replay now has an explicit `--selector-reward` contract;
+  deployment-faithful claims require verifier-visible selection followed by a
+  gold held-out audit.
 - The latest source-and-research checkpoint is `2120b5a` on the main branch
   and `d4f3464` on the algorithm branch; both are pushed and included in PR
   #4.

@@ -97,6 +97,27 @@ def validate_trace_rectangle(
     return configs, search, evaluation
 
 
+def selector_reward(row: dict, field: str) -> float:
+    """Return the reward visible to a selector under an explicit contract.
+
+    ``final_correct`` is evaluator-only gold and is useful for an offline
+    oracle replay.  ``verifier_pass`` is the deployment-visible proxy: it is
+    true when the recorded answer-key-blind verifier accepted an attempt.
+    Keeping the choice explicit prevents a gold label from silently entering a
+    deployment-faithful search replay.
+    """
+
+    if field == "final_correct":
+        return float(row["final_correct"])
+    if field == "verifier_pass":
+        attempts = row.get("attempts")
+        if not isinstance(attempts, list):
+            raise ValueError("verifier_pass requires a recorded attempts list")
+        return float(any(bool(attempt.get("verifier_pass")) for attempt in attempts
+                         if isinstance(attempt, dict)))
+    raise ValueError(f"unsupported selector reward field: {field}")
+
+
 def row_slots_from_config_ids(config_ids: list[str]) -> list[tuple[int, ...]]:
     """Decode slash-separated complete rows into explicit Hamming slots.
 
@@ -126,6 +147,9 @@ def main() -> int:
     ap.add_argument("trace_dir", type=Path, help="completed run directory under results/runs")
     ap.add_argument("--output-dir", type=Path, default=None)
     ap.add_argument("--seed", action="append", type=int, default=None)
+    ap.add_argument("--selector-reward", choices=("final_correct", "verifier_pass"),
+                    default="final_correct",
+                    help="reward visible to selectors; final_correct is an offline gold oracle")
     ap.add_argument("--include-structured", action="store_true",
                     help="also replay CW-PLR, CACR, and SCCR at realized-cost fractions")
     args = ap.parse_args()
@@ -151,7 +175,8 @@ def main() -> int:
         row_slots = None
     config_index = {name: i for i, name in enumerate(configs)}
     search.sort(key=lambda row: (config_index[str(row["config_id"])], int(row["question_id"])))
-    rewards = [[float(row["final_correct"]) for row in search[i * search_n:(i + 1) * search_n]]
+    rewards = [[selector_reward(row, args.selector_reward)
+                for row in search[i * search_n:(i + 1) * search_n]]
                for i in range(len(configs))]
     costs = [[float(row["cost_usd"]) for row in search[i * search_n:(i + 1) * search_n]]
              for i in range(len(configs))]
@@ -202,12 +227,14 @@ def main() -> int:
         exhaustive_accuracy=exhaustive_accuracy,
         metadata={"trace_dir": str(trace_dir), "search_n": search_n, "evaluation_n": evaluation_n,
                   "configs": len(configs), "settings": len(default_settings()), "seeds": list(seeds),
+                  "selector_reward": args.selector_reward,
                   "exhaustive_reference_config": oracle, "exhaustive_search_cost": exhaustive_cost},
     )
     summary = {"output": paths, "configs": len(configs), "search_questions": search_n,
                "evaluation_questions": evaluation_n, "selector_runs": len(selector_runs),
                "exhaustive_search_cost": exhaustive_cost, "exhaustive_reference_config": oracle,
-               "exhaustive_heldout_accuracy": exhaustive_accuracy}
+               "exhaustive_heldout_accuracy": exhaustive_accuracy,
+               "selector_reward": args.selector_reward}
     print(json.dumps(summary, indent=2))
     return 0
 
