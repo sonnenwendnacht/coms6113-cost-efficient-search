@@ -342,6 +342,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   established when multiple arms can be queried together; the remaining
   conditional boundary is endpoint-specific realized retry cost, finite-bank
   question pairing, verifier paths, and independent gold audit.
+- Note 117 audits Cost Aware Best Arm Identification (CABAI). Cost-normalized
+  allocation is an explicit baseline; the experiment must declare whether cell
+  prices are deterministic, bounded random, or only realized, and report
+  profiling spend, held-out quality, and cold deployment cost separately.
 - The latest source-and-research checkpoint is `2120b5a` on the main branch
   and `d4f3464` on the algorithm branch; both are pushed and included in PR
   #4.
