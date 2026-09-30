@@ -303,8 +303,8 @@ Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
 - Note 106 records the no-free-lunch boundary: similarity can reduce variance
   for paid comparisons between observed complete rows, but cannot certify an
   unmeasured row without an explicit smoothness, factor, or proxy-error bound.
-- The latest substantive main note is `5f12060` and the algorithm note is
-  `2c1f7a9`; both are pushed and included in PR #4.
+- The latest substantive main note is `2d8b033` and the algorithm note is
+  `5c02300`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
