@@ -444,6 +444,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   requires cost/graph/question permutation controls, and states that the
   current trace's 99.93% verifier acceptance and 2.4% retry reach are a major
   confound for any retry-aware claim.
+- Note 142 proposes slot-gated factorial racing as a follow-up candidate. It
+  uses complete-row paired calibration, separate quality/reach/charge gates,
+  a direct exploration reserve, and complete-row confirmation; it does not
+  treat factorial structure itself as novel.
 - The latest source-and-research checkpoint is `2d90776` on the main branch
   and `3e3735b` on the algorithm branch; both are pushed and included in PR
   #4. Note 140 is being checkpointed now.
