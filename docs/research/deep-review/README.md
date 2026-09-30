@@ -122,6 +122,7 @@ prototype is novel or statistically certified:
 | [103: Gold visibility and selector target](103-gold-visibility-and-selector-target-2026-09-29.md) | Separates offline post-cell answer-key correctness from verifier-only deployment feedback |
 | [104: Gated complete-row racing decision](104-gated-complete-row-racing-decision-2026-09-29.md) | Recommends a cross-fitted gate among Cost-SySR, hub-anchored, and direct cost-aware racing with fail-closed fallbacks |
 | [105: Algorithm 2 state machine and prototype gap](105-algorithm2-state-machine-and-prototype-gap-2026-09-29.md) | Separates the heuristic matrix replay from a ledger-backed, gated, confidence-aware complete-row algorithm |
+| [106: No-free-lunch for unmeasured rows](106-no-free-lunch-for-unmeasured-rows-2026-09-29.md) | Proves why Hamming similarity and observed covariance cannot certify an unobserved row without a structural bias bound |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
