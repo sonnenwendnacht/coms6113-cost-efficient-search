@@ -315,6 +315,9 @@ Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
   ledgers, fixed cumulative-dollar checkpoints, no credit for a block crossing a
   checkpoint, and separate reporting of overshoot, held-out quality, and cold
   deployment cost.
+- Note 110 finds a structured-replay gate: CACR/SCCR receive explicit row
+  slots, but CW-PLR still infers neighbors from numeric row order. It must be
+  fixed or labeled as a random-graph ablation before any Hamming claim.
 - The latest substantive main note is `a5afad0` and the algorithm note is
   `3a5b173`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
