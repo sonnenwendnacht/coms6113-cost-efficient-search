@@ -8,8 +8,11 @@ are used only after a row has been selected, to attach held-out accuracy.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
 import sys
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -100,8 +103,9 @@ def validate_trace_rectangle(
 def selector_reward(row: dict, field: str) -> float:
     """Return the reward visible to a selector under an explicit contract.
 
-    ``final_correct`` is evaluator-only gold and is useful for an offline
-    oracle replay.  ``verifier_pass`` is the deployment-visible proxy: it is
+    ``final_correct`` is gold feedback on revealed search cells for labeled
+    offline profiling. It is never supplied to the workflow verifier.
+    ``verifier_pass`` is the deployment-visible proxy: it is
     true when the recorded answer-key-blind verifier accepted an attempt.
     Keeping the choice explicit prevents a gold label from silently entering a
     deployment-faithful search replay.
@@ -142,14 +146,59 @@ def row_slots_from_config_ids(config_ids: list[str]) -> list[tuple[int, ...]]:
     return slots
 
 
+def _digest(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def _run_key(run: dict) -> tuple:
+    return (run["algorithm"], run["parameter_name"],
+            json.dumps(run["parameter_value"], sort_keys=True), int(run["seed"]))
+
+
+def load_completed_runs(path: Path) -> dict[tuple, dict]:
+    """Recover only newline-committed selector results, rejecting duplicates."""
+    runs = {}
+    if not path.exists():
+        return runs
+    committed = 0
+    with path.open("rb") as handle:
+        for line in handle:
+            if not line.endswith(b"\n"):
+                break
+            run = json.loads(line)
+            key = _run_key(run)
+            if key in runs:
+                raise ValueError(f"duplicate checkpoint result: {key}")
+            runs[key] = run
+            committed += len(line)
+    if path.stat().st_size != committed:
+        with path.open("r+b") as handle:
+            handle.truncate(committed)
+    return runs
+
+
+def append_completed_run(path: Path, run: dict) -> None:
+    with path.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(run, allow_nan=False) + "\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("trace_dir", type=Path, help="completed run directory under results/runs")
     ap.add_argument("--output-dir", type=Path, default=None)
     ap.add_argument("--seed", action="append", type=int, default=None)
+    ap.add_argument("--algorithm", action="append", choices=sorted({s["algorithm"] for s in default_settings()}),
+                    help="limit to named standard selectors (repeatable); omitted means all")
+    ap.add_argument("--resume", action="store_true", help="reuse validated completed selector runs")
     ap.add_argument("--selector-reward", choices=("final_correct", "verifier_pass"),
                     default="final_correct",
-                    help="reward visible to selectors; final_correct is an offline gold oracle")
+                    help="final_correct: labeled offline profiling; verifier_pass: label-free proxy profiling")
     ap.add_argument("--include-structured", action="store_true",
                     help="also replay CW-PLR, CACR, and SCCR at realized-cost fractions")
     args = ap.parse_args()
@@ -188,7 +237,53 @@ def main() -> int:
         evaluation_cost_by_config[name].append(float(row["cost_usd"]))
     exhaustive_cost = sum(sum(row) for row in costs)
     seeds = args.seed if args.seed is not None else metadata.get("seeds", [6113, 6114, 6115, 6116, 6117, 6118, 6119, 6120])
-    selector_runs = run_sweep(rewards, costs, configs, settings=default_settings(), seeds=seeds)
+    settings = [s for s in default_settings() if args.algorithm is None or s["algorithm"] in args.algorithm]
+    output_dir = args.output_dir or (trace_dir / "selector-report")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    identity = {
+        "trace_sha256": _digest(trace_dir / "traces.json"),
+        "metadata_sha256": _digest(trace_dir / "metadata.json"),
+        "selector_reward": args.selector_reward,
+        "replay_sha256": _digest(Path(__file__)),
+        "selector_sources": {p.name: _digest(p) for p in sorted((ROOT / "src/retry_search").glob("*.py"))
+                             if p.name != "experiment1_report.py"},
+    }
+    manifest_path = output_dir / "replay-identity.json"
+    checkpoint_path = output_dir / "selector-checkpoint.jsonl"
+    if manifest_path.exists():
+        if not args.resume:
+            raise SystemExit("output already initialized; use --resume or a new output directory")
+        if json.loads(manifest_path.read_text()) != identity:
+            raise SystemExit("trace, reward contract, or selector source changed; use a new output directory")
+    else:
+        if checkpoint_path.exists():
+            raise SystemExit("checkpoint without identity manifest; use a new output directory")
+        manifest_path.write_text(json.dumps(identity, indent=2) + "\n")
+    completed = load_completed_runs(checkpoint_path)
+    selector_runs = []
+
+    def execute(setting: dict, seed: int, callback) -> None:
+        key_record = {**setting, "seed": int(seed)}
+        key = _run_key(key_record)
+        if key in completed:
+            result = completed[key]
+            print(f"cached {key}", flush=True)
+        else:
+            print(f"starting {key}", flush=True)
+            started = time.perf_counter()
+            result = {**callback(), **key_record}
+            result["selection_time_seconds"] = time.perf_counter() - started
+            # Commit the recommendation before consulting the audit split.
+            append_completed_run(checkpoint_path, result)
+            completed[key] = result
+            print(f"completed {key}: {result['search_evaluations']} cells, "
+                  f"{result['search_cost']:.6f} proxy USD, {result['selection_time_seconds']:.2f}s", flush=True)
+        selector_runs.append(dict(result))
+
+    for setting in settings:
+        for seed in seeds:
+            execute(setting, seed, lambda setting=setting, seed=seed:
+                    run_sweep(rewards, costs, configs, settings=[setting], seeds=[seed])[0])
     if args.include_structured:
         # These are explicit cost-budget settings, analogous to the budget
         # rows in AgentOpt's Table 7.  The methods see only search cells; the
@@ -196,19 +291,11 @@ def main() -> int:
         for fraction in (0.10, 0.20, 0.40, 0.60, 0.80, 1.00):
             budget = exhaustive_cost * fraction
             for seed in seeds:
-                structured = (
-                    ("cw_plr", run_cw_plr(rewards, costs, configs, cost_budget=budget, seed=int(seed),
-                                           row_slots=row_slots)),
-                    ("cacr", run_cacr(rewards, costs, configs, cost_budget=budget, seed=int(seed),
-                                       row_slots=row_slots)),
-                    ("sccr", run_sccr(rewards, costs, configs, cost_budget=budget, seed=int(seed),
-                                       row_slots=row_slots)),
-                )
-                for algorithm, result in structured:
-                    result.update({"algorithm": algorithm, "parameter_name": "cost_fraction",
-                                   "parameter_value": fraction, "budget_basis": "realized_cost_fraction",
-                                   "seed": int(seed)})
-                    selector_runs.append(result)
+                for algorithm, function in (("cw_plr", run_cw_plr), ("cacr", run_cacr), ("sccr", run_sccr)):
+                    setting = {"algorithm": algorithm, "parameter_name": "cost_fraction",
+                               "parameter_value": fraction, "budget_basis": "realized_cost_fraction"}
+                    execute(setting, seed, lambda function=function, seed=seed, budget=budget:
+                            function(rewards, costs, configs, cost_budget=budget, seed=int(seed), row_slots=row_slots))
     for run in selector_runs:
         selected = str(run["selected_config_id"])
         run["heldout_accuracy"] = sum(evaluation_by_config[selected]) / len(evaluation_by_config[selected])
@@ -219,15 +306,16 @@ def main() -> int:
         name,
     ))
     exhaustive_accuracy = sum(evaluation_by_config[oracle]) / len(evaluation_by_config[oracle])
-    output_dir = args.output_dir or (trace_dir / "selector-report")
     paths = write_report(
         selector_runs,
         exhaustive_search_cost=exhaustive_cost,
         output_dir=output_dir,
         exhaustive_accuracy=exhaustive_accuracy,
         metadata={"trace_dir": str(trace_dir), "search_n": search_n, "evaluation_n": evaluation_n,
-                  "configs": len(configs), "settings": len(default_settings()), "seeds": list(seeds),
+                  "configs": len(configs), "settings": len(settings), "seeds": list(seeds),
                   "selector_reward": args.selector_reward,
+                  "exhaustive_reference_heldout_mean_cost": sum(evaluation_cost_by_config[oracle]) / evaluation_n,
+                  "replay_identity": identity,
                   "exhaustive_reference_config": oracle, "exhaustive_search_cost": exhaustive_cost},
     )
     summary = {"output": paths, "configs": len(configs), "search_questions": search_n,
