@@ -318,8 +318,8 @@ Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
 - Note 110 finds a structured-replay gate: CACR/SCCR receive explicit row
   slots, but CW-PLR still infers neighbors from numeric row order. It must be
   fixed or labeled as a random-graph ablation before any Hamming claim.
-- The latest substantive main note is `a5afad0` and the algorithm note is
-  `3a5b173`; both are pushed and included in PR #4.
+- The latest substantive main note is `9c01811` and the algorithm note is
+  `191aa8b`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
