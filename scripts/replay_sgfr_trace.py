@@ -79,7 +79,7 @@ def main() -> int:
             for seed in seeds:
                 setting = {"algorithm": "sgfr", "parameter_name": "budget_fraction",
                            "parameter_value": fraction, "budget_basis": "cell_fraction", "seed": int(seed)}
-                key = tuple(setting.items())
+                key = REPLAY._run_key(setting)
                 if key in completed:
                     result = dict(completed[key])
                 else:
