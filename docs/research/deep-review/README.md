@@ -128,6 +128,7 @@ prototype is novel or statistically certified:
 | [109: Realized-dollar curve protocol](109-realized-dollar-curve-protocol-2026-09-29.md) | Defines event ledgers, checkpoint reconstruction, overshoot handling, and parameter-pair reporting at common profiling dollars |
 | [110: Explicit slot audit for structured replay](110-explicit-slot-audit-for-structured-replay-2026-09-29.md) | Finds CW-PLR still infers Hamming neighbors from numeric row order and requires an explicit row-slot map before structured claims |
 | [111: Explicit slot fix and regression gate](111-explicit-slot-fix-and-regression-gate-2026-09-29.md) | Records the CW-PLR/replay repair, its syntax-only verification, and the remaining equal-dollar and permutation-control gate |
+| [112: Graph-similarity prior-art boundary](112-graph-similarity-prior-art-boundary-2026-09-29.md) | Audits graph-feedback, clustered-BAI, and structured-BAI overlap and restricts Algorithm 2 to paid paired evidence with graph-guided challenger ordering |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
