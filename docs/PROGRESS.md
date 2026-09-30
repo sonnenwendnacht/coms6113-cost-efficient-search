@@ -7,6 +7,7 @@ Updated: 2026-09-30 17:42 ET (SGFR audit and Experiment 2 protocol correction).
 ## Research branch
 
 - Correction status: the first SGFR gate/racing implementation and curves are withdrawn pending the source audit; no corrected SGFR result has been run.
+- The replacement design is CRPR: cross-fitted reach-aware pair racing. It separates calibration, race, confirmation, and final-audit blocks; no CRPR implementation or result exists yet.
 
 - Algorithm branch: `research/algorithm2-sequential-comparison`.
 - Main experiment branch: `research/experiment1-nine-models`.

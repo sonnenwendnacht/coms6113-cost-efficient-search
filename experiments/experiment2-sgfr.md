@@ -29,3 +29,6 @@ Use a new response matrix or a registered resampling design with:
 7. Separate reporting of profiling dollars, held-out final correctness, verifier pass rate, false-pass/false-reject rates, retry reach, and cold deployment cost.
 
 Do not tune the budget parameter using the audit split. Do not call an unvisited row recommended. If SGFR does not beat direct paired racing at matched realized dollars, preserve that negative result.
+
+
+The corrected candidate is now specified as cross-fitted reach-aware pair racing (CRPR) in [deep-review note 147](../docs/research/deep-review/147-corrected-cross-fitted-racing-design-2026-09-30.md). The old SGFR code does not implement CRPR and must not be used for a confirmatory run.
