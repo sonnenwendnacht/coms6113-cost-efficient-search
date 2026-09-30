@@ -387,6 +387,11 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   It separates a soft realized-dollar evaluation track from a strict cap that
   would require deterministic per-cell reservations, and records why partial
   retry blocks must not be ranked as complete rows.
+- Note 128 proposes graph-gated cost-aware residual racing (GCRR):
+  cross-fitted paired residuals on complete rows, gated before propagation,
+  with similarity used for allocation/elimination rather than free neighbor
+  feedback. It treats graph smoothness, paired BAI, and resource-rationed BAI
+  as prior art and keeps the novelty claim conditional.
 - The latest source-and-research checkpoint is `2120b5a` on the main branch
   and `d4f3464` on the algorithm branch; both are pushed and included in PR
   #4.
