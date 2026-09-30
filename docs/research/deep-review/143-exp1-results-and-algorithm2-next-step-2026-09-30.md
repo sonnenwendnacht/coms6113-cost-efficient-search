@@ -1,6 +1,7 @@
 # Experiment 1 results and the next algorithm
 
 Updated: 2026-09-30 14:36 ET
+> **Correction (2026-09-30 17:42 ET):** The original SGFR implementation was later found to have an empty racing candidate list and a direct-mean recommendation path. Its replay artifacts are preserved only as exploratory row-sampling outputs. See [note 146](146-withdraw-sgfr-curve-and-freeze-e2-2026-09-30.md); do not treat the SGFR numbers below as evidence for a gated method.
 
 This note records what the completed fixed trace can support. It does not claim that the current heuristic is a publishable improvement.
 
