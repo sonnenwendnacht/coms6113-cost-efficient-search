@@ -330,6 +330,10 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   residual screening, reserved-dollar gating, paid paired challenger races,
   direct-evidence stopping, and an independent audit. It is a conditional
   protocol proposal, not a demonstrated result or novelty claim.
+- Note 114 audits SCCR against that contract: its calibration block is reused
+  in the race, so its gate is not cross-fitted. SCCR remains a heuristic
+  ablation until disjoint pilot/race/confirmation folds and multiplicity-aware
+  edge bounds are added.
 - The latest source-and-research checkpoint is `2120b5a` on the main branch
   and `d4f3464` on the algorithm branch; both are pushed and included in PR
   #4.
