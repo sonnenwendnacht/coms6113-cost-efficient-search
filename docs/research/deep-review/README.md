@@ -158,6 +158,7 @@ prototype is novel or statistically certified:
 | [139: Costed difference-probe rule](139-costed-difference-probe-rule-2026-09-30.md) | Gives a concrete RAGE-style reduction-per-new-charge allocation heuristic with cached-anchor accounting and conservative fallback |
 | [140: Correlated-arm and costly-observation boundary](140-correlated-arm-cost-boundary-2026-09-30.md) | Audits covariance-adaptive BAI, correlated-arm BAI, and costly-observation methods; narrows the gap to question-indexed paired cells with response-dependent retry charges |
 | [141: Experiment 2 fixed-trace protocol](141-experiment2-fixed-trace-protocol-2026-09-30.md) | Defines the replay-only E2 comparison, separate labeled/proxy rewards, required controls, and the retry-reach decision rule |
+| [142: Slot-gated factorial racing](142-slot-gated-factorial-racing-2026-09-30.md) | Proposes a slot-specific, cross-fitted gate that still recommends complete rows and separates quality effects from rare retry-charge effects |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
