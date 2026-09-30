@@ -142,6 +142,8 @@ prototype is novel or statistically certified:
 | [123: SCOPE verifier-calibration boundary](123-scope-verifier-calibration-boundary-2026-09-29.md) | Audits SCOPE's conformal accepted-set guarantee and explains why a single retry verifier needs labeled calibration and path-aware cost analysis |
 | [124: Conditional hybrid correctness target](124-conditional-hybrid-correctness-target-2026-09-29.md) | States the finite-bank epsilon-best theorem target, confidence/cost assumptions, and the empirical claims that remain unproved |
 | [125: Similarity-cost decoupling failures](125-similarity-cost-decoupling-failures-2026-09-29.md) | Gives counterexamples where low paired reward variance fails to save money and requires separate quality-gain and cost-gain gates |
+| [126: Cost-SySRs prototype](126-cost-sysrs-prototype-2026-09-29.md) | Adds an unexecuted synchronized successive-rejects baseline for complete retry cells with explicit realized-cost overshoot diagnostics |
+| [127: Resource-constrained BAI boundary](127-resource-constrained-bai-boundary-2026-09-29.md) | Separates a soft realized-spend comparison from a strict resource cap and records the SH-RR prior-art boundary |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.
