@@ -41,9 +41,9 @@ The full-gold replay is incomplete for `graph_residual_racing`: all seeds are pr
 
 ## Verifier-proxy replay
 
-The deployment-faithful replay uses `verifier_pass` for search selection and attaches `final_correct` only after selection. Its checkpoint is at `results/runs/exp1-nine-local-20260930/proxy-similarity/selector-checkpoint.jsonl`. It currently contains the similarity selector through fraction 0.30; the fraction 0.50 settings are being resumed. Until the remaining settings and report-only aggregation finish, no proxy curve should be treated as complete.
+The deployment-faithful replay uses `verifier_pass` for search selection and attaches `final_correct` only after selection. Its checkpoint is at `results/runs/exp1-nine-local-20260930/proxy-similarity/selector-checkpoint.jsonl`, and the completed report is `results/runs/exp1-nine-local-20260930/proxy-similarity/selector-table.md` with plot `accuracy-search-cost.png`. All seven fractions from 0.01 through 0.50 have eight seeds. The exhaustive verifier-proxy reference selects `qwen2.5-0.5b/tinyllama-1.1b/tinyllama-1.1b` and reaches 18.5% gold audit accuracy. Do not compare this proxy curve directly with the gold-labeled curve as if they optimize the same objective.
 
-The partial proxy replay already exposes the central confound: verifier pass is near one for nearly every selected row, while held-out answer-key accuracy is roughly 18.5–21.9% for the tested low and medium fractions. A verifier-only selector therefore cannot be presented as an accuracy selector without a calibration assumption or a paid gold-labeled confirmation stage.
+The completed proxy replay exposes the central confound: verifier pass is near one for nearly every selected row, while held-out answer-key accuracy is roughly 18.5–21.9% for the tested low and medium fractions. A verifier-only selector therefore cannot be presented as an accuracy selector without a calibration assumption or a paid gold-labeled confirmation stage.
 
 ## Structural diagnosis
 
