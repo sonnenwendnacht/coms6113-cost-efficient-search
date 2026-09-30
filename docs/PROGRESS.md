@@ -311,8 +311,8 @@ Updated: 2026-09-29 20:07 ET (research-only window; no experiments launched).
   post-hoc audit split, but structured caps use a full-matrix cost denominator
   while standard selectors use cell fractions; equal-dollar curves require a
   common ledger/oracle wrapper.
-- The latest substantive main note is `2d1145d` and the algorithm note is
-  `ba256c4`; both are pushed and included in PR #4.
+- The latest substantive main note is `8ae5c16` and the algorithm note is
+  `0b3da35`; both are pushed and included in PR #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
 
