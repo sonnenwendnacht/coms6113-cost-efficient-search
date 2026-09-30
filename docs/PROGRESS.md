@@ -428,8 +428,8 @@ Updated: 2026-09-29 20:28 ET (research-only window; no experiments launched).
   product-space factorization as novelty and requires interaction-aware,
   cross-validated residuals because retry slots see earlier outputs and
   verifier feedback.
-- The latest source-and-research checkpoint is `da5fd12` on the main branch
-  and `cd6cf1a` on the algorithm branch; both are pushed and included in PR
+- The latest source-and-research checkpoint is `12330a7` on the main branch
+  and `d75988f` on the algorithm branch; both are pushed and included in PR
   #4.
 - The current Algorithm 2 checkpoint is pushed on
   `research/algorithm2-sequential-comparison` and is included in PR #4.
