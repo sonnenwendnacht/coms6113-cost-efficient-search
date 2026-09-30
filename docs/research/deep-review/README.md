@@ -127,6 +127,7 @@ prototype is novel or statistically certified:
 | [108: Replay oracle and budget normalization audit](108-replay-oracle-and-budget-normalization-audit-2026-09-29.md) | Distinguishes post-hoc full-matrix replay from an online cell oracle and flags mixed cell-versus-dollar budget curves |
 | [109: Realized-dollar curve protocol](109-realized-dollar-curve-protocol-2026-09-29.md) | Defines event ledgers, checkpoint reconstruction, overshoot handling, and parameter-pair reporting at common profiling dollars |
 | [110: Explicit slot audit for structured replay](110-explicit-slot-audit-for-structured-replay-2026-09-29.md) | Finds CW-PLR still infers Hamming neighbors from numeric row order and requires an explicit row-slot map before structured claims |
+| [111: Explicit slot fix and regression gate](111-explicit-slot-fix-and-regression-gate-2026-09-29.md) | Records the CW-PLR/replay repair, its syntax-only verification, and the remaining equal-dollar and permutation-control gate |
 
 The 2026-09-29 review window launched no new experiments, tests, replays, or
 model/API calls. The active long trace was left untouched.

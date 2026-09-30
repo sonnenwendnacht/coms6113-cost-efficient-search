@@ -22,6 +22,23 @@ class PairwiseLocalRacingTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             run_cw_plr(self.rewards, self.costs, self.ids, cell_budget=4, cost_budget=4, seed=0)
 
+    def test_cw_plr_accepts_explicit_row_slots(self):
+        slots = [(row // 4, row % 4) for row in range(8)]
+        result = run_cw_plr(
+            self.rewards,
+            self.costs,
+            self.ids,
+            cell_budget=24,
+            seed=5,
+            row_slots=slots,
+        )
+        self.assertIn(result["selected_config_id"], self.ids)
+
+    def test_cw_plr_rejects_duplicate_row_slots(self):
+        slots = [(0, 0)] * len(self.ids)
+        with self.assertRaises(ValueError):
+            run_cw_plr(self.rewards, self.costs, self.ids, cell_budget=8, row_slots=slots)
+
     def test_cacr_returns_a_directly_observed_row(self):
         result = run_cacr(self.rewards, self.costs, self.ids, cell_budget=24, seed=3)
         self.assertIn(result["selected_config_id"], self.ids)

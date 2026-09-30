@@ -172,7 +172,8 @@ def main() -> int:
             budget = exhaustive_cost * fraction
             for seed in seeds:
                 structured = (
-                    ("cw_plr", run_cw_plr(rewards, costs, configs, cost_budget=budget, seed=int(seed))),
+                    ("cw_plr", run_cw_plr(rewards, costs, configs, cost_budget=budget, seed=int(seed),
+                                           row_slots=row_slots)),
                     ("cacr", run_cacr(rewards, costs, configs, cost_budget=budget, seed=int(seed),
                                        row_slots=row_slots)),
                     ("sccr", run_sccr(rewards, costs, configs, cost_budget=budget, seed=int(seed),
