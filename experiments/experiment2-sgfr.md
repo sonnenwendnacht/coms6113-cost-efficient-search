@@ -2,7 +2,7 @@
 
 Status: protocol only; no live/API run is authorized by this record.
 
-The historical SGFR prototype is retained for auditability, but it is not the primary next algorithm. Same-question pairing and covariance transfer are established common-random-number ranking-and-selection techniques. The required primary baseline is CW-CRN-R&S (cost-weighted common-random-number ranking with missing observations); CRPR is a separately labelled cross-fitted transfer ablation. See deep-review notes 150–152 for the prior-art correction, staged run, and runner contract.
+The historical SGFR prototype is retained for auditability, but it is not the primary next algorithm. Same-question pairing and covariance transfer are established common-random-number ranking-and-selection techniques. The required primary baseline is CW-CRN-R&S (cost-weighted common-random-number ranking with missing observations); CRPR is a separately labelled cross-fitted transfer ablation. See deep-review notes 150–153 for the prior-art correction, staged run, runner contract, and correlated-resource baseline audit.
 
 SGFR is a candidate allocator for complete ordered retry rows. It never treats a retry suffix as a separate arm and never reuses model output or a workflow prefix. A paid cell is one complete row on one question. The prototype maintains separate diagnostics for correctness, whether a retry was reached, and realized charge. It reserves direct row exploration and confirms the finalists on questions held out from calibration and racing.
 
@@ -26,7 +26,7 @@ Use a new response matrix or a registered resampling design with:
 2. An ordinary early-stop stratum plus a forced-retry calibration stratum, so every retry coordinate is observed with positive probability.
 3. A verifier that never sees the answer key during deployment; a separate gold confirmation block is allowed only after profiling and must be charged.
 4. The same realized-cost ledger for every method, including verifier calls and failed attempts.
-5. Random, uniform, Matrix UCB-E, categorical BO, arm elimination, hill climbing, Cost-SySR or equivalent similarity, direct paired racing, and an irace/FocusedILS-style common-question racing baseline.
+5. Random, uniform, Matrix UCB-E, categorical BO, arm elimination, hill climbing, Cost-SySR or equivalent similarity, direct paired racing, CW-CRN-R&S, a C-LUCB-style correlated-arm control when its bound assumptions can be registered, an SH-RR-style resource-rationing baseline, and an irace/FocusedILS-style common-question racing baseline.
 6. Shuffled row-slot, question-permutation, unit-cost, and cost-permutation controls.
 7. Separate reporting of profiling dollars, held-out final correctness, verifier pass rate, false-pass/false-reject rates, retry reach, and cold deployment cost.
 

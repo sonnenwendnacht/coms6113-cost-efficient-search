@@ -325,3 +325,4 @@ The current recommendation is to pursue the partial-execution allocation hypothe
 | [150: Common-random-number prior-art correction](150-common-random-number-prior-art-correction-2026-09-30.md) | Downgrades pairing/correlation as novelty and makes cost-weighted missing-data CRN ranking the required baseline |
 | [151: Staged Experiment 2 plan](151-staged-experiment2-plan-2026-09-30.md) | Separates a 27-row mechanics gate from the later 729-row research run under limited compute |
 | [152: Runner gap for Experiment 2](152-runner-gap-for-experiment2-2026-09-30.md) | Specifies the separate protocol-aware runner needed for block isolation, immutable caps, and audit leakage prevention |
+| [153: Correlated-resource baseline audit](153-correlated-resource-baseline-audit-2026-09-30.md) | Adds C-LUCB and resource-rationed sequential halving to the required prior-art baselines |
