@@ -9,6 +9,7 @@ Updated: 2026-09-30 18:05 ET (SGFR audit, CRPR decision record, and replay-ident
 - Current main-experiment branch checkpoint before this note: `ed26307` (`research/experiment1-nine-models`), pushed to GitHub; worktree is clean.
 - Correction status: the first SGFR gate/racing implementation and curves are withdrawn pending the source audit; no corrected SGFR result has been run.
 - The replacement design is now staged around CW-CRN-R&S (cost-weighted common-random-number ranking with missing observations) as the required baseline; CRPR is only a transfer ablation. The decision record is `docs/research/deep-review/148-experiment2-decision-record-2026-09-30.md`, and prior-art correction note 150 records why pairing/correlation alone is not novel. CPU-only stress test note 149 shows the original-solver edge family needs the largest direct reserve.
+- The staged execution plan is in note 151: a 27-row mechanics gate with a sparse nine-edge panel, followed only after invariant tests by a fresh 729-row run. The 27-row stage is explicitly not evidence and cannot tune the later run.
 
 - Algorithm branch: `research/algorithm2-sequential-comparison`.
 - Main experiment branch: `research/experiment1-nine-models`.
