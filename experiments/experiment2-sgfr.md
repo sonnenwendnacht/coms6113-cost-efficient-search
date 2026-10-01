@@ -1,6 +1,8 @@
-# Experiment 2: slot-gated factorial racing
+# Experiment 2: retry-aware cost-rationed ranking and selection
 
-Status: protocol only until the SGFR implementation audit is corrected; no live/API run is authorized by this record.
+Status: protocol only; no live/API run is authorized by this record.
+
+The historical SGFR prototype is retained for auditability, but it is not the primary next algorithm. Same-question pairing and covariance transfer are established common-random-number ranking-and-selection techniques. The required primary baseline is CW-CRN-R&S (cost-weighted common-random-number ranking with missing observations); CRPR is a separately labelled cross-fitted transfer ablation. See deep-review notes 150–152 for the prior-art correction, staged run, and runner contract.
 
 SGFR is a candidate allocator for complete ordered retry rows. It never treats a retry suffix as a separate arm and never reuses model output or a workflow prefix. A paid cell is one complete row on one question. The prototype maintains separate diagnostics for correctness, whether a retry was reached, and realized charge. It reserves direct row exploration and confirms the finalists on questions held out from calibration and racing.
 
@@ -31,4 +33,4 @@ Use a new response matrix or a registered resampling design with:
 Do not tune the budget parameter using the audit split. Do not call an unvisited row recommended. If SGFR does not beat direct paired racing at matched realized dollars, preserve that negative result.
 
 
-The corrected candidate is now specified as cross-fitted reach-aware pair racing (CRPR) in [deep-review note 147](../docs/research/deep-review/147-corrected-cross-fitted-racing-design-2026-09-30.md). The old SGFR code does not implement CRPR and must not be used for a confirmatory run.
+The corrected candidate is specified as cross-fitted reach-aware pair racing (CRPR) in [deep-review note 147](../docs/research/deep-review/147-corrected-cross-fitted-racing-design-2026-09-30.md), but it remains an ablation rather than an assumed novelty claim. The old SGFR code does not implement CRPR and must not be used for a confirmatory run. The staged 27-row mechanics gate and separate runner requirements are in [notes 151](../docs/research/deep-review/151-staged-experiment2-plan-2026-09-30.md) and [152](../docs/research/deep-review/152-runner-gap-for-experiment2-2026-09-30.md).
