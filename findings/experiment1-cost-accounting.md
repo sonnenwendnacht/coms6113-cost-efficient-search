@@ -31,7 +31,7 @@ charged because the request occurred.
 
 ## What Experiment 1 records
 
-The tracked [cost matrix](../results/experiment1-nine-model-cost-usd.csv) has
+The tracked [cost matrix](experiment1-nine-model-cost-usd.csv) has
 one named configuration per row and 200 search plus 200 audit columns. Each
 cell is the completed workflow's realized proxy charge. The underlying trace
 also records the individual calls, input tokens, model coefficients, reached
@@ -54,5 +54,5 @@ This accounting is the rule that Experiment 2 must preserve. Any cost-aware
 screening method must track quality, retry reach, and realized charge
 separately, and must never treat an uncalled retry as a failed or free call.
 
-See the [detailed Experiment 2 algorithm specification](../experiment2-algorithm.pdf)
+See the [detailed Experiment 2 algorithm specification](experiment2-algorithm.pdf)
 and the [cost export script](../scripts/export_experiment1_cost_csv.py).

@@ -3,7 +3,7 @@
 Updated: October 2, 2026
 
 This note is the running research summary that starts from the detailed
-[Experiment 2 algorithm specification](../experiment2-algorithm.pdf) and
+[Experiment 2 algorithm specification](experiment2-algorithm.pdf) and
 incorporates the findings from the completed Experiment 1 trace, including
 the binary correctness matrix, realized cost matrix, row-similarity analysis,
 and the cost-accounting discussion.
@@ -222,11 +222,11 @@ workflow cells:
 
 Tracked compact exports are:
 
-* [binary correctness matrix](../results/experiment1-nine-model-correctness.csv);
-* [realized cost matrix](../results/experiment1-nine-model-cost-usd.csv);
-* [row-similarity statistics](../results/experiment1-similarity-analysis.csv);
-* [row-similarity report](../results/experiment1-similarity-analysis.md);
-* [row-similarity plot](../results/experiment1-similarity-analysis.png).
+* [binary correctness matrix](experiment1-nine-model-correctness.csv);
+* [realized cost matrix](experiment1-nine-model-cost-usd.csv);
+* [row-similarity statistics](experiment1-similarity-analysis.csv);
+* [row-similarity report](experiment1-similarity-analysis.md);
+* [row-similarity plot](experiment1-similarity-analysis.png).
 
 The raw model responses and full trace remain ignored because they are large
 generated artifacts. The compact matrices contain row names and only the
@@ -381,4 +381,3 @@ The audit operation must reject calls before a row is frozen and must never
 give answer keys to the selector. Every paid complete cell must be recorded,
 including early-stopped and failed calls. The first run should use invented
 data and deterministic leakage/accounting tests before any GPU or API run.
-
