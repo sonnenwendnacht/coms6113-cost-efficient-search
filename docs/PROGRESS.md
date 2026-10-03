@@ -1,5 +1,20 @@
 # Resumable checkpoint
 
+Updated: 2026-10-03 12:00 ET (completed 9-model Algorithm 2 replay).
+
+- The full 9-model, 729-row Algorithm 2 replay is complete under
+  `results/runs/exp2-nine-model-algorithm2-20261003/`. Similarity-annealed UCB,
+  Random, and Matrix UCB-E each have seven budgets and eight seeds (168
+  checkpointed selector runs). At a 0.20 cell fraction, similarity-annealed
+  UCB reaches the exhaustive 38.5% audit score at mean proxy search cost
+  $1.39199 versus $8.20715 exhaustive. The tracked summary and artifacts are
+  under `findings/experiment2-nine-model-algorithm2-results.md`.
+- This is a counterfactual selector replay over the completed local Experiment
+  1 response matrix, not a fresh model/API generation. The natural verifier
+  reached retries in only 2.42% of workflows, so this result does not validate
+  retry-censoring improvements. The graph-residual variant was started only as
+  a secondary checkpoint and is excluded from the primary table.
+
 Updated: 2026-09-30 18:05 ET (SGFR audit, CRPR decision record, and replay-identity checkpoint).
 
 - Experiment 1 results are recorded in `docs/research/deep-review/143-exp1-results-and-algorithm2-next-step-2026-09-30.md`; the first SGFR claim in that note is superseded by correction note 146. Gold-labeled replay tables and plots are under `results/runs/exp1-nine-local-20260930/full-gold/`; verifier-proxy replay is complete under `results/runs/exp1-nine-local-20260930/proxy-similarity/`; its checkpoint recovery and single-writer lock are recorded in deep-review note 145. The gold graph-residual high-budget settings remain intentionally partial. SGFR’s first implementation was audited and its replay curves are withdrawn as a gate/racing result; preserved artifacts are exploratory row-sampling outputs. A corrected implementation is pending. Experiment 2 now requires calibration, fresh selection confirmation, and a never-exposed final audit, plus natural and forced-retry strata.

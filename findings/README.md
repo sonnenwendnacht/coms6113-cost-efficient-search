@@ -18,3 +18,7 @@ The complete findings artifacts are kept directly in this folder:
 - [Realized cost matrix](experiment1-nine-model-cost-usd.csv)
 - [Similarity statistics](experiment1-similarity-analysis.csv)
 - [Similarity analysis](experiment1-similarity-analysis.md)
+- [Experiment 2 nine-model Algorithm 2 results](experiment2-nine-model-algorithm2-results.md)
+- [Experiment 2 selector table](experiment2-nine-model-algorithm2-selector-table.csv)
+- [Experiment 2 accuracy/search-cost plot](experiment2-nine-model-algorithm2-accuracy-search-cost.png)
+- [Experiment 2 selector checkpoint](experiment2-nine-model-algorithm2-selector-checkpoint.jsonl)
