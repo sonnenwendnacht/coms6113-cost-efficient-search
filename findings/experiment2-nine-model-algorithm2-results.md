@@ -33,6 +33,12 @@ This is the completed 9-model, 729-row replay of the similarity-annealed UCB Alg
 | Brute-force reference | 1.00 | 38.50% | 145,800 | $8.20715 | 0.0% |
 
 At the 0.20 cell fraction, Algorithm 2 reaches the exhaustive audit score: **38.50%**, at mean search cost **$1.39199** (83.0% below exhaustive). Random reaches the same score at 0.10 but costs $0.81388; at 0.20 it costs $1.65034. Matrix UCB-E reaches the score at 0.50 and costs $4.34982. These are fixed-split offline replay results, not a publication claim or API-price result.
+
+## Deployment-visible reward check
+
+The same Algorithm 2 implementation was also replayed using only the answer-key-blind verifier pass as its search reward. On that separate replay, the best held-out accuracy was **21.88%** at the 0.025 cell fraction; at 0.10 and above it selected rows with **18.50%** held-out accuracy, while the verifier-proxy exhaustive reference was also only **18.50%**. This gap matters: the 38.50% result above uses gold correctness during search and is therefore an offline diagnostic, not a deployment claim.
+
+The verifier-proxy artifacts are retained under `results/runs/exp1-nine-local-20260930/proxy-similarity/`.
 ## Checkpoint and provenance
 - Immutable source trace: `/home/gabi/agentic_6113/results/runs/exp1-nine-local-20260927-proper/traces.json` (729 × 400 completed workflows).
 - Selector checkpoint: `/home/gabi/agentic_6113/results/runs/exp2-nine-model-algorithm2-20261003/selector-checkpoint.jsonl` (168 newline-committed records).
