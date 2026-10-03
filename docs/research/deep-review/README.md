@@ -18,6 +18,151 @@ The strongest candidate direction is **adaptive evaluation of shared prefixes an
 
 GittinsEval, AgentOpt, and VineLM were read through their appendices. Selected SySRs theory/proofs and three public repositories were inspected. Reading depth for other papers is stated individually; downloaded does not mean fully reviewed. Public repository snapshots are pinned, but not assumed to be the revisions that generated published figures. The mathematics in note 03 and the exact diagnostic arithmetic received a separate assistant review. That is a useful check, not external peer review.
 
+## 2026-09-29 research extensions
+
+The later notes are a dated research record, not a claim that the current
+prototype is novel or statistically certified:
+
+| Note | What it establishes |
+| --- | --- |
+| [08: Similarity theory](08-similarity-theory-2026-09-29.md) | Validity limits of paired row racing and a conservative block design |
+| [09: HPO alternatives](09-hpo-alternatives-2026-09-29.md) | Robust structured BO/pure exploration alternatives and prior-art boundaries |
+| [10: Similarity-gated exploration](10-similarity-gated-row-exploration-2026-09-29.md) | A temporary heuristic design and its counterexamples |
+| [11: Research synthesis](11-research-synthesis-2026-09-29.md) | Candidate contribution, falsification plan, and novelty limits |
+| [12: GittinsEval audit](12-mentor-gittinseval-audit-2026-09-29.md) | Exact differences between the mentor paper's arm model and complete retry rows |
+| [13: Correlated-resource BAI theory](13-correlated-resource-bai-theory-2026-09-29.md) | A conditional theory target combining paired observations and realized charges |
+| [14: Constrained-BAI audit](14-constrained-bai-audit-2026-09-29.md) | Why outcome-dependent cost alone is already covered by prior work |
+| [15: Inference corrections](15-inference-corrections-2026-09-29.md) | Corrections for cost intervals, optional stopping, finite-population streams, and search reward semantics |
+| [16: Structured correlated KG](16-structured-knowledge-gradient-2026-09-29.md) | One coherent model-based Algorithm 2 candidate using complete-row observations only |
+| [17: Correlated BAI and stopping](17-correlated-bai-and-stopping-2026-09-29.md) | Same-question covariance, pseudo-reward limits, and time-uniform stopping requirements |
+| [18: Cost-aware KG boundary](18-cost-aware-kg-boundary-2026-09-29.md) | Existing cost-aware KG/Pandora, hierarchical KG, proxy correction, and the narrower novelty boundary |
+| [19: Generative proxy boundary](19-generative-proxy-boundary-2026-09-29.md) | Why a learned row proxy needs paired calibration and residual correction |
+| [20: Transfer-BAI structural boundary](20-transfer-bai-structural-boundary-2026-09-29.md) | Why the 217-feature map is a working prior unless its transfer relation is certified |
+| [21: Spectral BAI prior art](21-spectral-bai-prior-art-2026-09-29.md) | Why a similarity graph and Track-and-Stop allocation are established baselines |
+| [22: Common-random-number ranking](22-common-random-number-ranking-2026-09-29.md) | Why same-question pairing is a CRN ranking-and-selection baseline |
+| [23: Contextual BAI boundary](23-contextual-bai-boundary-2026-09-29.md) | Why question difficulty makes the target either finite-population or contextual BAI |
+| [24: Finite-population confidence sequences](24-finite-population-confidence-sequences-2026-09-29.md) | Validity for registered MathQA permutations, paired streams, and adaptive opening |
+| [25: Offline-evidence bias boundary](25-offline-bias-boundary-2026-09-29.md) | Why prior traces and similarity models need a shift/bias assumption |
+| [26: Cost-performance BAI prior art](26-cost-performance-bai-prior-art-2026-09-29.md) | Why accuracy-versus-search-cost is already a formal BAI objective |
+| [27: Cost-aware paired racing design](27-cost-aware-paired-racing-design-2026-09-29.md) | A transparent candidate combining paired CSs, finite MathQA streams, and realized charges |
+| [28: Hub-anchor paired racing](28-hub-anchor-paired-racing-2026-09-29.md) | Reusing already-paid cheap row cells for many paired comparisons |
+| [29: Retry cost semantics](29-retry-cost-semantics-audit-2026-09-29.md) | Verified distinction between known price coefficients and path-dependent cell charges |
+| [30: Hub-anchor break-even](30-hub-anchor-break-even-2026-09-29.md) | Cost-saving condition and confirmation requirements for a shared complete-row anchor |
+| [31: Hub-anchored Algorithm 2 protocol](31-hub-anchored-algorithm2-protocol-2026-09-29.md) | A complete-row, no-prefix protocol with reservations, fallback, and falsification gates |
+| [32: Hard-cap reservation](32-hard-cap-reservation-2026-09-29.md) | How bounded retries and tokenizers produce a defensible action charge bound |
+| [33: Replay protocol audit](33-replay-protocol-audit-2026-09-29.md) | Why the current full trace is a leak-free offline benchmark but not yet a live hub ledger or strict equal-dollar comparison |
+| [34: Ledger-backed hub specification](34-ledger-backed-hub-spec-2026-09-29.md) | Concrete oracle, manifest, reservation, confirmation, and reporting contract for Algorithm 2 |
+| [35: Hub amortization baseline](35-hub-amortization-baseline-2026-09-29.md) | Why reuse must be compared with a cached-incumbent baseline and how to state the break-even condition |
+| [36: September 2026 prior-art audit](36-september-2026-prior-art-audit-2026-09-29.md) | New cost-aware LLM configuration, dueling, and budgeted verification papers that narrow the claim boundary |
+| [37: Contextual dueling boundary](37-contextual-dueling-boundary-2026-09-29.md) | Why treating questions as contexts and row comparisons as duels is established, with a narrower retry-ledger gap |
+| [38: Structured feedback-graph boundary](38-structured-feedback-graph-boundary-2026-09-29.md) | Why structured BAI and feedback graphs are prior art, while a hub supplies a paired covariate rather than free candidate feedback |
+| [39: Generation-verification prior art](39-generation-verification-prior-art-2026-09-29.md) | Why adaptive generate-rank-verify is established for one prompt, leaving only the outer complete-row identification boundary |
+| [40: Hidden-verifier retry boundary](40-hidden-verifier-retry-boundary-2026-09-29.md) | Why answer-key-blind retry traces and resample/reroute support gates are established, requiring fail-closed row-level identification |
+| [41: Complete-row arm formalization](41-complete-row-arm-formalization-2026-09-29.md) | A precise `(Q,K,R)` trajectory model, row-level target, paired hub observation, and conditional theorem/failure conditions |
+| [42: Baseline and claim matrix](42-baseline-and-claim-matrix-2026-09-29.md) | A fair comparison matrix separating outer row selection, cached incumbents, verifier-only allocation, and per-question retry control |
+| [43: Direct workflow-search overlap](43-direct-workflow-search-overlap-2026-09-29.md) | Workflow portfolios and Agent-UCT are close outer baselines; the remaining candidate is no-prefix, path-cost, paired complete-row profiling under matched spend |
+| [44: Per-question budget allocation boundary](44-per-question-budget-allocation-boundary-2026-09-29.md) | Adaptive test-time compute allocates a budget per incoming question; the project’s global-row target must remain separate |
+| [45: LLMSelector monotonicity boundary](45-llmselector-monotonicity-boundary-2026-09-29.md) | Static module-assignment search is prior art; verifier-gated retries invalidate its monotonicity and answer-key assumptions |
+| [46: Agentic routing and serving overlap](46-agentic-routing-and-serving-overlap-2026-09-29.md) | Sequential budget-aware routing, model/verifier serving, and self-healing retries are established; the remaining scope is outer complete-row profiling |
+| [47: Similarity and workflow-MCTS boundary](47-similarity-and-workflow-mcts-boundary-2026-09-29.md) | Profile similarity, contrastive routing, and MCTS workflow search are prior art; only partial-observation paired residual transfer remains candidate scope |
+| [48: Partial-feedback and cost-aware BAI overlap](48-partial-feedback-and-cost-aware-bai-overlap-2026-09-29.md) | Contextual routing, cost-aware BAI, hybrid/dueling feedback, graph side-observations, and clustered BAI narrow the claim boundary |
+| [49: Stateful workflow selection overlap](49-stateful-workflow-selection-overlap-2026-09-29.md) | Online budget planners, serving schedulers, hierarchical autotuning, and experience-driven routing are adjacent but target deployment policy rather than sparse complete-row identification |
+| [50: Compiler and program-routing overlap](50-compiler-and-program-routing-overlap-2026-09-29.md) | FlowCompile and foundation-model programs already cover cheap workflow proxies and path-dependent backend cost; HAPR must stay a ledger-backed complete-row identification claim |
+| [51: AgentTTS combinatorial-search overlap](51-agenttts-combinatorial-search-overlap-2026-09-29.md) | Multi-stage model/budget tuple search with verifier feedback is established; distinguish the hidden-label, realized-dollar, paired-row identification protocol |
+| [52: Resample-or-reroute boundary](52-resample-reroute-boundary-2026-09-29.md) | Per-question verifier-gated resampling/rerouting is a mandatory close baseline; HAPR remains outer fixed-row identification from sparse paid cells |
+| [53: Routing-gap identifiability](53-routing-gap-identifiability-2026-09-29.md) | Single stochastic draws do not identify a response matrix; deterministic decoding is a controlled assumption and repeated draws are required for API experiments |
+| [54: Sequential RL routing overlap](54-sequential-rl-routing-overlap-2026-09-29.md) | Multi-round RL model routing with cost and stopping is established; distinguish runtime policy learning from outer sparse complete-row profiling |
+| [55: Reach-aware paired estimation](55-reach-aware-paired-estimation-2026-09-29.md) | Formalizes complete execution ledgers, reach-stratified residuals, nonanticipating question blocks, and confidence requirements for path-dependent retries |
+| [56: Runtime verifier and switching overlap](56-runtime-verifier-and-switching-overlap-2026-09-29.md) | BATS, ModelSwitch, and discriminative verification cover runtime budget awareness, model complementarity, and verifier-cost tradeoffs |
+| [57: Retry-routing and benchmark overlap](57-retry-routing-and-benchmark-overlap-2026-09-29.md) | InflationAgent, RouterEval, LLMRouterBench, ThriftLLM, CAPS, and learned cascades broaden required runtime, matrix, ensemble, and verifier baselines |
+| [58: Semantic reliability and cascade overlap](58-semantic-reliability-and-cascade-overlap-2026-09-29.md) | Semantic-nearest-neighbor reliability, PromptWise/C2MAB-V, self-escalation, and CascadeDebate cover similarity, cost-aware allocation, and learned stopping |
+| [59: HAPR current protocol](59-hapr-current-protocol-2026-09-29.md) | Consolidates the registered ledger, hub, reach-aware confidence, reservation, allocation, stopping, confirmation, and baseline contract |
+| [60: Verifier blind spots and audit](60-verifier-blind-spot-and-independent-audit-2026-09-29.md) | Cheap verifier passes can hide large gold-label error; held-out correctness, false-accept/reject rates, and independent audit are mandatory |
+| [61: Claim matrix synthesis](61-claim-matrix-synthesis-2026-09-29.md) | Groups the expanded literature into execution policies, query routers, and outer BAI/HPO; states the narrow intersection claim and prohibited novelty wording |
+| [62: HPO and cascade-theory overlap](62-hpo-and-cascade-theory-overlap-2026-09-29.md) | EcoTune and unified routing/cascade theory rule out generic token-aware EI, dynamic fidelity, and per-query optimal cascade as new |
+| [63: Hub break-even and no free lunch](63-hub-break-even-and-no-free-lunch-2026-09-29.md) | Derives the covariance and ledger condition for a hub to save profiling cost, and requires a matched cached-incumbent control |
+| [64: Mentor-paper v2 boundary](64-mentor-paper-v2-boundary-2026-09-29.md) | Audits the updated GittinsEval assumptions; direct transfer is invalid under verifier-censored path cost and cross-row same-question dependence |
+| [65: Structural BAI theorem target](65-structural-bai-theorem-target-2026-09-29.md) | States the conditional low-dimensional row-feature model, robust confidence radius, no-free-lunch limit, and falsifiable identity/permutation controls |
+| [66: Publication positioning](66-publication-positioning-censored-structural-bri-2026-09-29.md) | Names the narrow contribution as censored structural best-row identification and states the exact combination and fallback |
+| [67: Current selector implementation gap](67-current-selector-implementation-gap-2026-09-29.md) | Audits the replay code and separates its heuristic graph predictor from the ledger-backed, reservation, confidence, and confirmation requirements |
+| [68: Gold-visibility protocol correction](68-gold-visibility-protocol-correction-2026-09-29.md) | Separates answer-key-blind runtime verification from post-run benchmark scoring available for paid profiling cells and held-out evaluation |
+| [69: Explicit row-coordinate reproducibility](69-explicit-row-coordinate-reproducibility-2026-09-29.md) | Finds that default graph selectors infer Hamming coordinates from numeric order; all structured methods need an immutable row-slot mapping |
+| [70: Reach-stratified structural estimator](70-reach-stratified-structural-estimator-2026-09-29.md) | Gives a concrete paired linear residual model, reach-stratified covariance update, cost-normalized acquisition rule, and failure fallback |
+| [71: Objective and frontier contract](71-objective-and-frontier-contract-2026-09-29.md) | Separates profiling spend, held-out quality, deployment path cost, hard caps, and scalar tradeoffs for fair reporting |
+| [72: Procedure-level target and winner's curse](72-procedure-level-target-and-winner-curse-2026-09-29.md) | Separates finite-benchmark winner quality from fresh-task performance of the full budgeted search procedure |
+| [73: Verifier proxy and gold-audit boundary](73-verifier-proxy-and-gold-audit-boundary-2026-09-29.md) | Shows why verifier-only best-row identification needs calibration or selectively audited gold outcomes |
+| [74: Finite-bank versus future-task estimand](74-finite-bank-versus-future-task-estimand-2026-09-29.md) | Separates fixed-bank MathQA accuracy from future-task procedure quality and warns against unsupported adaptive-sampling error bars |
+| [75: Confidence budget for adaptive edges](75-confidence-budget-for-adaptive-edges-2026-09-29.md) | Counts the multiple edge streams in the row graph and separates certified streams from uncertified model-assisted ranking |
+| [76: Finite-population reach decomposition](76-finite-pop-reach-decomposition-2026-09-29.md) | Gives the exact reach-times-reached-effect identity, finite-bank corrections, and the no-reach/selection-bias rules |
+| [77: No-prefix paired Top-Two control](77-no-prefix-paired-top-two-control-2026-09-29.md) | Defines a strong direct-complete-row baseline and a fail-closed structural sidecar that cannot recommend an unobserved row |
+| [78: Outcome-dependent missingness](78-outcome-dependent-missingness-2026-09-29.md) | Connects verifier-gated absent retries to MNAR bandit feedback and rules out zero/imputation shortcuts |
+| [79: Counterfactual retry identifiability](79-counterfactual-retry-identifiability-2026-09-29.md) | Separates observable complete-row scores from unidentifiable unexecuted retry outcomes |
+| [80: Cost stopping and confidence sequences](80-cost-stopping-and-confidence-sequences-2026-09-29.md) | Explains why dollar-stopped adaptive runs need all-prefix confidence sequences rather than fixed-sample error bars |
+| [81: Pairing cost–variance break-even](81-pairing-cost-variance-break-even-2026-09-29.md) | Derives when same-question pairing beats cost-optimal independent allocation and identifies required negative controls |
+| [82: Known unit cost versus realized row cost](82-known-unit-cost-versus-realized-row-cost-2026-09-29.md) | Separates public per-attempt coefficients from outcome-linked complete-row charges and deployment cost bounds |
+| [83: Complete-row anchor control variate](83-complete-row-anchor-control-variate-2026-09-29.md) | Proposes a no-prefix, complete-row hub estimator with pilot-frozen coefficients, cost break-even, and fail-closed controls |
+| [84: Correlated-bandit prior-art boundary](84-correlated-bandit-prior-art-boundary-2026-09-29.md) | Audits correlated-arm and resource-constrained BAI prior art and narrows the defensible retry-row claim |
+| [85: CW-CV-TT candidate algorithm](85-cw-cv-top-two-algorithm-2026-09-29.md) | Gives the gated step-by-step Algorithm 2 candidate with direct-racing fallback and final confirmation |
+| [86: Covariance-adaptive BAI overlap](86-covariance-adaptive-bai-overlap-2026-09-29.md) | Audits a close covariance-aware BAI theory and clarifies the paid complete-row, stochastic-path-cost difference |
+| [87: Anchor selection and cross-fitting](87-anchor-selection-and-cross-fitting-2026-09-29.md) | Specifies pilot selection, cross-fitting, multiplicity, and fail-closed handling for adaptive hubs |
+| [88: Claim matrix after covariance audit](88-claim-matrix-after-covariance-audit-2026-09-29.md) | Separates established paired-bandit facts, conditional cost claims, and the empirical burden for a publishable result |
+| [90: Generative-proxy control-variate overlap](90-generative-proxy-control-variate-overlap-2026-09-29.md) | Audits PROBE and rules out generic OLS/control-variate residualization as novelty |
+| [91: Covariance confidence under adaptive stopping](91-covariance-confidence-under-adaptive-stopping-2026-09-29.md) | Separates iid matrix confidence-sequence theory from sparse, verifier-censored row observations |
+| [92: CW-CV-TT theorem target](92-cw-cv-tt-theorem-target-2026-09-29.md) | States the conditional delta-correctness target and the assumptions still missing from a proof |
+| [93: LLM surrogate-reward overlap](93-llm-surrogate-reward-overlap-2026-09-29.md) | Audits MLA-UCB's LLM model-selection surrogate and rules out cheap-proxy control variates as new |
+| [94: Structured-row bandit overlap](94-structured-row-bandit-overlap-2026-09-29.md) | Audits factored-reward and multi-agent vector-action BAI and narrows configuration-vector novelty |
+| [95: Cascade and delayed-feedback overlap](95-cascade-and-delayed-feedback-overlap-2026-09-29.md) | Audits partial-feedback and cascading BAI priors and narrows early-stopping novelty |
+| [96: Cost-aware BAI and dueling overlap](96-cost-aware-bai-and-dueling-overlap-2026-09-29.md) | Audits CABAI and cost-aware LLM dueling and requires them as direct baselines |
+| [97: Cost resources, multi-fidelity, and similarity boundary](97-cost-resource-and-similarity-boundary-2026-09-29.md) | Audits resource-constrained BAI, multi-fidelity BAI, and TRIPLE prompt similarity; narrows Algorithm 2 to complete retry rows with realized outcome-linked charges |
+| [98: Hard-cap and realized-cost protocol](98-hard-cap-and-realized-cost-protocol-2026-09-29.md) | Separates the current overshooting realized-spend replay from a safe hard-cap wrapper with complete-row charge reservations |
+| [99: Factorized row-model boundary](99-factorized-row-model-boundary-2026-09-29.md) | Audits linear and factor-graph BAI; treats factorial sharing as a guarded baseline unless complete-row calibration passes |
+| [100: Cost-synchronized successive rejects](100-cost-synchronized-successive-rejects-2026-09-29.md) | Derives a complete-row, cost-aware SySRs adaptation and separates established synchronized pairing from the retry-cost hypothesis |
+| [101: Confidence contract for Cost-SySR](101-confidence-contract-for-cost-sysr-2026-09-29.md) | Specifies finite-bank, block, admission, and anytime-confidence conditions needed for valid synchronized elimination with random retry charges |
+| [102: Measured similarity and edge selection](102-measured-similarity-edge-selection-2026-09-29.md) | Defines residual-variance edge validation, multiplicity control, and the cost/question-selection failure mode |
+| [103: Gold visibility and selector target](103-gold-visibility-and-selector-target-2026-09-29.md) | Separates offline post-cell answer-key correctness from verifier-only deployment feedback |
+| [104: Gated complete-row racing decision](104-gated-complete-row-racing-decision-2026-09-29.md) | Recommends a cross-fitted gate among Cost-SySR, hub-anchored, and direct cost-aware racing with fail-closed fallbacks |
+| [105: Algorithm 2 state machine and prototype gap](105-algorithm2-state-machine-and-prototype-gap-2026-09-29.md) | Separates the heuristic matrix replay from a ledger-backed, gated, confidence-aware complete-row algorithm |
+| [106: No-free-lunch for unmeasured rows](106-no-free-lunch-for-unmeasured-rows-2026-09-29.md) | Proves why Hamming similarity and observed covariance cannot certify an unobserved row without a structural bias bound |
+| [107: Multiobjective complete-row recommendation](107-multiobjective-complete-row-recommendation-2026-09-29.md) | Separates profiling spend, held-out quality, deployment cost, and Pareto/constraint targets |
+| [108: Replay oracle and budget normalization audit](108-replay-oracle-and-budget-normalization-audit-2026-09-29.md) | Distinguishes post-hoc full-matrix replay from an online cell oracle and flags mixed cell-versus-dollar budget curves |
+| [109: Realized-dollar curve protocol](109-realized-dollar-curve-protocol-2026-09-29.md) | Defines event ledgers, checkpoint reconstruction, overshoot handling, and parameter-pair reporting at common profiling dollars |
+| [110: Explicit slot audit for structured replay](110-explicit-slot-audit-for-structured-replay-2026-09-29.md) | Finds CW-PLR still infers Hamming neighbors from numeric row order and requires an explicit row-slot map before structured claims |
+| [111: Explicit slot fix and regression gate](111-explicit-slot-fix-and-regression-gate-2026-09-29.md) | Records the CW-PLR/replay repair, its syntax-only verification, and the remaining equal-dollar and permutation-control gate |
+| [112: Graph-similarity prior-art boundary](112-graph-similarity-prior-art-boundary-2026-09-29.md) | Audits graph-feedback, clustered-BAI, and structured-BAI overlap and restricts Algorithm 2 to paid paired evidence with graph-guided challenger ordering |
+| [113: Edge-gated complete-row racing](113-edge-gated-complete-row-racing-2026-09-29.md) | Specifies the five-stage Algorithm 2 candidate: cross-fitted edge screen, cost gate, paid paired racing, direct stop, and independent audit |
+| [114: Cross-fitted edge-gate gap](114-cross-fitted-edge-gate-gap-2026-09-29.md) | Finds that SCCR reuses calibration observations in its race, so it is a heuristic ablation until disjoint pilot/race/confirmation folds are implemented |
+| [115: Permutation-controlled pairing gate](115-permutation-controlled-pairing-gate-2026-09-29.md) | Defines a finite-bank variance-gain statistic, shuffled-question negative control, cost gate, and failure cases for trusting same-question pairing |
+| [116: Covariance-adaptive BAI overlap](116-covariance-adaptive-bai-overlap-2026-09-29.md) | Audits direct covariance-aware BAI prior art and restricts the remaining claim to cost-aware complete retry rows, finite-bank pairing, and gold audit |
+| [117: Cost-aware BAI baseline](117-cost-aware-bai-baseline-2026-09-29.md) | Audits CABAI, separates deterministic/upper-bounded/realized retry charges, and fixes the three-cost quantities that must be reported separately |
+| [118: Known coefficient versus realized cell cost](118-known-coefficient-realized-cell-cost-2026-09-29.md) | Audits the runner's token billing and clarifies why known model coefficients do not imply a known complete retry-cell charge or hard dollar cap |
+| [119: Budget-basis audit](119-budget-basis-audit-2026-09-29.md) | Audits the legacy selector sweep's row/cell/parameter budget units and records an explicit budget-basis field before equal-dollar comparisons |
+| [120: SySRs primary-paper audit](120-sysrs-primary-audit-2026-09-29.md) | Pins the ICML 2026 synchronized-successive-rejects baseline and narrows Algorithm 2 to unequal path-cost allocation, gated row similarity, and independent audit |
+| [121: Cost-SySRs to EGCR hybrid](121-cost-sysrs-egcr-hybrid-2026-09-29.md) | Specifies the current Algorithm 2 candidate: global synchronized elimination followed by cost-gated complete-row races when unequal path costs make full synchronization inefficient |
+| [122: Reward-visibility contract](122-reward-visibility-contract-2026-09-29.md) | Separates deployment-visible verifier passes from evaluator-only final correctness and adds an explicit replay reward selector |
+| [123: SCOPE verifier-calibration boundary](123-scope-verifier-calibration-boundary-2026-09-29.md) | Audits SCOPE's conformal accepted-set guarantee and explains why a single retry verifier needs labeled calibration and path-aware cost analysis |
+| [124: Conditional hybrid correctness target](124-conditional-hybrid-correctness-target-2026-09-29.md) | States the finite-bank epsilon-best theorem target, confidence/cost assumptions, and the empirical claims that remain unproved |
+| [125: Similarity-cost decoupling failures](125-similarity-cost-decoupling-failures-2026-09-29.md) | Gives counterexamples where low paired reward variance fails to save money and requires separate quality-gain and cost-gain gates |
+| [126: Cost-SySRs prototype](126-cost-sysrs-prototype-2026-09-29.md) | Adds an unexecuted synchronized successive-rejects baseline for complete retry cells with explicit realized-cost overshoot diagnostics |
+| [127: Resource-constrained BAI boundary](127-resource-constrained-bai-boundary-2026-09-29.md) | Separates a soft realized-spend comparison from a strict resource cap and records the SH-RR prior-art boundary |
+| [128: Graph-gated residual racing design](128-graph-gated-residual-racing-design-2026-09-29.md) | Proposes a cross-fitted, gated paired-residual design and narrows its novelty claim against spectral BAI, graph feedback, SySRs, and resource-constrained BAI |
+| [129: CAET prior art and context/cost gap](129-caet-prior-art-and-context-gap-2026-09-29.md) | Audits cost-aware pairwise pure exploration and narrows Algorithm 2 to context-indexed rows with execution-dependent retry costs |
+| [130: Similarity amortization condition](130-similarity-amortization-condition-2026-09-29.md) | Shows why complete-row edge measurements need anchor reuse or residual-variance gains before they can save dollars |
+| [131: Pre-registered question blocks](131-preregistered-question-blocks-2026-09-29.md) | Defines an outcome-independent question-block schedule for adaptive edge opening and exact-cell reuse |
+| [132: PROBE proxy-BAI boundary](132-probe-proxy-bai-boundary-2026-09-29.md) | Audits proxy-assisted BAI and narrows row-residual novelty to unknown paid anchors with endogenous retry costs |
+| [133: Contextual BAI boundary](133-contextual-bai-boundary-2026-09-29.md) | Separates generic context-aware arm allocation from paired finite-question rows with response-dependent retry costs |
+| [134: CG-RTE algorithm specification](134-cg-rte-algorithm-spec-2026-09-29.md) | Specifies the candidate protocol, state, gates, budget modes, stopping rule, and required controls without claiming validation |
+| [135: Conditional CG-RTE safety target](135-conditional-cg-rte-safety-target-2026-09-29.md) | States the finite-bank simultaneous-interval elimination target and separates quality safety from hard-budget safety and savings |
+| [136: Reward contract and edge certification](136-reward-contract-and-adaptive-edge-certification-2026-09-29.md) | Separates verifier-proxy versus gold-visible search and requires fresh certification data for adaptively opened edges |
+| [137: Combinatorial configuration prior art](137-combinatorial-configuration-prior-art-2026-09-29.md) | Audits AC-Band and combinatorial pure exploration so product-space structure is not claimed as new |
+| [138: Transductive probe-design boundary](138-transductive-probe-design-boundary-2026-09-30.md) | Maps complete row/question and paired probes to transductive BAI and requires an XY/RAGE-style control |
+| [139: Costed difference-probe rule](139-costed-difference-probe-rule-2026-09-30.md) | Gives a concrete RAGE-style reduction-per-new-charge allocation heuristic with cached-anchor accounting and conservative fallback |
+| [140: Correlated-arm and costly-observation boundary](140-correlated-arm-cost-boundary-2026-09-30.md) | Audits covariance-adaptive BAI, correlated-arm BAI, and costly-observation methods; narrows the gap to question-indexed paired cells with response-dependent retry charges |
+| [141: Experiment 2 fixed-trace protocol](141-experiment2-fixed-trace-protocol-2026-09-30.md) | Defines the replay-only E2 comparison, separate labeled/proxy rewards, required controls, and the retry-reach decision rule |
+| [142: Slot-gated factorial racing](142-slot-gated-factorial-racing-2026-09-30.md) | Proposes a slot-specific, cross-fitted gate that still recommends complete rows and separates quality effects from rare retry-charge effects |
+
+The 2026-09-29 review window launched no new experiments, tests, replays, or
+model/API calls. The active long trace was left untouched.
+
 ## 1. Your interpretation is right, with three important distinctions
 
 For a fixed workflow and fixed retry rules, a configuration is the complete set of model choices at every possible invocation. This is analogous to a hyperparameter setting. One question gives one observation of its performance. The question is an experimental unit; it is not another recommendation arm.
@@ -170,3 +315,14 @@ The questions worth taking back to the mentor are specific:
 No messages have been sent to the mentor or teammates. These are prepared discussion points, not external requests.
 
 The current recommendation is to pursue the partial-execution allocation hypothesis through the small falsifiable pilot. If it does not beat cached paired evaluation, revise the claim before building a larger system. If it does, the next theoretical target is an instance-dependent description of when a purchased prefix or continuation resolves many plausible candidates cheaply—not an assumption that all one-edit neighbors are similar.
+| [143: Experiment 1 results and Algorithm 2 next step](143-exp1-results-and-algorithm2-next-step-2026-09-30.md) | Records measured gold/proxy replay results, the verifier confound, and SGFR as a falsifiable next-step hypothesis |
+| [144: SGFR prior-art boundary and falsification](144-sgfr-prior-art-and-falsification-2026-09-30.md) | Audits conditional HPO, fANOVA, active-dimension testing, and interaction-graph overlap; specifies the valid state-conditional claim and controls |
+| [145: Replay checkpoint recovery](145-replay-checkpoint-recovery-2026-09-30.md) | Records the accidental concurrent resume, exact duplicate recovery, final 56-row proxy checkpoint, and the output-directory lock |
+| [146: Withdraw SGFR curve and freeze Experiment 2](146-withdraw-sgfr-curve-and-freeze-e2-2026-09-30.md) | Records the SGFR implementation audit, withdraws the invalid curve claim, and freezes a three-block confirmatory protocol with paired uncertainty limits |
+| [147: Corrected cross-fitted racing design](147-corrected-cross-fitted-racing-design-2026-09-30.md) | Replaces the withdrawn full-block SGFR logic with disjoint calibration/race/confirmation blocks and states the exact controls needed for a real similarity saving |
+| [148: Experiment 2 decision record](148-experiment2-decision-record-2026-09-30.md) | Freezes the estimands, controls, CRPR decision gate, and pilot/confirmatory sample-size rule before any expensive run |
+| [149: Cross-block transfer stress test](149-cross-block-transfer-stress-test-2026-09-30.md) | CPU-only diagnostic showing why CRPR needs slot-specific strata, drift checks, and a larger direct reserve for original-solver changes |
+| [150: Common-random-number prior-art correction](150-common-random-number-prior-art-correction-2026-09-30.md) | Downgrades pairing/correlation as novelty and makes cost-weighted missing-data CRN ranking the required baseline |
+| [151: Staged Experiment 2 plan](151-staged-experiment2-plan-2026-09-30.md) | Separates a 27-row mechanics gate from the later 729-row research run under limited compute |
+| [152: Runner gap for Experiment 2](152-runner-gap-for-experiment2-2026-09-30.md) | Specifies the separate protocol-aware runner needed for block isolation, immutable caps, and audit leakage prevention |
+| [153: Correlated-resource baseline audit](153-correlated-resource-baseline-audit-2026-09-30.md) | Adds C-LUCB and resource-rationed sequential halving to the required prior-art baselines |

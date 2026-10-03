@@ -100,12 +100,18 @@ def verifier_prompt(row: Mapping[str, Any], candidate: str) -> str:
 def parse_answer(text: str) -> str | None:
     import re
 
-    matches = re.findall(r"\bFINAL\s*:\s*([A-Ea-e])\b", text)
+    matches = re.findall(r"\bFINAL\s*:\s*([A-Ea-e])\b", text, re.I)
     if matches:
         return matches[-1].lower()
     # A fallback is useful when a small local model omits the requested marker.
     matches = re.findall(r"(?:answer|choice)\s*(?:is|:)\s*([A-Ea-e])\b", text, re.I)
-    return matches[-1].lower() if matches else None
+    if matches:
+        return matches[-1].lower()
+    # Tiny checkpoints sometimes obey the request but omit the marker.  An
+    # exact one-letter response is unambiguous; do not guess from arbitrary
+    # prose because that would turn formatting failures into labels.
+    stripped = text.strip().lower()
+    return stripped if re.fullmatch(r"[a-e]", stripped) else None
 
 
 def parse_verdict(text: str) -> bool:
